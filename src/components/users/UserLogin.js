@@ -1,0 +1,93 @@
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Box from "@material-ui/core/Box";
+import useToken from "./../../custom-hooks/useToken";
+
+import LoginForm from "../authForms/LoginForm";
+import { signIn } from "./../../actions";
+
+class UserLogin extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSignedIn: false,
+      counter: 0,
+    };
+  }
+  componentDidUpdate() {
+    if (this.state.counter < 0 && this.props.token !== undefined) {
+      if (this.props.token.status === "success") {
+        this.props.setToken(this.props.token);
+        this.props.setUserId(this.props.token);
+        this.props.handleSuccessfulLoginDialogOpenStatusWithSnackbar();
+        this.setState({ counter: 5 });
+      } else if (this.props.token.status !== undefined) {
+        this.props.handleFailedLoginDialogOpenStatusWithSnackbar();
+        this.setState({ counter: 6 });
+      }
+    }
+  }
+
+  onSubmit = (formValues) => {
+    this.props.signIn(formValues);
+    this.setState({ counter: -1 });
+  };
+
+  handleLoginDialogOpenStatus = () => {
+    this.props.handleLoginDialogOpenStatus();
+  };
+
+  handleMakeOpenSignUpDialogStatus = () => {
+    this.props.handleMakeOpenSignUpDialogStatus();
+  };
+
+  handleMakeCloseSignUpDialogStatus = () => {
+    this.props.handleCloseOpenSignUpDialogStatus();
+  };
+  handleMakeOpenForgotPasswordFormDialogStatus = () => {
+    this.props.handleMakeOpenForgotPasswordFormDialogStatus();
+  };
+
+  render() {
+    // if (this.props.token === undefined) {
+    if (this.state.counter <= 0 || this.state.counter === 6) {
+      return (
+        <Box>
+          <LoginForm
+            onSubmit={this.onSubmit}
+            handleLoginDialogOpenStatus={this.handleLoginDialogOpenStatus}
+            handleMakeOpenSignUpDialogStatus={
+              this.handleMakeOpenSignUpDialogStatus
+            }
+            handleLoginDialogCloseStatus={
+              this.props.handleLoginDialogCloseStatus
+            }
+            handleMakeCloseSignUpDialogStatus={
+              this.handleMakeCloseSignUpDialogStatus
+            }
+            handleMakeOpenForgotPasswordFormDialogStatus={
+              this.handleMakeOpenForgotPasswordFormDialogStatus
+            }
+            token={this.props.token}
+          />
+        </Box>
+      );
+    }
+    // } else {
+    //   this.handleLoginDialogOpenStatus();
+
+    return null;
+    // }
+  }
+}
+
+// UserLogin.propTypes = {
+//   setToken: PropTypes.func.isRequired,
+// };
+
+const mapStateToProps = (state) => {
+  return { token: state.auth.token };
+};
+
+export default connect(mapStateToProps, { signIn })(UserLogin);
