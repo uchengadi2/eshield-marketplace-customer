@@ -10,7 +10,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 
 //import background from "./../../assets/background.jpg";
-import background from "./../../logistic_assets/cover_image2.png";
+import background from "./../../assets/images/footage/footage_image.png";
 import mobileBackground from "./../../assets/mobileBackground.jpg";
 import history from "./../../history";
 import BecomePartnerFormContainer from "../partner/BecomePartnerFormContainer";
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.estimate,
     borderRadius: 50,
     height: 80,
-    width: 205,
+    width: 270,
     backgroundColor: theme.palette.common.orange,
     fontSize: "1.3rem",
     marginRight: "5em",
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.partnerButton,
     fontSize: "0.9rem",
     height: 45,
-    width: 200,
+    width: 250,
     "&:hover": {
       backgroundColor: theme.palette.common.white,
     },
@@ -102,11 +102,13 @@ export default function CallToAction(props) {
           <Grid item>
             {matchesMD ? (
               <Typography variant="h2">
-                Simple Logistics Marketplace <br /> Revolutionary Results
+                Simple Business-to-Business Marketplace <br /> Revolutionary
+                Results
               </Typography>
             ) : (
               <Typography variant="h2" style={{ fontSize: "1.5rem" }}>
-                Simple Logistics Marketplace <br /> Revolutionary Results
+                Simple Business-to-Business Marketplace Marketplace <br />{" "}
+                Revolutionary Results
               </Typography>
             )}
             {matchesMD ? (
@@ -137,10 +139,12 @@ export default function CallToAction(props) {
                     event.preventDefault();
                     //  history.push(`/orders/completed`);
                     //window.open("http://localhost:3009/");
-                    window.open("https://partners.udaraa.com/");
+                    window.open("https://partners.eshield.com/");
                   }}
                 >
-                  <span style={{ marginRight: 10 }}>Visit Partner Site</span>
+                  <span style={{ marginRight: 10 }}>
+                    Become a Courier Partner
+                  </span>
                   <ButtonArrow
                     height={10}
                     width={10}
@@ -165,7 +169,7 @@ export default function CallToAction(props) {
             // onClick={() => props.setValue(5)}
             onClick={() => [setBecomePartnerOpen(true), history.push("/")]}
           >
-            Become a Partner
+            Become a Vendor Partner
           </Button>
         </Grid>
       ) : (

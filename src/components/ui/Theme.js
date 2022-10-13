@@ -4,6 +4,7 @@ const arcBlue = "#0B72B9";
 const arcOrange = "#FFBA60";
 const arcGrey = "#868686";
 const arcWhite = "#ffffff";
+const arcPrimary = "#019a31";
 
 export default createTheme({
   palette: {
@@ -12,9 +13,11 @@ export default createTheme({
       orange: arcOrange,
       grey: arcGrey,
       white: arcWhite,
+      green: arcPrimary,
     },
     primary: {
-      main: arcBlue,
+      // main: arcBlue,
+      main: arcPrimary,
     },
     secondary: {
       main: arcOrange,
@@ -57,25 +60,28 @@ export default createTheme({
     h2: {
       fontFamily: "Raleway",
       fontWeight: 700,
-      fontSize: "2.5rem",
+      fontSize: "2.0rem",
       color: "#ffffff",
       lineHeight: 1.5,
     },
     h3: {
       fontFamily: "Pacifico",
       fontSize: "2.5rem",
-      color: arcBlue,
+      // color: arcBlue,
+      color: arcPrimary,
     },
     h4: {
       fontFamily: "Raleway",
       fontSize: "1.75rem",
-      color: arcBlue,
+      // color: arcBlue,
+      color: arcPrimary,
       fontWeight: 700,
     },
     h5: {
       fontFamily: "Raleway",
       fontSize: "1.25rem",
-      color: arcBlue,
+      // color: arcBlue,
+      color: arcPrimary,
       fontWeight: 400,
     },
     subtitle1: {
@@ -90,10 +96,12 @@ export default createTheme({
     },
 
     learnButton: {
-      borderColor: arcBlue,
+      // borderColor: arcBlue,
+      borderColor: arcPrimary,
       borderwidth: 2,
       textTransform: "none",
-      color: arcBlue,
+      // color: arcBlue,
+      color: arcPrimary,
       borderRadius: 50,
       fontFamily: "Roboto",
       fontWeight: "bold",
@@ -111,7 +119,8 @@ export default createTheme({
   overrides: {
     MuiInputLabel: {
       root: {
-        color: arcBlue,
+        // color: arcBlue,
+        color: arcPrimary,
         fontSize: "1rem",
       },
     },
@@ -122,10 +131,12 @@ export default createTheme({
       },
       underline: {
         "&:before": {
-          borderBottom: `2px solid ${arcBlue}`,
+          // borderBottom: `2px solid ${arcBlue}`,
+          borderBottom: `2px solid ${arcPrimary}`,
         },
         "&:hover:not($disabled):not($focused):not($error):before": {
-          borderBottom: `2px solid ${arcBlue}`,
+          // borderBottom: `2px solid ${arcBlue}`,
+          borderBottom: `2px solid ${arcPrimary}`,
         },
       },
     },

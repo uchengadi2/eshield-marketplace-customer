@@ -1,0 +1,305 @@
+import React, { useState, useRef } from "react";
+import { Field, reduxForm } from "redux-form";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useDispatch } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import { TextField } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import api from "./../../apis/local";
+import { CREATE_CART } from "../../actions/types";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: 600,
+  },
+  formStyles: {
+    width: 600,
+  },
+  submitButton: {
+    borderRadius: 10,
+    height: 40,
+    width: 150,
+    marginLeft: 80,
+    marginTop: 30,
+    color: "white",
+    backgroundColor: theme.palette.common.green,
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+    },
+  },
+}));
+
+const renderRequestedQuantityField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      //error={touched && invalid}
+      helperText="How many units do you need?"
+      variant="outlined"
+      label={label}
+      id={input.name}
+      //value={input.value}
+      fullWidth
+      //required
+      type={type}
+      {...custom}
+      onChange={input.onChange}
+      //   inputProps={{
+      //     style: {
+      //       height: 1,
+      //     },
+
+      //   }}
+      InputProps={{
+        inputProps: {
+          min: 1,
+          style: {
+            height: 1,
+          },
+        },
+      }}
+    />
+  );
+};
+
+const renderMinimumQuantityField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      //error={touched && invalid}
+      helperText="Minimum Quantity Required(MQR)"
+      variant="outlined"
+      label={label}
+      id={input.name}
+      //value={input.value}
+      fullWidth
+      //required
+      type={type}
+      {...custom}
+      disabled
+      onChange={input.onChange}
+      //   inputProps={{
+      //     style: {
+      //       height: 1,
+      //     },
+
+      //   }}
+      InputProps={{
+        inputProps: {
+          min: 1,
+          style: {
+            height: 1,
+          },
+        },
+      }}
+    />
+  );
+};
+
+function SendProductToCartForm(props) {
+  const { price, productId, token, userId } = props;
+  const [quantity, setQuantity] = useState(+props.minimumQuantity);
+
+  const dispatch = useDispatch();
+
+  const classes = useStyles();
+  const [total, setTotal] = useState(
+    price
+      ? (+quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+      : 0
+  );
+  const [loading, setLoading] = useState();
+
+  const onChange = (e) => {
+    const quantity = parseFloat(e.target.value);
+    setQuantity(quantity);
+    const newTotal = quantity * parseFloat(price);
+    setTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
+  };
+
+  const renderTotalField = ({
+    input,
+    label,
+    meta: { touched, error, invalid },
+    type,
+    id,
+    ...custom
+  }) => {
+    return (
+      <TextField
+        error={touched && invalid}
+        //placeholder="category description"
+        variant="outlined"
+        helperText="Total Amount"
+        label={label}
+        id={input.name}
+        name={input.name}
+        value={total}
+        fullWidth
+        type={type}
+        disabled
+        style={{ marginTop: 20, width: 240 }}
+        onChange={input.onChange}
+        InputProps={{
+          inputProps: {
+            min: 1,
+            style: {
+              height: 38,
+              fontSize: "2em",
+            },
+          },
+        }}
+      />
+    );
+  };
+
+  const buttonContent = () => {
+    return <React.Fragment> Add to Cart</React.Fragment>;
+  };
+
+  const onSubmit = (formValues) => {
+    setLoading(true);
+
+    if (props.token === undefined) {
+      props.handleMakeOpenLoginFormDialogStatus();
+      setLoading(false);
+      return;
+    }
+
+    if (+quantity < +props.minimumQuantity) {
+      props.handleFailedSnackbar(
+        "The order quantity cannot be lower than the Minimum Quantity Required(MQR)"
+      );
+      setLoading(false);
+      return;
+    }
+
+    const data = {
+      product: props.productId,
+      refNumber: formValues.refNumber
+        ? formValues.refNumber
+        : "PRO-" + Math.floor(Math.random() * 1000000000) + "-CT",
+
+      quantity: quantity,
+      cartHolder: props.userId,
+    };
+    if (data) {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.post(`/carts`, data);
+
+        if (response.data.status === "success") {
+          dispatch({
+            type: CREATE_CART,
+            payload: response.data.data.data,
+          });
+
+          props.handleSuccessfulCreateSnackbar(
+            `item(s) successfully added to cart!!!`
+          );
+
+          setLoading(false);
+        } else {
+          props.handleFailedSnackbar(
+            "Something went wrong, please try again!!!"
+          );
+        }
+      };
+      createForm().catch((err) => {
+        props.handleFailedSnackbar();
+        console.log("err:", err.message);
+      });
+    } else {
+      props.handleFailedSnackbar("Something went wrong, please try again!!!");
+    }
+  };
+
+  return (
+    <form id="sendProductToCartForm">
+      <Box
+        sx={{
+          width: 200,
+          //height: 450,
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <Grid
+          item
+          container
+          style={{ marginTop: 10, marginBottom: 10 }}
+          justifyContent="center"
+        ></Grid>
+        <Field
+          label=""
+          id="minimumQuantity"
+          name="minimumQuantity"
+          defaultValue={`${props.minimumQuantity} unit(s)`}
+          type="text"
+          component={renderMinimumQuantityField}
+          style={{ width: 300 }}
+        />
+        <Field
+          label=""
+          id="quantity"
+          name="quantity"
+          defaultValue={quantity}
+          type="number"
+          onChange={onChange}
+          component={renderRequestedQuantityField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+        <Grid container direction="row">
+          <Grid item style={{ width: 50, marginTop: 45, fontSize: 45 }}>
+            <span style={{ color: "grey" }}>&#8358;</span>
+          </Grid>
+          <Grid item style={{ marginLeft: 10, width: 100 }}>
+            <Field
+              label=""
+              id="total"
+              name="total"
+              defaultValue={total}
+              type="text"
+              component={renderTotalField}
+              style={{ width: 100 }}
+            />
+          </Grid>
+        </Grid>
+
+        <Button
+          variant="contained"
+          className={classes.submitButton}
+          onClick={onSubmit}
+        >
+          {loading ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            buttonContent()
+          )}
+        </Button>
+      </Box>
+    </form>
+  );
+}
+
+export default reduxForm({
+  form: "sendProductToCartForm",
+})(SendProductToCartForm);

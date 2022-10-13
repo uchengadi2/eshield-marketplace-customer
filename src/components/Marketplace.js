@@ -47,7 +47,7 @@ import BecomePartnerFormContainer from "./partner/BecomePartnerFormContainer";
 //import mobileBackground from "./../../assets/mobileBackground.jpg";
 import heroVideo from "./../assets/video/background_video.mp4";
 import heroVideoMobile from "./../assets/video/background_video_mobile.mp4";
-import logo from "./../assets/logo/udaraa.png";
+
 
 import { baseURL } from "./../apis/util";
 
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.orange,
     borderRadius: 50,
     height: 45,
-    width: 155,
+    width: 200,
     marginRight: 40,
     fontWeight: 400,
     "&:hover": {
@@ -91,7 +91,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   buttonContainer: {
-    marginTop: "2.5em",
+    marginTop: "2.9em",
+    marginLeft: "1.5em",
   },
   learnButtonHero: {
     ...theme.typography.learnButton,
@@ -103,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.partnerButton,
     fontSize: "0.9rem",
     height: 45,
-    width: 200,
+    width: 250,
     [theme.breakpoints.down("sm")]: {
       width: 100,
     },
@@ -371,6 +372,7 @@ const Marketplace = (props) => {
               description={Str(category.description).limit(500, "...").get()}
               //description={category.description}
               image={category.image}
+              categoryId={category.id}
               token={props.token}
               userId={props.userId}
               setToken={props.setToken}
@@ -396,6 +398,7 @@ const Marketplace = (props) => {
               description={Str(category.description).limit(500, "...").get()}
               //description={category.description}
               image={category.image}
+              categoryId={category.id}
               token={props.token}
               userId={props.userId}
               setToken={props.setToken}
@@ -463,11 +466,15 @@ const Marketplace = (props) => {
                     >
                       <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
                         {" "}
-                        We are Africa's leading Logistics
+                        We are Africa's leading Business-to-Business
                       </span>{" "}
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 100 : 140 }}>
-                        Marketplace
+                      <span style={{ marginLeft: matchesSM ? 80 : 110 }}>
+                        Marketplace for Fast Moving
+                      </span>
+                      <br />
+                      <span style={{ marginLeft: matchesSM ? 120 : 160 }}>
+                        Goods & Commodities
                       </span>
                     </Typography>
                     {matchesMD ? (
@@ -488,7 +495,7 @@ const Marketplace = (props) => {
                               history.push("/"),
                             ]}
                           >
-                            Become a Partner
+                            Become a Vendor Partner
                           </Button>
                         </Grid>
                         <Grid item>
@@ -500,7 +507,9 @@ const Marketplace = (props) => {
                             onClick={(event) => {
                               event.preventDefault();
                               //  history.push(`/orders/completed`);
-                              window.open("https://partners.udaraa.com/");
+                              window.open(
+                                "https://partners.eshieldafrica.com/"
+                              );
                             }}
                           >
                             <span
@@ -509,8 +518,8 @@ const Marketplace = (props) => {
                               }}
                             >
                               {matchesSM
-                                ? "Partner Site"
-                                : "Visit Partner Site"}
+                                ? "Courier Partner"
+                                : "Become a Courier Partner"}
                             </span>
                             <ButtonArrow
                               width={15}

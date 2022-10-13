@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -16,15 +16,14 @@ import Marketplace from "./../components/Marketplace";
 import OrderLayout from "./OrderLayout";
 import PaymentLayout from "./PaymentLayout";
 import ProfileLayout from "./ProfileLayout";
+import ProductsForCategory from "./products/ProductsForCategory";
+import ProductDetails from "./products/ProductDetails";
 
 function App() {
   const { token, setToken } = useToken();
   const { userId, setUserId } = useUserId();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [value, setValue] = useState(0);
-
-  console.log("app js token value:", token);
-  console.log("app js user id value:", userId);
 
   return (
     <div className="wrapper">
@@ -53,8 +52,22 @@ function App() {
             <Route path="/orders">
               <OrderLayout token={token} />
             </Route>
-            <Route path="/payments">
-              <PaymentLayout token={token} />
+
+            <Route exact path="/categories/:categoryId">
+              <ProductsForCategory
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+              />
+            </Route>
+            <Route path="/categories/:categoryId/:productId">
+              <ProductDetails
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+              />
             </Route>
             <Route path="/profile">
               <ProfileLayout token={token} setToken={setToken} />

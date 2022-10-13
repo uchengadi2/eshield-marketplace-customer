@@ -61,6 +61,11 @@ import {
   FETCH_PARTIAL_PAYMENT,
   DELETE_PARTIAL_PAYMENT,
   EDIT_PARTIAL_PAYMENT,
+  CREATE_CART,
+  FETCH_CARTS,
+  FETCH_CART,
+  EDIT_CART,
+  DELETE_CART,
 } from "./types";
 
 //authentication and authorization  operations
@@ -94,7 +99,7 @@ export const signIn = (formValues) => {
       //localStorage.setItem("token", JSON.stringify(response.data.token));
       // console.log("this token is:", token);
       dispatch({ type: SIGN_IN, payload: response.data });
-      history.push("/");
+      // history.push("/");
     } else {
       console.log("something went wrong here");
     }
@@ -663,5 +668,48 @@ export const createPartialPayment = (formValues, token) => {
       payload: response.data.data.data,
     });
     //history.push("/utilities/clusters");
+  };
+};
+
+////////////////////////////////////////////////CART //////////////////////////////////
+
+export const createCart = (formValues, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  return async (dispatch, getState) => {
+    const response = await data.post("/carts", formValues);
+    dispatch({ type: CREATE_CART, payload: response.data.data.data });
+  };
+};
+
+export const fetchCarts = (tokens) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${tokens}`;
+  return async (dispatch) => {
+    const response = await data.get("/carts");
+
+    dispatch({ type: FETCH_CARTS, payload: response.data.data.data });
+  };
+};
+
+export const fetchCart = (id, token) => {
+  return async (dispatch) => {
+    const response = await data.get(`/carts/${id}`);
+    dispatch({ type: FETCH_CART, payload: response.data });
+  };
+};
+
+export const editCart = (id, formValues, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    const response = await data.patch(`/carts/${id}`, formValues);
+    dispatch({ type: EDIT_CART, payload: response.data });
+  };
+};
+
+export const deleteCart = (id, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    await data.delete(`/carts/${id}`);
+    dispatch({ type: DELETE_CART, payload: id });
   };
 };

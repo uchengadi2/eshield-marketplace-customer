@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
+import { useParams } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -125,7 +126,6 @@ const renderPasswordField = ({
       fullWidth
       type={type}
       style={{ marginTop: "1em" }}
-      //{...input}
       {...custom}
       onChange={input.onChange}
     />
@@ -133,6 +133,7 @@ const renderPasswordField = ({
 };
 
 const LoginForm = (props) => {
+  const params = useParams();
   const classes = useStyles();
 
   const theme = useTheme();
@@ -170,7 +171,8 @@ const LoginForm = (props) => {
 
   const onSubmit = (formValues) => {
     setLoading(false);
-    console.log("login form values:", formValues);
+    // console.log("the url params at login:", params);
+
     props.onSubmit(formValues);
     setLoading(true);
   };
@@ -250,7 +252,7 @@ const LoginForm = (props) => {
                   variant="text"
                   onClick={() => [
                     handleMakeOpenForgotPasswordFormDialogStatus(),
-                    history.push("/"),
+                    // history.push("/"),
                   ]}
                 >
                   Forget your password?
@@ -265,7 +267,7 @@ const LoginForm = (props) => {
                   variant="text"
                   onClick={() => [
                     handleMakeOpenSignUpDialogStatus(),
-                    history.push("/"),
+                    //history.push("/"),
                   ]}
                 >
                   Sign Up

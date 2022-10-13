@@ -1,69 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { Field, reduxForm } from "redux-form";
-import CallToAction from "./ui/CallToAction";
-import Snackbar from "@material-ui/core/Snackbar";
-
-import revolutionBackground from "./../assets/repeatingBackground.svg";
-import infoBackground from "./../assets/infoBackground.svg";
-import { Category } from "@material-ui/icons";
-import ButtonArrow from "./ui/ButtonArrow";
-import AboutUsFormContainer from "./aboutus/AboutUsFormContainer";
-import ContactUsContainerForm from "./contactus/ContactUsContainerForm";
-import BecomePartnerFormContainer from "./partner/BecomePartnerFormContainer";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import { useParams } from "react-router-dom";
+import Lottie from "react-lottie";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import ButtonArrow from "./../ui/ButtonArrow";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
-import FormLabel from "@material-ui/core/FormLabel";
+import CardContent from "@material-ui/core/CardContent";
+import { Link } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { TextField, Typography } from "@material-ui/core";
-import background from "./../logistic_assets/cover_image_1.png";
-import history from "./../history";
-import data from "./../apis/local";
-import UserOwnPasswordChange from "./users/UserOwnPasswordChange";
-import UserOwnNameChangeContainer from "./users/UserOwnNameChangeContainer";
+import Snackbar from "@material-ui/core/Snackbar";
+import ReactPlayer from "react-player";
+
+import CallToAction from "./../ui/CallToAction";
+
+import revolutionBackground from "./../../assets/repeatingBackground.svg";
+import infoBackground from "./../../assets/infoBackground.svg";
+import ProductCard from "./../ProductCard";
+import background from "./../../logistic_assets/cover_image_1.png";
+import { Category } from "@material-ui/icons";
+import history from "../../history";
+import AboutUsFormContainer from "./../aboutus/AboutUsFormContainer";
+import ContactUsContainerForm from "./../contactus/ContactUsContainerForm";
+import BecomePartnerFormContainer from "./../partner/BecomePartnerFormContainer";
+import CategoryProductsCard from "../CategoryProductsCard";
+
+import { baseURL } from "./../../apis/util";
+import api from "./../../apis/local";
 
 const useStyles = makeStyles((theme) => ({
-  sendButton: {
-    ...theme.typography.estimate,
-    borderRadius: 10,
-    height: 40,
-    width: 200,
-    marginLeft: 15,
-    marginTop: 30,
-    marginBottom: 10,
-    fontSize: "1.25rem",
-    backgroundColor: theme.palette.common.blue,
-    color: "white",
-    "&:hover": {
-      backgroundColor: theme.palette.common.blue,
-    },
-    [theme.breakpoints.down("sm")]: {
-      height: 40,
-      width: 225,
-    },
-  },
-  // root: {
-  //   maxWidth: 600,
-  //   marginTop: 70,
-  // },
-  background: {
-    backgroundImage: `url(${background})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    //backgroundAttachment: "fixed",
-    backgroundRepeat: "no-repeat",
-    height: "10em",
-    width: "100%",
-    [theme.breakpoints.down("md")]: {
-      // backgroundImage: `url(${mobileBackground})`,
-      backgroundAttachment: "inherit",
-    },
-  },
   root: {
     width: "100%",
     height: "80vh",
@@ -209,22 +178,23 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
 
-  // background: {
-  //   backgroundImage: `url(${background})`,
-  //   backgroundPosition: "center",
-  //   backgroundSize: "cover",
-  //   //backgroundAttachment: "fixed",
-  //   backgroundRepeat: "no-repeat",
-  //   height: "60em",
-  //   width: "100%",
-  //   [theme.breakpoints.down("md")]: {
-  //     // backgroundImage: `url(${mobileBackground})`,
-  //     backgroundAttachment: "inherit",
-  //   },
-  // },
+  background: {
+    backgroundImage: `url(${background})`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    //backgroundAttachment: "fixed",
+    backgroundRepeat: "no-repeat",
+    height: "60em",
+    width: "100%",
+    [theme.breakpoints.down("md")]: {
+      // backgroundImage: `url(${mobileBackground})`,
+      backgroundAttachment: "inherit",
+    },
+  },
 }));
 
-const ProfileLayout = (props) => {
+function ProductsForCategory(props) {
+  const params = useParams();
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -233,19 +203,7 @@ const ProfileLayout = (props) => {
   const [aboutUsOpen, setAboutUsOpen] = useState(false);
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
-  const [categoryList, setCategoryList] = useState([]);
-
-  const [user, setUser] = useState({});
-  const [passwordFormOpen, setPasswordFormOpen] = useState(false);
-  const [nameFormOpen, setNameFormOpen] = useState(false);
-
-  const getUserIdFromLocatStorage = () => {
-    const tokenString = localStorage.getItem("token");
-    const userToken = JSON.parse(tokenString);
-    return userToken["userId"];
-  };
-
-  const userId = getUserIdFromLocatStorage();
+  const [productList, setProductList] = useState([]);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -261,15 +219,59 @@ const ProfileLayout = (props) => {
     },
   };
 
+  const categoryId = params.categoryId;
+
+  const handleBecomeAPartnerOpenDialogBox = () => {
+    setBecomePartnerOpen(false);
+  };
+
+  const handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar = () => {
+    setBecomePartnerOpen(false);
+    setAlert({
+      open: true,
+      message: "Application successfully submitted",
+      backgroundColor: "#4BB543",
+    });
+  };
+
+  const handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar = () => {
+    setAlert({
+      open: true,
+      message: "Something went wrong somewhere",
+      backgroundColor: "#FF3232",
+    });
+    setBecomePartnerOpen(true);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      let allData = [{}];
-      data.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await data.get(`/users/${userId}`);
-
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get("/products", {
+        params: { category: categoryId },
+      });
       const workingData = response.data.data.data;
-
-      setUser(workingData);
+      workingData.map((product) => {
+        allData.push({
+          id: product._id,
+          name: product.name,
+          imageCover: product.imageCover || " ",
+          shortDescription: product.shortDescription || " ",
+          fullDescription: product.fullDescription,
+          sku: product.sku,
+          remainingTotalUnits: product.remainingTotalUnits,
+          totalUnits: product.totalUnits,
+          category: product.category,
+          vendor: product.vendor,
+          pricePerUnit: product.pricePerUnit,
+          currency: product.currency,
+          ranking: product.ranking,
+          location: product.location,
+          locationCountry: product.locationCountry,
+          minimumQuantity: product.minimumQuantity,
+        });
+      });
+      setProductList(allData);
     };
 
     //call the function
@@ -277,123 +279,82 @@ const ProfileLayout = (props) => {
     fetchData().catch(console.error);
   }, []);
 
-  const handleMakeChangeNameDialogForm = () => {
-    setNameFormOpen(false);
-  };
+  const Str = require("@supercharge/strings");
 
-  const handleMakeChangePasswordDialogForm = () => {
-    setPasswordFormOpen(false);
-  };
-
-  const renderChangePasswordForm = () => {
-    return (
-      <Dialog
-        //style={{ zIndex: 1302 }}
-        fullScreen={matchesXS}
-        open={passwordFormOpen}
-        onClose={() => [setPasswordFormOpen(false), history.push("/profile")]}
-      >
-        <DialogContent>
-          <UserOwnPasswordChange
-            setToken={props.setToken}
-            existingToken={props.token}
-            userId={userId}
-            handleMakeChangePasswordDialogForm={
-              handleMakeChangePasswordDialogForm
-            }
-          />
-        </DialogContent>
-      </Dialog>
-    );
-  };
-
-  const renderChangeNameForm = () => {
-    return (
-      <Dialog
-        //style={{ zIndex: 1302 }}
-        fullScreen={matchesXS}
-        open={nameFormOpen}
-        onClose={() => [setNameFormOpen(false), history.push("/profile")]}
-      >
-        <DialogContent>
-          <UserOwnNameChangeContainer
-            existingToken={props.token}
-            userId={userId}
-            handleMakeChangeNameDialogForm={handleMakeChangeNameDialogForm}
-          />
-        </DialogContent>
-      </Dialog>
-    );
-  };
+  const productsList = matchesMD ? (
+    <React.Fragment>
+      {
+        <Grid container direction="row">
+          {productList.map((product, index) => (
+            <CategoryProductsCard
+              name={product.name}
+              key={`${product.id}${index}`}
+              shortDescription={Str(product.shortDescription)
+                .limit(100, "...")
+                .get()}
+              //description={category.description}
+              image={product.imageCover}
+              productId={product.id}
+              categoryId={product.category}
+              token={props.token}
+              userId={props.userId}
+              setToken={props.setToken}
+              setUserId={props.setUserId}
+              price={product.pricePerUnit}
+              currency={product.currency}
+              ranking={product.ranking}
+              totalUnits={product.totalUnits}
+              sku={product.sku}
+              location={product.location}
+              locationCountry={product.locationCountry}
+              minimumQuantity={product.minimumQuantity}
+            />
+          ))}
+        </Grid>
+      }
+    </React.Fragment>
+  ) : (
+    <React.Fragment>
+      {
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {productList.map((product, index) => (
+            <CategoryProductsCard
+              name={product.name}
+              key={`${product.id}${index}`}
+              shortDescription={Str(product.shortDescription)
+                .limit(100, "...")
+                .get()}
+              //description={category.description}
+              image={product.imageCover}
+              productId={product.id}
+              token={props.token}
+              userId={props.userId}
+              setToken={props.setToken}
+              setUserId={props.setUserId}
+              price={product.pricePerUnit}
+              currency={product.currency}
+              ranking={product.ranking}
+              totalUnits={product.totalUnits}
+              sku={product.sku}
+              location={product.location}
+              locationCountry={product.locationCountry}
+              minimumQuantity={product.minimumQuantity}
+            />
+          ))}
+        </Grid>
+      }
+    </React.Fragment>
+  );
 
   return (
     <Grid container direction="row" className={classes.root}>
-      <Grid item>
-        <Box className={classes.root}>
-          <Box
-            component="div"
-            id="profileLayout"
-            // onSubmit={onSubmit}
-            sx={{
-              width: 1400,
-              height: 480,
-            }}
-            noValidate
-            autoComplete="off"
-            // style={{ marginTop: 20 }}
-          >
-            <Grid container direction="row" className={classes.background}>
-              <Box
-                sx={{
-                  width: 350,
-                  height: 180,
-                }}
-                noValidate
-                autoComplete="off"
-              ></Box>
-            </Grid>
-
-            <Grid
-              container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              style={{ marginTop: 15 }}
-            >
-              <Grid item>
-                <Typography variant="subtitle1">{user.name}</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle1">{user.email}</Typography>
-              </Grid>
-
-              <Grid item>
-                <Button
-                  variant="contained"
-                  className={classes.sendButton}
-                  // onClick={() => setPasswordFormOpen(true)}
-                  onClick={() => [setPasswordFormOpen(true)]}
-                >
-                  Change Password
-                </Button>
-              </Grid>
-              <Grid
-                item
-                container
-                alignItems="center"
-                justifyContent="center"
-                style={{ marginTop: 20 }}
-              >
-                <Button variant="text" onClick={() => [setNameFormOpen(true)]}>
-                  Change Name
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Grid>
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
-        {" "}
+        <Grid item>{productsList}</Grid>
         {/*....INFORMATION BLOCK....*/}
         <Grid
           container
@@ -594,10 +555,8 @@ const ProfileLayout = (props) => {
           // }
         />
       </Grid>
-      {renderChangePasswordForm()}
-      {renderChangeNameForm()}
     </Grid>
   );
-};
+}
 
-export default ProfileLayout;
+export default ProductsForCategory;

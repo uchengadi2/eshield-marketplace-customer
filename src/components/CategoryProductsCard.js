@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import { Link } from "react-router-dom";
@@ -21,6 +21,8 @@ import UserPasswordReset from "./users/UserPasswordReset";
 import Bookings from "./Bookings";
 import history from "../history";
 import ProductsForCategory from "./products/ProductsForCategory";
+import ProductDetails from "./products/ProductDetails";
+import api from "./../apis/local";
 
 import { baseURL } from "./../apis/util";
 
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 325,
     //height: 440,
-    height: 500,
+    height: 550,
 
     marginLeft: "10px",
     borderRadius: 30,
@@ -42,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
   media: {
-    height: 300,
+    height: 220,
     width: 500,
   },
 
@@ -80,13 +82,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProductCard(props) {
+export default function CategoryProductsCard(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openLoginForm, setOpenLoginForm] = useState(false);
   const [openSignUpForm, setOpenSignUpForm] = useState(false);
   const [openForgotPasswordForm, setOpenForgotPasswordForm] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState();
+
+  const [currencyName, setCurrencyName] = useState();
+  const [countryName, setCountryName] = useState();
+  const [stateName, setStateName] = useState();
 
   // const { token, setToken } = useToken();
   // const { userId, setUserId } = useUserId();
@@ -102,15 +107,67 @@ export default function ProductCard(props) {
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
 
+  //get the currency name
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/currencies/${props.currency}`);
+      const item = response.data.data.data;
+      allData.push({ id: item._id, name: item.name });
+
+      if (allData[0].name) {
+        setCurrencyName(allData[0].name);
+      }
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, []);
+
+  //get the country name
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/countries/${props.locationCountry}`);
+      const item = response.data.data.data;
+      allData.push({ id: item._id, name: item.name });
+
+      if (allData[0].name) {
+        setCountryName(allData[0].name);
+      }
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, []);
+
+  //get the state name
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/states/${props.location}`);
+      const item = response.data.data.data;
+      allData.push({ id: item._id, name: item.name });
+
+      if (allData[0].name) {
+        setStateName(allData[0].name);
+      }
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, []);
+
   //const imageUrl = `${baseURL}/images/categories/${props.image}`;
-  const imageUrl = `${baseURL}/images/categories/${props.image}`;
+  const imageUrl = `${baseURL}/images/products/${props.image}`;
 
   const Str = require("@supercharge/strings");
-
-  // console.log(
-  //   "this is description trim:",
-  //   Str(props.description).limit(100, "...").get()
-  // );
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -265,6 +322,10 @@ export default function ProductCard(props) {
     );
   };
 
+  const renderSelectedCategoryProducts = (category) => {
+    return <ProductsForCategory />;
+  };
+
   const renderForgotPasswordForm = () => {
     return (
       <Dialog
@@ -293,31 +354,69 @@ export default function ProductCard(props) {
     );
   };
 
+  const getCurrencyCode = () => {
+    if (currencyName) {
+      if (currencyName.toLowerCase() === "naira") {
+        return <span>&#8358;</span>;
+      } else {
+        return;
+      }
+    }
+  };
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           component="img"
-          alt={props.title}
+          alt={props.name}
           image={imageUrl}
-          title={props.title}
+          title={props.name}
           crossOrigin="anonymous"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.title}
+            {props.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.description}
+            {props.shortDescription}
           </Typography>
         </CardContent>
+        <Typography
+          variant="h5"
+          color="textSecondary"
+          component="p"
+          style={{ marginTop: 5 }}
+        >
+          <span style={{ marginLeft: 130 }}>
+            {getCurrencyCode()}
+            {props.price
+              ? props.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+              : 0}
+            /unit
+          </span>
+          <br />
+          <span style={{ fontSize: 12, marginLeft: 10 }}>
+            Minimum Quantity Required(MQR):
+            <span>{props.minimumQuantity} unit(s)</span>
+          </span>
+          <br />
+          <span style={{ fontSize: 11, marginLeft: 10 }}>
+            Target Location for delivery: &nbsp;
+            {stateName}/{countryName}
+          </span>
+          <br />
+          <span style={{ fontSize: 11, marginLeft: 10 }}>
+            Supports delivery beyond Target Location: &nbsp; No
+          </span>
+        </Typography>
       </CardActionArea>
       <CardActions>
         <Button
           component={Link}
           // to="/mobileapps"
-          to={`/categories/${props.categoryId}`}
+          to={`/categories/${props.categoryId}/${props.productId}`}
           varaint="outlined"
           className={classes.learnButton}
           // onClick={() =>
@@ -334,14 +433,10 @@ export default function ProductCard(props) {
           //   return <ProductsForCategory />;
           // }}
           onClick={() => (
-            <ProductsForCategory
-              categoryId={props.categoryId}
-              token={props.token}
-              userId={props.userId}
-            />
+            <ProductDetails productId={props.productId} token={props.token} />
           )}
         >
-          <span style={{ marginRight: 10 }}>Shop Now </span>
+          <span style={{ marginRight: 10 }}>Show Details </span>
           <ButtonArrow
             height={10}
             width={10}

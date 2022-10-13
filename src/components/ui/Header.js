@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { AppBar, IconButton, Typography } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import { useScrollTrigger } from "@material-ui/core";
@@ -24,7 +25,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
 
-import logo from "./../../assets/logo/udaraa.png";
+import logo from "./../../assets/logo/eshield.png";
 import { RouterRounded } from "@material-ui/icons";
 import history from "../../history";
 import UserLogin from "./../users/UserLogin";
@@ -60,9 +61,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logo: {
-    height: "7em",
-    width: "10em",
+    height: "8em",
+    width: "11em",
     marginLeft: -15,
+    padding: 0,
     [theme.breakpoints.down("md")]: {
       height: "7em",
     },
@@ -154,6 +156,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props) => {
+  const params = useParams();
   const classes = useStyles();
   const theme = useTheme();
   const iOS =
@@ -290,7 +293,8 @@ const Header = (props) => {
           // to="/logout"
           color="secondary"
           className={classes.button}
-          onClick={() => [setOpenLoginForm(true), history.push("/")]}
+          //onClick={() => [setOpenLoginForm(true), history.push("/")]}
+          onClick={() => [setOpenLoginForm(true)]}
         >
           Sign In
         </Button>
@@ -319,8 +323,7 @@ const Header = (props) => {
         { name: "Marketplace", link: "/", activeIndex: 0 },
 
         { name: "Orders", link: "/orders", activeIndex: 1 },
-        { name: "Payments", link: "/payments", activeIndex: 2 },
-        { name: "Profile", link: "/profile", activeIndex: 3 },
+        { name: "Profile", link: "/profile", activeIndex: 2 },
       ];
 
   //   useEffect(() => {
@@ -427,7 +430,6 @@ const Header = (props) => {
         indicatorColor="primary"
       >
         {routes.map((route, index) => {
-          console.log("props.token is:", props.token === undefined);
           if (props.token !== undefined || route.link === "/") {
             return (
               <Tab
@@ -553,12 +555,14 @@ const Header = (props) => {
   );
 
   const renderLoginForm = () => {
+    console.log("the url params are:", params);
     return (
       <Dialog
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openLoginForm}
-        onClose={() => [setOpenLoginForm(false), history.push("/")]}
+        //onClose={() => [setOpenLoginForm(false), history.push("/")]}
+        onClose={() => [setOpenLoginForm(false)]}
       >
         <DialogContent>
           <UserLogin
@@ -812,7 +816,8 @@ const Header = (props) => {
             //   setOpenDrawer(false);
             //   props.setValue(5);
             // }}
-            onClick={() => [setOpenLoginForm(true), history.push("/")]}
+            //onClick={() => [setOpenLoginForm(true), history.push("/")]}
+            onClick={() => [setOpenLoginForm(true)]}
             divider
             button
             component={Link}
