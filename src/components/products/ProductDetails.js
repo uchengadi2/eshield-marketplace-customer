@@ -286,6 +286,8 @@ function ProductDetails(props) {
         location: product.location,
         locationCountry: product.locationCountry,
         minimumQuantity: product.minimumQuantity,
+        deliveryCostPerUnitWithinProductLocation:
+          product.deliveryCostPerUnitWithinProductLocation,
       });
 
       setProduct({
@@ -322,6 +324,8 @@ function ProductDetails(props) {
         location: allData[0].location,
         locationCountry: allData[0].locationCountry,
         minimumQuantity: allData[0].minimumQuantity,
+        deliveryCostPerUnitWithinProductLocation:
+          allData[0].deliveryCostPerUnitWithinProductLocation,
       });
     };
 

@@ -13,17 +13,25 @@ import UserLogin from "./users/UserLogin";
 import Header from "./ui/Header";
 import IndexDashboard from "./IndexDashboard";
 import Marketplace from "./../components/Marketplace";
+import ShowCustomerCart from "./carts/ShowCustomerCart";
 import OrderLayout from "./OrderLayout";
 import PaymentLayout from "./PaymentLayout";
 import ProfileLayout from "./ProfileLayout";
 import ProductsForCategory from "./products/ProductsForCategory";
 import ProductDetails from "./products/ProductDetails";
+import CheckoutPage from "./carts/CheckoutPage";
 
 function App() {
   const { token, setToken } = useToken();
   const { userId, setUserId } = useUserId();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [value, setValue] = useState(0);
+  const [cartItemForCheckout, setCartItemForCheckout] = useState(false);
+
+  const handleCartItemForCheckoutBox = () => {
+    setCartItemForCheckout(true);
+    console.log("an item just checkout");
+  };
 
   return (
     <div className="wrapper">
@@ -67,6 +75,24 @@ function App() {
                 userId={userId}
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
+              />
+            </Route>
+            <Route path="/carts/:userId">
+              <ShowCustomerCart
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+                handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
+              />
+            </Route>
+            <Route path="/checkouts/:userId">
+              <CheckoutPage
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+                handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
               />
             </Route>
             <Route path="/profile">

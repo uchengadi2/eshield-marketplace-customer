@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ import Box from "@material-ui/core/Box";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
-import { CREATE_CART } from "../../actions/types";
+import { CREATE_CART, EDIT_CART } from "../../actions/types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,8 +115,15 @@ const renderMinimumQuantityField = ({
 };
 
 function SendProductToCartForm(props) {
-  const { price, productId, token, userId } = props;
+  const { price, productId, token, userId, location, locationCountry } = props;
   const [quantity, setQuantity] = useState(+props.minimumQuantity);
+  const [productQuantityInCart, setProductQuantityInCart] = useState();
+  const [productLocation, setProductLocation] = useState();
+  const [productLocationCountry, setProductLocationCountry] = useState();
+  const [cartHolder, setCartHolder] = useState();
+  const [cartId, setCartId] = useState();
+  const [sameProductAlreadyInCart, setSameProductAlreadyInCart] =
+    useState(false);
 
   const dispatch = useDispatch();
 
@@ -127,6 +134,53 @@ function SendProductToCartForm(props) {
       : 0
   );
   const [loading, setLoading] = useState();
+
+  //get the currency name
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/carts`, {
+        params: {
+          cartHolder: userId,
+          productLocation: location,
+          product: productId,
+        },
+      });
+
+      const item = response.data.data.data;
+
+      allData.push({
+        id: item[0]._id,
+        quantity: item[0].quantity,
+        location: item[0].productLocation,
+        locationCountry: item[0].locationCountry,
+        cartHolder: item[0].cartHolder,
+      });
+
+      if (allData[0].quantity) {
+        setProductQuantityInCart(allData[0].quantity);
+      }
+      if (allData[0].location) {
+        setProductLocation(allData[0].location);
+      }
+      if (allData[0].locationCountry) {
+        setProductLocationCountry(allData[0].locationCountry);
+      }
+      if (allData[0].cartHolder) {
+        setCartHolder(allData[0].cartHolder);
+      }
+
+      setSameProductAlreadyInCart(true);
+      if (allData[0].id) {
+        setCartId(allData[0].id);
+      }
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, []);
 
   const onChange = (e) => {
     const quantity = parseFloat(e.target.value);
@@ -200,36 +254,91 @@ function SendProductToCartForm(props) {
 
       quantity: quantity,
       cartHolder: props.userId,
+      productLocation: location,
+      locationCountry: locationCountry,
     };
-    if (data) {
-      const createForm = async () => {
-        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-        const response = await api.post(`/carts`, data);
 
-        if (response.data.status === "success") {
-          dispatch({
-            type: CREATE_CART,
-            payload: response.data.data.data,
-          });
+    if (sameProductAlreadyInCart === false) {
+      //create a new cart and add the product
+      if (data) {
+        const createForm = async () => {
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${props.token}`;
+          const response = await api.post(`/carts`, data);
 
-          props.handleSuccessfulCreateSnackbar(
-            `item(s) successfully added to cart!!!`
-          );
+          if (response.data.status === "success") {
+            dispatch({
+              type: CREATE_CART,
+              payload: response.data.data.data,
+            });
 
-          setLoading(false);
-        } else {
-          props.handleFailedSnackbar(
-            "Something went wrong, please try again!!!"
-          );
-        }
-      };
-      createForm().catch((err) => {
-        props.handleFailedSnackbar();
-        console.log("err:", err.message);
-      });
+            props.handleSuccessfulCreateSnackbar(
+              `item(s) successfully added to cart!!!`
+            );
+
+            setLoading(false);
+          } else {
+            props.handleFailedSnackbar(
+              "Something went wrong, please try again!!!"
+            );
+          }
+        };
+        createForm().catch((err) => {
+          props.handleFailedSnackbar();
+          console.log("err:", err.message);
+        });
+      } else {
+        props.handleFailedSnackbar("Something went wrong, please try again!!!");
+      }
     } else {
-      props.handleFailedSnackbar("Something went wrong, please try again!!!");
-    }
+      //update existing cart
+      let totalProductQuantity = 0;
+      if (!productQuantityInCart) {
+        totalProductQuantity = quantity;
+      } else {
+        totalProductQuantity =
+          parseFloat(productQuantityInCart) + parseFloat(quantity);
+      }
+
+      const data = {
+        quantity: totalProductQuantity,
+      };
+
+      //update the exist
+
+      if (data) {
+        const createForm = async () => {
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${props.token}`;
+          const response = await api.patch(`/carts/${cartId}`, data);
+
+          if (response.data.status === "success") {
+            dispatch({
+              type: EDIT_CART,
+              payload: response.data.data.data,
+            });
+
+            props.handleSuccessfulCreateSnackbar(
+              `item(s) successfully added to cart!!!`
+            );
+
+            setLoading(false);
+          } else {
+            props.handleFailedSnackbar(
+              "Something went wrong, please try again!!!"
+            );
+          }
+        };
+        createForm().catch((err) => {
+          props.handleFailedSnackbar();
+          console.log("err:", err.message);
+        });
+      } else {
+        props.handleFailedSnackbar("Something went wrong, please try again!!!");
+      }
+    } //end of the no cartholder
   };
 
   return (

@@ -263,7 +263,8 @@ export default function CategoryProductsCard(props) {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openLoginForm}
-        onClose={() => [setOpenLoginForm(false), history.push("/")]}
+        //onClose={() => [setOpenLoginForm(false), history.push("/")]}
+        onClose={() => [setOpenLoginForm(false)]}
       >
         <DialogContent>
           <UserLogin
@@ -296,7 +297,8 @@ export default function CategoryProductsCard(props) {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openSignUpForm}
-        onClose={() => [setOpenSignUpForm(false), history.push("/")]}
+        //onClose={() => [setOpenSignUpForm(false), history.push("/")]}
+        onClose={() => [setOpenSignUpForm(false)]}
       >
         <DialogContent>
           <UserSignUp
@@ -332,7 +334,8 @@ export default function CategoryProductsCard(props) {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openForgotPasswordForm}
-        onClose={() => [setOpenForgotPasswordForm(false), history.push("/")]}
+        //onClose={() => [setOpenForgotPasswordForm(false), history.push("/")]}
+        onClose={() => [setOpenForgotPasswordForm(false)]}
       >
         <DialogContent>
           <UserPasswordReset
@@ -390,11 +393,13 @@ export default function CategoryProductsCard(props) {
           style={{ marginTop: 5 }}
         >
           <span style={{ marginLeft: 130 }}>
-            {getCurrencyCode()}
-            {props.price
-              ? props.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-              : 0}
-            /unit
+            <strong>
+              {getCurrencyCode()}
+              {props.price
+                ? props.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                : 0}
+              /unit
+            </strong>
           </span>
           <br />
           <span style={{ fontSize: 12, marginLeft: 10 }}>
@@ -403,13 +408,29 @@ export default function CategoryProductsCard(props) {
           </span>
           <br />
           <span style={{ fontSize: 11, marginLeft: 10 }}>
-            Target Location for delivery: &nbsp;
+            Delivery cost/Unit within&nbsp;
             {stateName}/{countryName}
+            {" :"} &nbsp;
+            {getCurrencyCode()}
+            {props.deliveryCostPerUnitWithinProductLocation
+              ? props.deliveryCostPerUnitWithinProductLocation
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+              : ""}
           </span>
-          <br />
-          <span style={{ fontSize: 11, marginLeft: 10 }}>
+
+          {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
+            {" "}
+            {getCurrencyCode()}
+            {props.deliveryCostPerUnitWithinProductLocation
+              ? props.deliveryCostPerUnitWithinProductLocation
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+              : ""}
+          </span> */}
+          {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
             Supports delivery beyond Target Location: &nbsp; No
-          </span>
+          </span> */}
         </Typography>
       </CardActionArea>
       <CardActions>

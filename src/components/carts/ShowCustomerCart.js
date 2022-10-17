@@ -28,6 +28,7 @@ import AboutUsFormContainer from "./../aboutus/AboutUsFormContainer";
 import ContactUsContainerForm from "./../contactus/ContactUsContainerForm";
 import BecomePartnerFormContainer from "./../partner/BecomePartnerFormContainer";
 import CategoryProductsCard from "../CategoryProductsCard";
+import CartProductCard from "./CartProductCard";
 
 import { baseURL } from "./../../apis/util";
 import api from "./../../apis/local";
@@ -193,7 +194,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductsForCategory(props) {
+function ShowCustomerCart(props) {
   const params = useParams();
   const classes = useStyles();
   const theme = useTheme();
@@ -203,7 +204,7 @@ function ProductsForCategory(props) {
   const [aboutUsOpen, setAboutUsOpen] = useState(false);
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
-  const [productList, setProductList] = useState([]);
+  const [cartProductList, setCartProductList] = useState([]);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -219,7 +220,7 @@ function ProductsForCategory(props) {
     },
   };
 
-  const categoryId = params.categoryId;
+  const cartHolder = params.userId;
 
   const handleBecomeAPartnerOpenDialogBox = () => {
     setBecomePartnerOpen(false);
@@ -247,33 +248,25 @@ function ProductsForCategory(props) {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get("/products", {
-        params: { category: categoryId },
+      const response = await api.get(`/carts`, {
+        params: { cartHolder: cartHolder, status: "unmarked-for-checkout" },
       });
-      const workingData = response.data.data.data;
-      workingData.map((product) => {
+      const items = response.data.data.data;
+
+      items.map((cart) => {
         allData.push({
-          id: product._id,
-          name: product.name,
-          imageCover: product.imageCover || " ",
-          shortDescription: product.shortDescription || " ",
-          fullDescription: product.fullDescription,
-          sku: product.sku,
-          remainingTotalUnits: product.remainingTotalUnits,
-          totalUnits: product.totalUnits,
-          category: product.category,
-          vendor: product.vendor,
-          pricePerUnit: product.pricePerUnit,
-          currency: product.currency,
-          ranking: product.ranking,
-          location: product.location,
-          locationCountry: product.locationCountry,
-          minimumQuantity: product.minimumQuantity,
-          deliveryCostPerUnitWithinProductLocation:
-            product.deliveryCostPerUnitWithinProductLocation,
+          id: cart._id,
+          product: cart.product,
+          cartHolder: cart.cartHolder,
+          dateAddedToCart: cart.dateAddedToCart,
+          locationCountry: cart.locationCountry,
+          productLocation: cart.productLocation,
+          refNumber: cart.refNumber,
+          quantity: cart.quantity,
         });
       });
-      setProductList(allData);
+
+      setCartProductList(allData);
     };
 
     //call the function
@@ -283,36 +276,28 @@ function ProductsForCategory(props) {
 
   const Str = require("@supercharge/strings");
 
-  const productsList = matchesMD ? (
+  console.log("the cart list:", cartProductList);
+
+  const cartList = matchesMD ? (
     <React.Fragment>
       {
         <Grid container direction="row">
-          {productList.map((product, index) => (
-            <CategoryProductsCard
-              name={product.name}
-              key={`${product.id}${index}`}
-              shortDescription={Str(product.shortDescription)
-                .limit(100, "...")
-                .get()}
-              //description={category.description}
-              image={product.imageCover}
-              productId={product.id}
-              categoryId={product.category}
+          {cartProductList.map((cart, index) => (
+            <CartProductCard
+              product={cart.product}
+              key={`${cart.id}${index}`}
+              cartHolder={cart.cartHolder}
+              cartId={cart.id}
+              dateAddedToCart={cart.dateAddedToCart}
+              locationCountry={cart.locationCountry}
+              productLocation={cart.productLocation}
+              refNumber={cart.refNumber}
+              quantity={cart.quantity}
               token={props.token}
               userId={props.userId}
               setToken={props.setToken}
               setUserId={props.setUserId}
-              price={product.pricePerUnit}
-              currency={product.currency}
-              ranking={product.ranking}
-              totalUnits={product.totalUnits}
-              sku={product.sku}
-              location={product.location}
-              locationCountry={product.locationCountry}
-              minimumQuantity={product.minimumQuantity}
-              deliveryCostPerUnitWithinProductLocation={
-                product.deliveryCostPerUnitWithinProductLocation
-              }
+              handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
             />
           ))}
         </Grid>
@@ -327,31 +312,22 @@ function ProductsForCategory(props) {
           justifyContent="center"
           alignItems="center"
         >
-          {productList.map((product, index) => (
-            <CategoryProductsCard
-              name={product.name}
-              key={`${product.id}${index}`}
-              shortDescription={Str(product.shortDescription)
-                .limit(100, "...")
-                .get()}
-              //description={category.description}
-              image={product.imageCover}
-              productId={product.id}
+          {cartProductList.map((cart, index) => (
+            <CartProductCard
+              product={cart.product}
+              key={`${cart.id}${index}`}
+              cartHolder={cart.cartHolder}
+              cartId={cart.id}
+              dateAddedToCart={cart.dateAddedToCart}
+              locationCountry={cart.locationCountry}
+              productLocation={cart.productLocation}
+              refNumber={cart.refNumber}
+              quantity={cart.quantity}
               token={props.token}
               userId={props.userId}
               setToken={props.setToken}
               setUserId={props.setUserId}
-              price={product.pricePerUnit}
-              currency={product.currency}
-              ranking={product.ranking}
-              totalUnits={product.totalUnits}
-              sku={product.sku}
-              location={product.location}
-              locationCountry={product.locationCountry}
-              minimumQuantity={product.minimumQuantity}
-              deliveryCostPerUnitWithinProductLocation={
-                product.deliveryCostPerUnitWithinProductLocation
-              }
+              handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
             />
           ))}
         </Grid>
@@ -362,7 +338,7 @@ function ProductsForCategory(props) {
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
-        <Grid item>{productsList}</Grid>
+        <Grid item>{cartList}</Grid>
         {/*....INFORMATION BLOCK....*/}
         <Grid
           container
@@ -567,4 +543,4 @@ function ProductsForCategory(props) {
   );
 }
 
-export default ProductsForCategory;
+export default ShowCustomerCart;

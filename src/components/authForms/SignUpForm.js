@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     maxWidth: 600,
+    marginTop: 50,
   },
   rootMobile: {
     maxWidth: 300,
@@ -99,6 +100,11 @@ const renderTextField = ({
       //{...input}
       {...custom}
       onChange={input.onChange}
+      InputProps={{
+        style: {
+          height: 38,
+        },
+      }}
     />
   );
 };
@@ -126,6 +132,11 @@ const renderPasswordField = ({
       //{...input}
       {...custom}
       onChange={input.onChange}
+      InputProps={{
+        style: {
+          height: 38,
+        },
+      }}
     />
   );
 };
@@ -214,10 +225,18 @@ const SignUpForm = (props) => {
               style={{ marginTop: 10 }}
             />
             <Field
+              label="Phone Number"
+              id="phoneNumber"
+              name="phoneNumber"
+              type="text"
+              component={renderTextField}
+              style={{ marginTop: 10 }}
+            />
+            <Field
               label="Email"
               id="email"
               name="email"
-              type="text"
+              type="email"
               component={renderTextField}
               style={{ marginTop: 10 }}
             />

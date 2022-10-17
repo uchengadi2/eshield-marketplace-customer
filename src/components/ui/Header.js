@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import MenuItem from "@material-ui/core/MenuItem";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
@@ -32,6 +33,8 @@ import UserLogin from "./../users/UserLogin";
 import UserSignUp from "../users/UserSignUp";
 import UserPasswordReset from "./../users/UserPasswordReset";
 import UserLogOut from "../users/UserLogOut";
+import { Fragment } from "react";
+import ShowCustomerCart from "../carts/ShowCustomerCart";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -90,6 +93,30 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.estimate,
     borderRadius: "250px",
     marginLeft: "30px",
+    marginRight: "10px",
+    height: "45px",
+    width: "100px",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+      color: "white",
+    },
+  },
+  cart: {
+    ...theme.typography.estimate,
+    borderRadius: "250px",
+    marginLeft: "20px",
+    marginRight: "10px",
+    height: "45px",
+    width: "100px",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+      color: "white",
+    },
+  },
+  checkout: {
+    ...theme.typography.estimate,
+    borderRadius: "250px",
+    marginLeft: "20px",
     marginRight: "10px",
     height: "45px",
     width: "100px",
@@ -301,16 +328,49 @@ const Header = (props) => {
       );
     } else {
       return (
-        <Button
-          variant="contained"
-          // component={Link}
-          // to="/logout"
-          color="inherit"
-          className={classes.buttonSignOut}
-          onClick={() => [setOpenLogOut(true), history.push("/")]}
-        >
-          Sign Out
-        </Button>
+        <Fragment>
+          {/* <ShoppingCartIcon
+            style={{
+              color: "secondary",
+              height: 40,
+              width: 40,
+
+              marginLeft: 15,
+            }}
+            onClick={() => console.log("the cart clicked")}
+          /> */}
+
+          <Button
+            onClick={() => <ShowCustomerCart />}
+            disableRipple
+            component={Link}
+            to={`/carts/${props.userId}`}
+            className={classes.cart}
+          >
+            {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
+            Go to Cart
+          </Button>
+          <Button
+            onClick={() => <ShowCustomerCart />}
+            disableRipple
+            component={Link}
+            to={`/checkouts/${props.userId}`}
+            className={classes.checkout}
+          >
+            {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
+            Checkout
+          </Button>
+          <Button
+            variant="contained"
+            // component={Link}
+            // to="/logout"
+            color="inherit"
+            className={classes.buttonSignOut}
+            onClick={() => [setOpenLogOut(true), history.push("/")]}
+          >
+            Sign Out
+          </Button>
+        </Fragment>
       );
     }
   };
@@ -318,9 +378,10 @@ const Header = (props) => {
   const menuOptions = [];
 
   const routes = matches
-    ? [{ name: "Marketplace", link: "/", activeIndex: 0 }]
+    ? // ? [{ name: "Marketplace", link: "/", activeIndex: 0 }]
+      [{ name: "Orders", link: "/orders", activeIndex: 1 }]
     : [
-        { name: "Marketplace", link: "/", activeIndex: 0 },
+        // { name: "Orders", link: "/orders", activeIndex: 1 },
 
         { name: "Orders", link: "/orders", activeIndex: 1 },
         { name: "Profile", link: "/profile", activeIndex: 2 },
@@ -595,7 +656,8 @@ const Header = (props) => {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openSignUpForm}
-        onClose={() => [setOpenSignUpForm(false), history.push("/")]}
+        // onClose={() => [setOpenSignUpForm(false), history.push("/")]}
+        onClose={() => [setOpenSignUpForm(false)]}
       >
         <DialogContent>
           <UserSignUp
@@ -648,7 +710,8 @@ const Header = (props) => {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openForgotPasswordForm}
-        onClose={() => [setOpenForgotPasswordForm(false), history.push("/")]}
+        //onClose={() => [setOpenForgotPasswordForm(false), history.push("/")]}
+        onClose={() => [setOpenForgotPasswordForm(false)]}
       >
         <DialogContent>
           <UserPasswordReset

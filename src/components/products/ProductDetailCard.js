@@ -311,7 +311,8 @@ export default function ProductDetailCard(props) {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openLoginForm}
-        onClose={() => [setOpenLoginForm(false), history.push("/")]}
+        //onClose={() => [setOpenLoginForm(false), history.push("/")]}
+        onClose={() => [setOpenLoginForm(false)]}
       >
         <DialogContent>
           <UserLogin
@@ -344,7 +345,8 @@ export default function ProductDetailCard(props) {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openSignUpForm}
-        onClose={() => [setOpenSignUpForm(false), history.push("/")]}
+        //onClose={() => [setOpenSignUpForm(false), history.push("/")]}\
+        onClose={() => [setOpenSignUpForm(false)]}
       >
         <DialogContent>
           <UserSignUp
@@ -376,7 +378,8 @@ export default function ProductDetailCard(props) {
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
         open={openForgotPasswordForm}
-        onClose={() => [setOpenForgotPasswordForm(false), history.push("/")]}
+        //onClose={() => [setOpenForgotPasswordForm(false), history.push("/")]}
+        onClose={() => [setOpenForgotPasswordForm(false)]}
       >
         <DialogContent>
           <UserPasswordReset
@@ -619,6 +622,8 @@ export default function ProductDetailCard(props) {
               token={props.token}
               userId={props.userId}
               minimumQuantity={props.product.minimumQuantity}
+              location={props.product.location}
+              locationCountry={props.product.locationCountry}
               handleMakeOpenSignUpDialogStatus={
                 handleMakeOpenSignUpDialogStatus
               }
