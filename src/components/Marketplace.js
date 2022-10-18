@@ -590,11 +590,17 @@ const Marketplace = (props) => {
                     </Typography>
                   ) : (
                     <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                      <span>
-                        We are a Logistics & Transportation Marketplace. <br />{" "}
-                        We connect owners of Vehicles to Customers
-                        <br />
-                        that need them across Africa.
+                      <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
+                        {" "}
+                        We are Africa's leading Business-to-Business
+                      </span>{" "}
+                      <br />
+                      <span style={{ marginLeft: matchesSM ? 80 : 110 }}>
+                        Marketplace for Fast Moving
+                      </span>
+                      <br />
+                      <span style={{ marginLeft: matchesSM ? 120 : 160 }}>
+                        Goods & Commodities
                       </span>
                     </Typography>
                   )}
@@ -659,14 +665,15 @@ const Marketplace = (props) => {
                   ) : (
                     <Typography variant="subtitle2" style={{ fontSize: 14 }}>
                       <span>
-                        12 Wharf Road, off Itapeju street Apapa, Lagos
+                        {" "}
+                        Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
                       </span>
                       <br />
 
-                      <span>enquiries@udaraa.com</span>
+                      <span>info@eshieldafrica.com</span>
                       <br />
 
-                      <span>+234 809 429 8412, +234 809 835 4000</span>
+                      <span>+234 800 000 0000, +234 800 000 0000</span>
                     </Typography>
                   )}
                   {matchesMD ? (

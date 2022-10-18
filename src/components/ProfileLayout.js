@@ -436,11 +436,17 @@ const ProfileLayout = (props) => {
                   </Typography>
                 ) : (
                   <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>
-                      We are a Logistics & Transportation Marketplace. <br /> We
-                      connect owners of Vehicles to Customers
-                      <br />
-                      that need them across Africa.
+                    <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
+                      {" "}
+                      We are Africa's leading Business-to-Business
+                    </span>{" "}
+                    <br />
+                    <span style={{ marginLeft: matchesSM ? 80 : 110 }}>
+                      Marketplace for Fast Moving
+                    </span>
+                    <br />
+                    <span style={{ marginLeft: matchesSM ? 120 : 160 }}>
+                      Goods & Commodities
                     </span>
                   </Typography>
                 )}
@@ -451,7 +457,7 @@ const ProfileLayout = (props) => {
                       // to="/about"
                       varaint="outlined"
                       className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true), history.push("/")]}
+                      onClick={() => [setAboutUsOpen(true)]}
                       style={{ color: "white", borderColor: "white" }}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
@@ -465,7 +471,7 @@ const ProfileLayout = (props) => {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false), history.push("/")]}
+                  onClose={() => [setAboutUsOpen(false)]}
                   fullWidth
                   maxWidth="md"
                 >
@@ -501,13 +507,16 @@ const ProfileLayout = (props) => {
                   <Typography variant="subtitle2">Say hello!</Typography>
                 ) : (
                   <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>12 Wharf Road, off Itapeju street Apapa, Lagos</span>
+                    <span>
+                      {" "}
+                      Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
+                    </span>
                     <br />
 
-                    <span>enquiries@udaraa.com</span>
+                    <span>info@eshieldafrica.com</span>
                     <br />
 
-                    <span>+234 809 429 8412, +234 809 835 4000</span>
+                    <span>+234 800 000 0000, +234 800 000 0000</span>
                   </Typography>
                 )}
                 {matchesMD ? (
@@ -518,10 +527,7 @@ const ProfileLayout = (props) => {
                       varaint="outlined"
                       className={classes.learnButton}
                       style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [
-                        setContactUsOpen(true),
-                        history.push("/"),
-                      ]}
+                      onClick={() => [setContactUsOpen(true)]}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
                       <ButtonArrow height={10} width={10} fill="white" />
@@ -534,7 +540,7 @@ const ProfileLayout = (props) => {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false), history.push("/")]}
+                  onClose={() => [setContactUsOpen(false)]}
                 >
                   <DialogContent>
                     <ContactUsContainerForm
@@ -547,10 +553,7 @@ const ProfileLayout = (props) => {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={becomePartnerOpen}
-                  onClose={() => [
-                    setBecomePartnerOpen(false),
-                    history.push("/"),
-                  ]}
+                  onClose={() => [setBecomePartnerOpen(false)]}
                 >
                   <DialogContent>
                     <BecomePartnerFormContainer
