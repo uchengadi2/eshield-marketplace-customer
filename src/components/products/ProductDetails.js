@@ -437,11 +437,7 @@ function ProductDetails(props) {
                       // to="/about"
                       varaint="outlined"
                       className={classes.learnButton}
-                      onClick={(event) => {
-                        event.preventDefault();
-                        //  history.push(`/orders/completed`);
-                        window.open("https://partners.eshieldafrica.com/");
-                      }}
+                      onClick={() => [setAboutUsOpen(true)]}
                       style={{ color: "white", borderColor: "white" }}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
@@ -455,7 +451,7 @@ function ProductDetails(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false), history.push("/")]}
+                  onClose={() => [setAboutUsOpen(false)]}
                   fullWidth
                   maxWidth="md"
                 >
@@ -511,10 +507,7 @@ function ProductDetails(props) {
                       varaint="outlined"
                       className={classes.learnButton}
                       style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [
-                        setContactUsOpen(true),
-                        history.push("/"),
-                      ]}
+                      onClick={() => [setContactUsOpen(true)]}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
                       <ButtonArrow height={10} width={10} fill="white" />
@@ -527,7 +520,7 @@ function ProductDetails(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false), history.push("/")]}
+                  onClose={() => [setContactUsOpen(false)]}
                 >
                   <DialogContent>
                     <ContactUsContainerForm

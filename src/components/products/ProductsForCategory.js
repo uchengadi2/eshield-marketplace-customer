@@ -420,7 +420,7 @@ function ProductsForCategory(props) {
                       // to="/about"
                       varaint="outlined"
                       className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true), history.push("/")]}
+                      onClick={() => [setAboutUsOpen(true)]}
                       style={{ color: "white", borderColor: "white" }}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
@@ -434,7 +434,7 @@ function ProductsForCategory(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false), history.push("/")]}
+                  onClose={() => [setAboutUsOpen(false)]}
                   fullWidth
                   maxWidth="md"
                 >
@@ -487,10 +487,7 @@ function ProductsForCategory(props) {
                       varaint="outlined"
                       className={classes.learnButton}
                       style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [
-                        setContactUsOpen(true),
-                        history.push("/"),
-                      ]}
+                      onClick={() => [setContactUsOpen(true)]}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
                       <ButtonArrow height={10} width={10} fill="white" />
@@ -503,7 +500,7 @@ function ProductsForCategory(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false), history.push("/")]}
+                  onClose={() => [setContactUsOpen(false)]}
                 >
                   <DialogContent>
                     <ContactUsContainerForm
@@ -516,10 +513,7 @@ function ProductsForCategory(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={becomePartnerOpen}
-                  onClose={() => [
-                    setBecomePartnerOpen(false),
-                    history.push("/"),
-                  ]}
+                  onClose={() => [setBecomePartnerOpen(false)]}
                 >
                   <DialogContent>
                     <BecomePartnerFormContainer

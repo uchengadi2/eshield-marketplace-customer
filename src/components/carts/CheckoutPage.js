@@ -401,12 +401,14 @@ function CheckoutPage(props) {
                   </Typography>
                 ) : (
                   <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>
-                      We are a Logistics & Transportation Marketplace. <br /> We
-                      connect owners of Vehicles to Customers
+                    <strong>
+                      We are an online Business-to-Business Marketplace.
+                      <br /> We connect Retailers to Dealers & Manufacturers{" "}
                       <br />
-                      that need them across Africa.
-                    </span>
+                      of Fast Moving Goods and Commodities
+                      <br />
+                      across Africa.
+                    </strong>
                   </Typography>
                 )}
                 {matchesMD ? (
@@ -416,7 +418,7 @@ function CheckoutPage(props) {
                       // to="/about"
                       varaint="outlined"
                       className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true), history.push("/")]}
+                      onClick={() => [setAboutUsOpen(true)]}
                       style={{ color: "white", borderColor: "white" }}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
@@ -430,7 +432,7 @@ function CheckoutPage(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false), history.push("/")]}
+                  onClose={() => [setAboutUsOpen(false)]}
                   fullWidth
                   maxWidth="md"
                 >
@@ -466,13 +468,16 @@ function CheckoutPage(props) {
                   <Typography variant="subtitle2">Say hello!</Typography>
                 ) : (
                   <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>12 Wharf Road, off Itapeju street Apapa, Lagos</span>
+                    <span>
+                      {" "}
+                      Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
+                    </span>
                     <br />
 
-                    <span>enquiries@udaraa.com</span>
+                    <span>info@eshieldafrica.com</span>
                     <br />
 
-                    <span>+234 809 429 8412, +234 809 835 4000</span>
+                    <span>+234 800 000 0000, +234 800 000 0000</span>
                   </Typography>
                 )}
                 {matchesMD ? (
@@ -483,10 +488,7 @@ function CheckoutPage(props) {
                       varaint="outlined"
                       className={classes.learnButton}
                       style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [
-                        setContactUsOpen(true),
-                        history.push("/"),
-                      ]}
+                      onClick={() => [setContactUsOpen(true)]}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
                       <ButtonArrow height={10} width={10} fill="white" />
@@ -499,7 +501,7 @@ function CheckoutPage(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false), history.push("/")]}
+                  onClose={() => [setContactUsOpen(false)]}
                 >
                   <DialogContent>
                     <ContactUsContainerForm
@@ -512,10 +514,7 @@ function CheckoutPage(props) {
                   //style={{ zIndex: 1302 }}
                   fullScreen={matchesXS}
                   open={becomePartnerOpen}
-                  onClose={() => [
-                    setBecomePartnerOpen(false),
-                    history.push("/"),
-                  ]}
+                  onClose={() => [setBecomePartnerOpen(false)]}
                 >
                   <DialogContent>
                     <BecomePartnerFormContainer
