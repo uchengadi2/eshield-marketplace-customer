@@ -420,12 +420,14 @@ function ProductDetails(props) {
                   </Typography>
                 ) : (
                   <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>
-                      We are a Logistics & Transportation Marketplace. <br /> We
-                      connect owners of Vehicles to Customers
+                    <strong>
+                      We are an online Business-to-Business Marketplace.
+                      <br /> We connect Retailers to Dealers & Manufacturers{" "}
                       <br />
-                      that need them across Africa.
-                    </span>
+                      of Fast Moving Goods and Commodities
+                      <br />
+                      across Africa.
+                    </strong>
                   </Typography>
                 )}
                 {matchesMD ? (
@@ -435,7 +437,11 @@ function ProductDetails(props) {
                       // to="/about"
                       varaint="outlined"
                       className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true), history.push("/")]}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        //  history.push(`/orders/completed`);
+                        window.open("https://partners.eshieldafrica.com/");
+                      }}
                       style={{ color: "white", borderColor: "white" }}
                     >
                       <span style={{ marginRight: 10 }}>Learn More </span>
@@ -485,13 +491,16 @@ function ProductDetails(props) {
                   <Typography variant="subtitle2">Say hello!</Typography>
                 ) : (
                   <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>12 Wharf Road, off Itapeju street Apapa, Lagos</span>
+                    <span>
+                      {" "}
+                      Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
+                    </span>
                     <br />
 
-                    <span>enquiries@udaraa.com</span>
+                    <span>info@eshieldafrica.com</span>
                     <br />
 
-                    <span>+234 809 429 8412, +234 809 835 4000</span>
+                    <span>+234 800 000 0000, +234 800 000 0000</span>
                   </Typography>
                 )}
                 {matchesMD ? (

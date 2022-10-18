@@ -406,10 +406,10 @@ function ProductsForCategory(props) {
                 ) : (
                   <Typography variant="subtitle2" style={{ fontSize: 14 }}>
                     <span>
-                      We are a Logistics & Transportation Marketplace. <br /> We
-                      connect owners of Vehicles to Customers
+                      We are an online Business-to-Business Marketplace. <br />{" "}
+                      We connect Retailers to Dealers & Manufacturers
                       <br />
-                      that need them across Africa.
+                      of Fast Moving Goods and Commodities across Africa
                     </span>
                   </Typography>
                 )}

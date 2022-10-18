@@ -21,7 +21,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { TextField, Typography } from "@material-ui/core";
-import background from "./../logistic_assets/cover_image_1.png";
+import background from "./../assets/images/footage/footage_image.png";
 import history from "./../history";
 import data from "./../apis/local";
 import UserOwnPasswordChange from "./users/UserOwnPasswordChange";

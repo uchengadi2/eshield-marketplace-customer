@@ -48,7 +48,6 @@ import BecomePartnerFormContainer from "./partner/BecomePartnerFormContainer";
 import heroVideo from "./../assets/video/background_video.mp4";
 import heroVideoMobile from "./../assets/video/background_video_mobile.mp4";
 
-
 import { baseURL } from "./../apis/util";
 
 const useStyles = makeStyles((theme) => ({
@@ -490,10 +489,13 @@ const Marketplace = (props) => {
                             // to="/estimate"
                             className={classes.estimateButton}
                             variant="contained"
-                            onClick={() => [
-                              setBecomePartnerOpen(true),
-                              history.push("/"),
-                            ]}
+                            onClick={(event) => {
+                              event.preventDefault();
+                              //  history.push(`/orders/completed`);
+                              window.open(
+                                "https://partners.eshieldafrica.com/"
+                              );
+                            }}
                           >
                             Become a Vendor Partner
                           </Button>

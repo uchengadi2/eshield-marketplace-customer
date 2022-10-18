@@ -13,7 +13,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { TextField, Typography } from "@material-ui/core";
-import background from "./../../logistic_assets/cover_image_1.png";
+import background from "./../../assets/images/footage/footage_image.png";
 import history from "./../../history";
 import SignUpForm from "./SignUpForm";
 import { style } from "@mui/system";

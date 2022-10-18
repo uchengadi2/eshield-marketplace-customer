@@ -35,6 +35,7 @@ import UserPasswordReset from "./../users/UserPasswordReset";
 import UserLogOut from "../users/UserLogOut";
 import { Fragment } from "react";
 import ShowCustomerCart from "../carts/ShowCustomerCart";
+import CheckoutPage from "../carts/CheckoutPage";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -351,7 +352,7 @@ const Header = (props) => {
             Go to Cart
           </Button>
           <Button
-            onClick={() => <ShowCustomerCart />}
+            onClick={() => <CheckoutPage />}
             disableRipple
             component={Link}
             to={`/checkouts/${props.userId}`}
@@ -379,12 +380,12 @@ const Header = (props) => {
 
   const routes = matches
     ? // ? [{ name: "Marketplace", link: "/", activeIndex: 0 }]
-      [{ name: "Orders", link: "/orders", activeIndex: 1 }]
+      [{ name: "Orders", link: "/orders", activeIndex: 0 }]
     : [
         // { name: "Orders", link: "/orders", activeIndex: 1 },
 
-        { name: "Orders", link: "/orders", activeIndex: 1 },
-        { name: "Profile", link: "/profile", activeIndex: 2 },
+        { name: "Orders", link: "/orders", activeIndex: 0 },
+        { name: "Profile", link: "/profile", activeIndex: 1 },
       ];
 
   //   useEffect(() => {
@@ -616,7 +617,6 @@ const Header = (props) => {
   );
 
   const renderLoginForm = () => {
-    console.log("the url params are:", params);
     return (
       <Dialog
         //style={{ zIndex: 1302 }}

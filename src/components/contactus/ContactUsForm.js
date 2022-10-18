@@ -87,8 +87,11 @@ function ContactUsForm(props) {
           <Typography variant="h5" style={{ marginTop: 50 }}>
             <span style={{ color: "orange" }}>Address:</span>{" "}
             <span style={{ marginLeft: 10 }}>
-              12 Wharf Road, off Itapeju street{" "}
-              <span style={{ marginLeft: 100 }}>Apapa, Lagos </span>{" "}
+              Pearl Garden Estate, Block 9,{" "}
+              <span style={{ marginLeft: 100 }}>
+                {" "}
+                Plot 11, Sangotedo, Lagos{" "}
+              </span>{" "}
               {/* <span style={{ marginLeft: 100 }}>
                 Estate, Ilasa, Lagos, Nigeria
               </span> */}
@@ -97,11 +100,11 @@ function ContactUsForm(props) {
           </Typography>
           <Typography variant="h5" style={{ marginTop: 10 }}>
             <span style={{ color: "orange" }}>Email:</span>{" "}
-            <span style={{ marginLeft: 30 }}>enquiries@udaraa.com </span>
+            <span style={{ marginLeft: 30 }}>info@eshieldafrica.com </span>
             <br /> <br /> <span style={{ color: "orange" }}>Tel:</span>{" "}
-            <span style={{ marginLeft: 50 }}>+234 809 429 8412</span>
+            <span style={{ marginLeft: 50 }}>+234 800 000 0000</span>
             <br /> <br />
-            <span style={{ marginLeft: 100 }}>+234 809 835 4000</span>
+            <span style={{ marginLeft: 100 }}>+234 800 000 0000</span>
           </Typography>
         </Grid>
       </Box>

@@ -139,7 +139,7 @@ export default function CallToAction(props) {
                     event.preventDefault();
                     //  history.push(`/orders/completed`);
                     //window.open("http://localhost:3009/");
-                    window.open("https://partners.eshield.com/");
+                    window.open("https://partners.eshieldafrica.com/");
                   }}
                 >
                   <span style={{ marginRight: 10 }}>
@@ -167,7 +167,13 @@ export default function CallToAction(props) {
             variant="contained"
             className={classes.estimateButton}
             // onClick={() => props.setValue(5)}
-            onClick={() => [setBecomePartnerOpen(true), history.push("/")]}
+            //onClick={() => [setBecomePartnerOpen(true), history.push("/")]}
+            onClick={(event) => {
+              event.preventDefault();
+              //  history.push(`/orders/completed`);
+              //window.open("http://localhost:3009/");
+              window.open("https://partners.eshieldafrica.com/");
+            }}
           >
             Become a Vendor Partner
           </Button>

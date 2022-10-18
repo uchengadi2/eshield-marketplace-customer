@@ -19,7 +19,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import data from "./../../apis/local";
-import background from "../../logistic_assets/cover_image_1.png";
+import background from "../../assets/images/covers/aboutus-cover.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -178,14 +178,21 @@ function AboutUsForm(props) {
             // style={{ height: "25em", width: "50%", marginTop: "-300" }}
           >
             <Typography
-              variant="subtitle2"
-              style={{ marginTop: 70, marginLeft: 100 }}
+              //variant="h4"
+              style={{
+                marginTop: 70,
+                marginLeft: 100,
+                color: "orange",
+                fontSize: 20,
+              }}
             >
-              We are a Logistics & Transportation Marketplace.
-              <br /> We connect owners of Vehicles to <br />
-              Customers that need them
-              <br />
-              across Africa.
+              <strong>
+                We are an online Business-to-Business Marketplace.
+                <br /> We connect Retailers to Dealers & Manufacturers <br />
+                of Fast Moving Goods and Commodities
+                <br />
+                across Africa.
+              </strong>
             </Typography>
           </Grid>
           {/* <Grid item style={{ width: "50%" }}>
