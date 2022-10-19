@@ -257,15 +257,15 @@ const Header = (props) => {
     });
   };
 
-  const handleFailedSignUpDialogOpenStatusWithSnackbar = () => {
+  const handleFailedSignUpDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setAlert({
       open: true,
-      message:
-        "Could not sign you up. Please ensure you are connected to the internet and all required fields are completed",
+      message: message,
+
       backgroundColor: "#FF3232",
     });
-    setOpenSignUpForm(false);
+    setOpenSignUpForm(true);
   };
 
   const handleMakeOpenLoginFormDialogStatus = () => {

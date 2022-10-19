@@ -172,8 +172,54 @@ const SignUpForm = (props) => {
     props.handleMakeOpenLoginFormDialogStatus();
   };
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const onSubmit = (formValues) => {
+    console.log("sign up formvalues:", formValues);
     setLoading(false);
+
+    if (
+      !formValues["name"] ||
+      !formValues["phoneNumber"] ||
+      !formValues["email"] ||
+      !formValues["password"] ||
+      !formValues["confirmPassword"]
+    ) {
+      props.handleFailedSignUpDialogOpenStatusWithSnackbar(
+        "Please accurately complete all the form fields and try again"
+      );
+      return;
+    }
+
+    if (formValues["password"] !== formValues["confirmPassword"]) {
+      props.handleFailedSignUpDialogOpenStatusWithSnackbar(
+        "Password and Password Confirm are not the same"
+      );
+      return;
+    }
+
+    if (!validateEmail(formValues["email"])) {
+      props.handleFailedSignUpDialogOpenStatusWithSnackbar(
+        "You just entered an invalid email address. Please correct it and try again"
+      );
+
+      return;
+    }
+
+    if ((formValues["phoneNumber"].match(/\d/g).length === 11) === false) {
+      props.handleFailedSignUpDialogOpenStatusWithSnackbar(
+        "Your Phone number must be 11 numbers. Please correct this and try again"
+      );
+
+      return;
+    }
+
     props.onSubmit(formValues);
     setLoading(true);
   };
@@ -277,10 +323,7 @@ const SignUpForm = (props) => {
               <Grid item container alignItems="center">
                 <Button
                   variant="text"
-                  onClick={() => [
-                    handleMakeOpenLoginFormDialogStatus(),
-                    history.push("/"),
-                  ]}
+                  onClick={() => [handleMakeOpenLoginFormDialogStatus()]}
                   style={{ marginLeft: 30 }}
                 >
                   Already a customer? Click to Login
@@ -392,10 +435,7 @@ const SignUpForm = (props) => {
               <Grid item container alignItems="center">
                 <Button
                   variant="text"
-                  onClick={() => [
-                    handleMakeOpenLoginFormDialogStatus(),
-                    history.push("/"),
-                  ]}
+                  onClick={() => [handleMakeOpenLoginFormDialogStatus()]}
                   style={{ marginLeft: 30 }}
                 >
                   <span style={{ fontSize: 10 }}>
@@ -406,10 +446,7 @@ const SignUpForm = (props) => {
               <Grid item container alignItems="center" justifyContent="center">
                 <Button
                   variant="text"
-                  onClick={() => [
-                    props.handleMakeCloseSignUpDialogStatus(),
-                    history.push("/"),
-                  ]}
+                  onClick={() => [props.handleMakeCloseSignUpDialogStatus()]}
                   style={{ marginLeft: 30 }}
                 >
                   <span style={{ fontSize: 10, marginRight: 50 }}>Cancel</span>

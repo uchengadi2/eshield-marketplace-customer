@@ -396,7 +396,7 @@ function SendProductToCartForm(props) {
         <Button
           variant="contained"
           className={classes.submitButton}
-          onClick={onSubmit}
+          onClick={props.handleSubmit(onSubmit)}
         >
           {loading ? (
             <CircularProgress size={30} color="inherit" />
