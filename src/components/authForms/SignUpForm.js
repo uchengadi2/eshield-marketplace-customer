@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
+import qs from "qs";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,6 +15,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { TextField, Typography } from "@material-ui/core";
 import background from "./../../logistic_assets/cover_image_1.png";
 import history from "./../../history";
+import api from "./../../apis/local";
 
 const useStyles = makeStyles((theme) => ({
   sendButton: {
@@ -78,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderTextField = ({
+const renderPhoneNumberField = ({
   input,
   label,
   meta: { touched, error, invalid },
@@ -93,7 +95,69 @@ const renderTextField = ({
       variant="outlined"
       //placeholder={label}
       // label={label}
-      defaultValue={input.value}
+      //defaultValue={input.value}
+      id={input.name}
+      fullWidth
+      type={type}
+      //{...input}
+      {...custom}
+      onChange={input.onChange}
+      InputProps={{
+        style: {
+          height: 38,
+        },
+      }}
+    />
+  );
+};
+
+const renderEmailField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      error={touched && invalid}
+      helperText={label}
+      variant="outlined"
+      //placeholder={label}
+      // label={label}
+      //defaultValue={input.value}
+      id={input.name}
+      fullWidth
+      type={type}
+      //{...input}
+      {...custom}
+      onChange={input.onChange}
+      InputProps={{
+        style: {
+          height: 38,
+        },
+      }}
+    />
+  );
+};
+
+const renderNameField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      error={touched && invalid}
+      helperText={label}
+      variant="outlined"
+      //placeholder={label}
+      // label={label}
+      //defaultValue={input.value}
       id={input.name}
       fullWidth
       type={type}
@@ -124,7 +188,39 @@ const renderPasswordField = ({
       variant="outlined"
       //placeholder={label}
       // label={label}
-      defaultValue={input.value}
+      //defaultValue={input.value}
+      id={input.name}
+      fullWidth
+      type={type}
+      style={{ marginTop: "1em" }}
+      //{...input}
+      {...custom}
+      onChange={input.onChange}
+      InputProps={{
+        style: {
+          height: 38,
+        },
+      }}
+    />
+  );
+};
+
+const renderPasswordConfirmField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      error={touched && invalid}
+      helperText={label}
+      variant="outlined"
+      //placeholder={label}
+      // label={label}
+      //defaultValue={input.value}
       id={input.name}
       fullWidth
       type={type}
@@ -181,26 +277,29 @@ const SignUpForm = (props) => {
   };
 
   const onSubmit = (formValues) => {
+    setLoading(true);
+
     console.log("sign up formvalues:", formValues);
-    setLoading(false);
 
     if (
       !formValues["name"] ||
       !formValues["phoneNumber"] ||
       !formValues["email"] ||
       !formValues["password"] ||
-      !formValues["confirmPassword"]
+      !formValues["passwordConfirm"]
     ) {
       props.handleFailedSignUpDialogOpenStatusWithSnackbar(
         "Please accurately complete all the form fields and try again"
       );
+      setLoading(false);
       return;
     }
 
-    if (formValues["password"] !== formValues["confirmPassword"]) {
+    if (formValues["password"] !== formValues["passwordConfirm"]) {
       props.handleFailedSignUpDialogOpenStatusWithSnackbar(
         "Password and Password Confirm are not the same"
       );
+      setLoading(false);
       return;
     }
 
@@ -208,6 +307,7 @@ const SignUpForm = (props) => {
       props.handleFailedSignUpDialogOpenStatusWithSnackbar(
         "You just entered an invalid email address. Please correct it and try again"
       );
+      setLoading(false);
 
       return;
     }
@@ -216,12 +316,31 @@ const SignUpForm = (props) => {
       props.handleFailedSignUpDialogOpenStatusWithSnackbar(
         "Your Phone number must be 11 numbers. Please correct this and try again"
       );
+      setLoading(false);
 
       return;
     }
 
-    props.onSubmit(formValues);
-    setLoading(true);
+    if (formValues) {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.get(`/users?email=` + formValues["email"]);
+        console.log("responswwwwe is:", response);
+        if (response.data.results === 0) {
+          props.onSubmit(formValues);
+          setLoading(false);
+        } else {
+          props.handleFailedSignUpDialogOpenStatusWithSnackbar(
+            "This email is already registered on this platform. Please try logging in instead"
+          );
+        }
+      };
+      createForm().catch((err) => {
+        //props.handleFailedSnackbar();
+        console.log("err:", err.message);
+      });
+    }
+    setLoading(false);
   };
 
   const buttonContent = () => {
@@ -267,7 +386,7 @@ const SignUpForm = (props) => {
               id="name"
               name="name"
               type="text"
-              component={renderTextField}
+              component={renderNameField}
               style={{ marginTop: 10 }}
             />
             <Field
@@ -275,15 +394,15 @@ const SignUpForm = (props) => {
               id="phoneNumber"
               name="phoneNumber"
               type="text"
-              component={renderTextField}
+              component={renderPhoneNumberField}
               style={{ marginTop: 10 }}
             />
             <Field
               label="Email"
               id="email"
               name="email"
-              type="email"
-              component={renderTextField}
+              type="text"
+              component={renderEmailField}
               style={{ marginTop: 10 }}
             />
 
@@ -296,10 +415,10 @@ const SignUpForm = (props) => {
             />
             <Field
               label="Confirm Password"
-              id="confirmPassword"
-              name="confirmPassword"
+              id="passwordConfirm"
+              name="passwordConfirm"
               type="password"
-              component={renderPasswordField}
+              component={renderPasswordConfirmField}
             />
 
             <Button
@@ -387,7 +506,15 @@ const SignUpForm = (props) => {
               id="name"
               name="name"
               type="text"
-              component={renderTextField}
+              component={renderNameField}
+              style={{ marginTop: 10 }}
+            />
+            <Field
+              label="Phone Number"
+              id="phoneNumber"
+              name="phoneNumber"
+              type="text"
+              component={renderPhoneNumberField}
               style={{ marginTop: 10 }}
             />
             <Field
@@ -395,7 +522,7 @@ const SignUpForm = (props) => {
               id="email"
               name="email"
               type="text"
-              component={renderTextField}
+              component={renderEmailField}
               style={{ marginTop: 10 }}
             />
 
@@ -408,10 +535,10 @@ const SignUpForm = (props) => {
             />
             <Field
               label="Confirm Password"
-              id="confirmPassword"
-              name="confirmPassword"
+              id="passwordConfirm"
+              name="passwordConfirm"
               type="password"
-              component={renderPasswordField}
+              component={renderPasswordConfirmField}
             />
 
             <Button

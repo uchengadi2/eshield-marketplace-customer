@@ -20,10 +20,14 @@ class UserSignUp extends React.Component {
       if (this.props.token.status === "success") {
         this.props.setToken(this.props.token);
         this.props.setUserId(this.props.token);
-        this.props.handleSuccessfulSignUpDialogOpenStatusWithSnackbar();
+        this.props.handleSuccessfulSignUpDialogOpenStatusWithSnackbar(
+          "You have successfully signed up"
+        );
         this.setState({ counter: 5 });
       } else if (this.props.token.status !== undefined) {
-        this.props.handleFailedSignUpDialogOpenStatusWithSnackbar();
+        this.props.handleFailedSignUpDialogOpenStatusWithSnackbar(
+          "Could not sign  you up. Please check your connection or the information your provided"
+        );
         this.setState({ counter: 6 });
       }
     }

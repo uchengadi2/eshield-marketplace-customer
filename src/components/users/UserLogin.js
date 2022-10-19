@@ -20,10 +20,14 @@ class UserLogin extends React.Component {
       if (this.props.token.status === "success") {
         this.props.setToken(this.props.token);
         this.props.setUserId(this.props.token);
-        this.props.handleSuccessfulLoginDialogOpenStatusWithSnackbar();
+        this.props.handleSuccessfulLoginDialogOpenStatusWithSnackbar(
+          "You have successfully logged in"
+        );
         this.setState({ counter: 5 });
       } else if (this.props.token.status !== undefined) {
-        this.props.handleFailedLoginDialogOpenStatusWithSnackbar();
+        this.props.handleFailedLoginDialogOpenStatusWithSnackbar(
+          "Incorrect Login Credentials. Check your email and password and try again"
+        );
         this.setState({ counter: 6 });
       }
     }
@@ -71,6 +75,9 @@ class UserLogin extends React.Component {
             }
             handleFailedLoginDialogOpenStatusWithSnackbar={
               this.props.handleFailedLoginDialogOpenStatusWithSnackbar
+            }
+            handleSuccessfulLoginDialogOpenStatusWithSnackbar={
+              this.props.handleSuccessfulLoginDialogOpenStatusWithSnackbar
             }
             token={this.props.token}
           />

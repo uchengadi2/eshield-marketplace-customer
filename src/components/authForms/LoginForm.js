@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -17,6 +18,8 @@ import background from "./../../assets/images/footage/footage_image.png";
 import history from "./../../history";
 import SignUpForm from "./SignUpForm";
 import { style } from "@mui/system";
+import api from "./../../apis/local";
+import { SIGN_IN } from "../../actions/types";
 
 const useStyles = makeStyles((theme) => ({
   sendButton: {
@@ -134,6 +137,7 @@ const renderPasswordField = ({
 
 const LoginForm = (props) => {
   const params = useParams();
+
   const classes = useStyles();
 
   const theme = useTheme();
@@ -148,6 +152,8 @@ const LoginForm = (props) => {
 
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleLoginDialogOpenStatus = () => {
     props.handleLoginDialogOpenStatus();
@@ -178,7 +184,7 @@ const LoginForm = (props) => {
   };
 
   const onSubmit = (formValues) => {
-    setLoading(false);
+    setLoading(true);
     // console.log("the url params at login:", params);
 
     console.log("login form values:", formValues);
@@ -199,7 +205,7 @@ const LoginForm = (props) => {
     }
 
     props.onSubmit(formValues);
-    setLoading(true);
+    setLoading(false);
   };
 
   return (

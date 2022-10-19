@@ -30,6 +30,7 @@ import logo from "./../../assets/logo/eshield.png";
 import { RouterRounded } from "@material-ui/icons";
 import history from "../../history";
 import UserLogin from "./../users/UserLogin";
+import LoginForm from "../authForms/LoginForm";
 import UserSignUp from "../users/UserSignUp";
 import UserPasswordReset from "./../users/UserPasswordReset";
 import UserLogOut from "../users/UserLogOut";
@@ -226,12 +227,12 @@ const Header = (props) => {
     setOpenLoginForm(false);
   };
 
-  const handleSuccessfulLoginDialogOpenStatusWithSnackbar = () => {
+  const handleSuccessfulLoginDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setOpenLoginForm(false);
     setAlert({
       open: true,
-      message: "You have successfully logged in",
+      message: message,
       backgroundColor: "#4BB543",
     });
   };
@@ -247,12 +248,12 @@ const Header = (props) => {
     setOpenLoginForm(true);
   };
 
-  const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = () => {
+  const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setOpenSignUpForm(false);
     setAlert({
       open: true,
-      message: "You have successfully signed up",
+      message: message,
       backgroundColor: "#4BB543",
     });
   };

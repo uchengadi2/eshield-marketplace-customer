@@ -322,43 +322,43 @@ export default function CartProductCard(props) {
     setOpenLoginForm(false);
   };
 
-  const handleSuccessfulLoginDialogOpenStatusWithSnackbar = () => {
+  const handleSuccessfulLoginDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setOpenLoginForm(false);
     setAlert({
       open: true,
-      message: "You have successfully logged in",
+      message: message,
       backgroundColor: "#4BB543",
     });
   };
 
-  const handleFailedLoginDialogOpenStatusWithSnackbar = () => {
+  const handleFailedLoginDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setAlert({
       open: true,
-      message:
-        "Could not logged you in. Please ensure your login credentials are correct",
+      message: message,
+
       backgroundColor: "#FF3232",
     });
     setOpenLoginForm(false);
   };
 
-  const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = () => {
+  const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setOpenSignUpForm(false);
     setAlert({
       open: true,
-      message: "You have successfully signed up",
+      message: message,
       backgroundColor: "#4BB543",
     });
   };
 
-  const handleFailedSignUpDialogOpenStatusWithSnackbar = () => {
+  const handleFailedSignUpDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setAlert({
       open: true,
-      message:
-        "Could not sign you up. Please ensure you are connected to the internet and all required fields are completed",
+      message: message,
+
       backgroundColor: "#FF3232",
     });
     setOpenSignUpForm(false);
