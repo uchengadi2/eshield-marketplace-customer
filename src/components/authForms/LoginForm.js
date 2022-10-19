@@ -165,6 +165,14 @@ const LoginForm = (props) => {
     props.handleMakeOpenForgotPasswordFormDialogStatus();
   };
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const buttonContent = () => {
     return <React.Fragment>Login</React.Fragment>;
   };
@@ -172,6 +180,23 @@ const LoginForm = (props) => {
   const onSubmit = (formValues) => {
     setLoading(false);
     // console.log("the url params at login:", params);
+
+    console.log("login form values:", formValues);
+
+    if (!formValues["email"] || !formValues["password"]) {
+      props.handleFailedLoginDialogOpenStatusWithSnackbar(
+        "Please enter your email and password login credentials and try again"
+      );
+      return;
+    }
+
+    if (!validateEmail(formValues["email"])) {
+      props.handleFailedLoginDialogOpenStatusWithSnackbar(
+        "You just entered an invalid email address. Please correct it and try again"
+      );
+
+      return;
+    }
 
     props.onSubmit(formValues);
     setLoading(true);
@@ -353,7 +378,6 @@ const LoginForm = (props) => {
                     variant="text"
                     onClick={() => [
                       handleMakeOpenForgotPasswordFormDialogStatus(),
-                      history.push("/"),
                     ]}
                   >
                     <span style={{ fontSize: 10 }}>Forget your password?</span>
@@ -362,10 +386,7 @@ const LoginForm = (props) => {
                 <Grid item container style={{ width: "30%", marginLeft: 5 }}>
                   <Button
                     variant="text"
-                    onClick={() => [
-                      handleMakeOpenSignUpDialogStatus(),
-                      history.push("/"),
-                    ]}
+                    onClick={() => [handleMakeOpenSignUpDialogStatus()]}
                   >
                     <span style={{ fontSize: 10 }}>Sign Up</span>
                   </Button>
@@ -380,10 +401,7 @@ const LoginForm = (props) => {
                 <Grid item>
                   <Button
                     variant="text"
-                    onClick={() => [
-                      props.handleLoginDialogCloseStatus(),
-                      history.push("/"),
-                    ]}
+                    onClick={() => [props.handleLoginDialogCloseStatus()]}
                     style={{ marginRight: 15 }}
                   >
                     <span style={{ fontSize: 10 }}>Cancel</span>
@@ -421,5 +439,5 @@ const validate = (formValues) => {
 
 export default reduxForm({
   form: "loginForm",
-  validate: validate,
+  //validate: validate,
 })(LoginForm);

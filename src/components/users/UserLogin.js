@@ -69,6 +69,9 @@ class UserLogin extends React.Component {
             handleMakeOpenForgotPasswordFormDialogStatus={
               this.handleMakeOpenForgotPasswordFormDialogStatus
             }
+            handleFailedLoginDialogOpenStatusWithSnackbar={
+              this.props.handleFailedLoginDialogOpenStatusWithSnackbar
+            }
             token={this.props.token}
           />
         </Box>

@@ -236,15 +236,15 @@ const Header = (props) => {
     });
   };
 
-  const handleFailedLoginDialogOpenStatusWithSnackbar = () => {
+  const handleFailedLoginDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
     setAlert({
       open: true,
-      message:
-        "Could not logged you in. Please ensure your login credentials are correct",
+      message: message,
+
       backgroundColor: "#FF3232",
     });
-    setOpenLoginForm(false);
+    setOpenLoginForm(true);
   };
 
   const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = () => {
