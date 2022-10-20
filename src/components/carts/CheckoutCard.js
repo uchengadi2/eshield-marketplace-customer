@@ -224,7 +224,7 @@ export default function CheckoutCard(props) {
     fetchData().catch(console.error);
   }, []);
 
-  console.log("checkout props:", props);
+  console.log("checkout proppppps:", props);
 
   //get the currency name
   useEffect(() => {
@@ -637,6 +637,13 @@ export default function CheckoutCard(props) {
                 }
                 quantity={props.quantity}
                 cartId={props.cartId}
+                recipientName={props.recipientName}
+                recipientPhoneNumber={props.recipientPhoneNumber}
+                recipientAddress={props.recipientAddress}
+                recipientCountry={props.recipientCountry}
+                recipientState={props.recipientState}
+                currency={product.currency}
+                dateAddedToCart={props.dateAddedToCart}
                 handleMakeOpenLoginFormDialogStatus={
                   handleMakeOpenLoginFormDialogStatus
                 }
@@ -648,28 +655,6 @@ export default function CheckoutCard(props) {
                 }
               />
             )}
-            {/* <CardActions>
-              <Button
-                component={Link}
-                // to="/mobileapps"
-                to={`/categories/${props.categoryId}/${props.productId}`}
-                varaint="outlined"
-                className={classes.learnButton}
-                onClick={() => (
-                  <ProductDetails
-                    productId={props.productId}
-                    token={props.token}
-                  />
-                )}
-              >
-                <span style={{ marginRight: 10 }}>Show Details </span>
-                <ButtonArrow
-                  height={10}
-                  width={10}
-                  fill={theme.palette.common.blue}
-                />
-              </Button>
-            </CardActions> */}
           </Grid>
         </Grid>
       </CardActionArea>
