@@ -184,15 +184,14 @@ const LoginForm = (props) => {
   };
 
   const onSubmit = (formValues) => {
-    setLoading(true);
+    setLoading(false);
     // console.log("the url params at login:", params);
-
-    console.log("login form values:", formValues);
 
     if (!formValues["email"] || !formValues["password"]) {
       props.handleFailedLoginDialogOpenStatusWithSnackbar(
         "Please enter your email and password login credentials and try again"
       );
+      setLoading(false);
       return;
     }
 
@@ -200,12 +199,13 @@ const LoginForm = (props) => {
       props.handleFailedLoginDialogOpenStatusWithSnackbar(
         "You just entered an invalid email address. Please correct it and try again"
       );
+      setLoading(false);
 
       return;
     }
 
     props.onSubmit(formValues);
-    setLoading(false);
+    setLoading(true);
   };
 
   return (

@@ -277,9 +277,7 @@ const SignUpForm = (props) => {
   };
 
   const onSubmit = (formValues) => {
-    setLoading(true);
-
-    console.log("sign up formvalues:", formValues);
+    setLoading(false);
 
     if (
       !formValues["name"] ||
@@ -328,7 +326,7 @@ const SignUpForm = (props) => {
         console.log("responswwwwe is:", response);
         if (response.data.results === 0) {
           props.onSubmit(formValues);
-          setLoading(false);
+          setLoading(true);
         } else {
           props.handleFailedSignUpDialogOpenStatusWithSnackbar(
             "This email is already registered on this platform. Please try logging in instead"
@@ -340,7 +338,7 @@ const SignUpForm = (props) => {
         console.log("err:", err.message);
       });
     }
-    setLoading(false);
+    setLoading(true);
   };
 
   const buttonContent = () => {
