@@ -84,3 +84,10 @@ export const FETCH_CARTS = "FETCH_CARTS";
 export const FETCH_CART = "FETCH_CART";
 export const DELETE_CART = "DELETE_CART";
 export const EDIT_CART = "EDIT_CART";
+
+// for rate
+export const CREATE_RATE = "CREATE_RATE";
+export const FETCH_RATES = "FETCH_RATES";
+export const FETCH_RATE = "FETCH_RATE";
+export const DELETE_RATE = "DELETE_RATE";
+export const EDIT_RATE = "EDIT_RATE";

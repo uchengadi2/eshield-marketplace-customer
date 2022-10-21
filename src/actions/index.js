@@ -66,6 +66,11 @@ import {
   FETCH_CART,
   EDIT_CART,
   DELETE_CART,
+  CREATE_RATE,
+  FETCH_RATES,
+  FETCH_RATE,
+  EDIT_RATE,
+  DELETE_RATE,
 } from "./types";
 
 //authentication and authorization  operations
@@ -711,5 +716,48 @@ export const deleteCart = (id, token) => {
   return async (dispatch) => {
     await data.delete(`/carts/${id}`);
     dispatch({ type: DELETE_CART, payload: id });
+  };
+};
+
+////////////////////////////////////////////////RATES //////////////////////////////////
+
+export const createRate = (formValues, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  return async (dispatch, getState) => {
+    const response = await data.post("/rates", formValues);
+    dispatch({ type: CREATE_RATE, payload: response.data.data.data });
+  };
+};
+
+export const fetchRates = (tokens) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${tokens}`;
+  return async (dispatch) => {
+    const response = await data.get("/rates");
+
+    dispatch({ type: FETCH_RATES, payload: response.data.data.data });
+  };
+};
+
+export const fetchRate = (id, token) => {
+  return async (dispatch) => {
+    const response = await data.get(`/rates/${id}`);
+    dispatch({ type: FETCH_RATE, payload: response.data });
+  };
+};
+
+export const editRate = (id, formValues, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    const response = await data.patch(`/rates/${id}`, formValues);
+    dispatch({ type: EDIT_RATE, payload: response.data });
+  };
+};
+
+export const deleteRate = (id, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    await data.delete(`/rates/${id}`);
+    dispatch({ type: DELETE_RATE, payload: id });
   };
 };

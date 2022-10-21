@@ -363,6 +363,16 @@ const Header = (props) => {
             Checkout
           </Button>
           <Button
+            onClick={() => <CheckoutPage />}
+            disableRipple
+            component={Link}
+            to={`/profile/${props.userId}`}
+            className={classes.checkout}
+          >
+            {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
+            Profile
+          </Button>
+          <Button
             variant="contained"
             // component={Link}
             // to="/logout"
@@ -381,12 +391,12 @@ const Header = (props) => {
 
   const routes = matches
     ? // ? [{ name: "Marketplace", link: "/", activeIndex: 0 }]
-      [{ name: "Orders", link: "/orders", activeIndex: 0 }]
+      [{ name: "Orders", link: `/orders/${props.userId}`, activeIndex: 1 }]
     : [
         // { name: "Orders", link: "/orders", activeIndex: 1 },
 
-        { name: "Orders", link: "/orders", activeIndex: 0 },
-        { name: "Profile", link: "/profile", activeIndex: 1 },
+        { name: "Orders", link: `/orders/${props.userId}`, activeIndex: 1 },
+        // { name: "Profile", link: "/profile", activeIndex: 2 },
       ];
 
   //   useEffect(() => {

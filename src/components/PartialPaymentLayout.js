@@ -10,7 +10,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import history from "../history";
 // import OrdersList from "./orders/OrdersList";
-import OrderFormContainer from "./orders/OrderFormContainer";
+// import OrderFormContainer from "./orders/OrderFormContainer";
 // import OrderAssignmentFormContainer from "./orders/OrderAssignmentFormContainer";
 // import CountryVendorSelectFields from "./CountryVendorSelectFields";
 import data from "./../apis/local";
@@ -173,12 +173,12 @@ function PartialPaymentLayout(props) {
         open={open}
         onClose={() => [setOpen(false), history.push("/payments")]}
       >
-        <DialogContent>
+        {/* <DialogContent>
           <OrderFormContainer
             token={props.token}
             handleDialogOpenStatus={handleDialogOpenStatus}
           />
-        </DialogContent>
+        </DialogContent> */}
       </Dialog>
       <Grid
         item

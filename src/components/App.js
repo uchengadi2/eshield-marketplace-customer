@@ -14,12 +14,13 @@ import Header from "./ui/Header";
 import IndexDashboard from "./IndexDashboard";
 import Marketplace from "./../components/Marketplace";
 import ShowCustomerCart from "./carts/ShowCustomerCart";
-import OrderLayout from "./OrderLayout";
 import PaymentLayout from "./PaymentLayout";
 import ProfileLayout from "./ProfileLayout";
 import ProductsForCategory from "./products/ProductsForCategory";
 import ProductDetails from "./products/ProductDetails";
 import CheckoutPage from "./carts/CheckoutPage";
+
+import OrderPage from "./orders/OrderPage";
 
 function App() {
   const { token, setToken } = useToken();
@@ -30,7 +31,6 @@ function App() {
 
   const handleCartItemForCheckoutBox = () => {
     setCartItemForCheckout(true);
-    console.log("an item just checkout");
   };
 
   return (
@@ -57,9 +57,9 @@ function App() {
                 setUserId={setUserId ? setUserId : {}}
               />
             </Route>
-            <Route path="/orders">
+            {/* <Route path="/orders">
               <OrderLayout token={token} />
-            </Route>
+            </Route> */}
 
             <Route exact path="/categories/:categoryId">
               <ProductsForCategory
@@ -86,6 +86,7 @@ function App() {
                 handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
               />
             </Route>
+
             <Route path="/checkouts/:userId">
               <CheckoutPage
                 token={token}
@@ -93,6 +94,14 @@ function App() {
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
                 handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
+              />
+            </Route>
+            <Route path="/orders/:userId">
+              <OrderPage
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
               />
             </Route>
             <Route path="/profile">
