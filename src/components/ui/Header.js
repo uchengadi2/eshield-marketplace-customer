@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { AppBar, IconButton, Typography } from "@material-ui/core";
+import { AppBar, IconButton, TextField, Typography } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import { useScrollTrigger } from "@material-ui/core";
 //import Typography from "@mui/material/Typography";
@@ -37,6 +37,7 @@ import UserLogOut from "../users/UserLogOut";
 import { Fragment } from "react";
 import ShowCustomerCart from "../carts/ShowCustomerCart";
 import CheckoutPage from "../carts/CheckoutPage";
+import { padding } from "@mui/system";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -180,6 +181,11 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: theme.palette.common.blue,
       color: "white",
+    },
+  },
+  root: {
+    "& .MuiFilledInput-root": {
+      background: "white",
     },
   },
 }));
@@ -937,6 +943,32 @@ const Header = (props) => {
             >
               <img alt="company logo" src={logo} className={classes.logo} />
             </Button>
+            <Box
+              sx={{ backgroundColor: "white", padding: 10, borderRadius: 20 }}
+            >
+              <TextField
+                variant="outlined"
+                className={classes.root}
+                style={{ width: 100 }}
+                InputProps={{
+                  style: {
+                    height: 38,
+                  },
+                }}
+              />
+              <TextField
+                variant="outlined"
+                className={classes.root}
+                style={{ width: 300, marginLeft: 10 }}
+                InputProps={{
+                  style: {
+                    height: 38,
+                  },
+                }}
+              />
+              <Button>Search</Button>
+            </Box>
+
             {matches ? drawer : tabs}
           </Toolbar>
           {renderLoginForm()}
