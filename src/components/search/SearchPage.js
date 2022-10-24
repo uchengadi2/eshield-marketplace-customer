@@ -231,6 +231,9 @@ function SearchPage(props) {
   //const category = "63325c4f8b6f041cb4654414";
   //const searchString = "Rice";
 
+  console.log("search category is:", category);
+  console.log("search substring is:", searchString);
+
   const handleBecomeAPartnerOpenDialogBox = () => {
     setBecomePartnerOpen(false);
   };

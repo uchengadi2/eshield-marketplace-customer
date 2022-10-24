@@ -189,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appbar: {
-    zIndex: theme.zIndex.modal + 1,
+    // zIndex: theme.zIndex.modal + 1,
     "&:hover": {},
   },
   buttonSignOut: {
@@ -659,7 +659,12 @@ const Header = (props) => {
           id="category"
           value={category}
           onChange={handleCategoryChange}
-          style={{ marginTop: 0, width: 150, height: 38, marginLeft: 0 }}
+          style={{
+            marginTop: 0,
+            width: 150,
+            height: 38,
+            marginLeft: 0,
+          }}
         >
           {renderCategoryList()}
         </Select>
@@ -757,18 +762,12 @@ const Header = (props) => {
               <img alt="company logo" src={logo} className={classes.logo} />
             </Button>
             <Box
-              sx={{ backgroundColor: "white", padding: 10, borderRadius: 20 }}
+              sx={{
+                backgroundColor: "white",
+                padding: 10,
+                borderRadius: 20,
+              }}
             >
-              {/* <TextField
-                variant="outlined"
-                className={classes.root}
-                style={{ width: 100 }}
-                InputProps={{
-                  style: {
-                    height: 38,
-                  },
-                }}
-              /> */}
               {renderCategoryField()}
               <TextField
                 variant="outlined"
