@@ -323,7 +323,7 @@ const SignUpForm = (props) => {
       const createForm = async () => {
         api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
         const response = await api.get(`/users?email=` + formValues["email"]);
-        console.log("responswwwwe is:", response);
+
         if (response.data.results === 0) {
           props.onSubmit(formValues);
           setLoading(true);

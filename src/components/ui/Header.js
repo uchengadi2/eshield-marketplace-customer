@@ -25,9 +25,14 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import logo from "./../../assets/logo/eshield.png";
 import { RouterRounded } from "@material-ui/icons";
+import Select from "@material-ui/core/Select";
 import history from "../../history";
 import UserLogin from "./../users/UserLogin";
 import LoginForm from "../authForms/LoginForm";
@@ -37,7 +42,9 @@ import UserLogOut from "../users/UserLogOut";
 import { Fragment } from "react";
 import ShowCustomerCart from "../carts/ShowCustomerCart";
 import CheckoutPage from "../carts/CheckoutPage";
+import SearchPage from "../search/SearchPage";
 import { padding } from "@mui/system";
+import api from "./../../apis/local";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -116,6 +123,20 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
+  search: {
+    //...theme.typography.estimate,
+    borderRadius: "250px",
+    marginLeft: "10px",
+    marginRight: "0px",
+    //height: "45px",
+    // width: "30px",
+    backgroundColor: theme.palette.secondary.light,
+    color: "white",
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+      color: "white",
+    },
+  },
   checkout: {
     ...theme.typography.estimate,
     borderRadius: "250px",
@@ -179,7 +200,7 @@ const useStyles = makeStyles((theme) => ({
     height: "45px",
     width: "100px",
     "&:hover": {
-      backgroundColor: theme.palette.common.blue,
+      backgroundColor: theme.palette.common.orange,
       color: "white",
     },
   },
@@ -209,11 +230,32 @@ const Header = (props) => {
   const [openSignUpForm, setOpenSignUpForm] = useState(false);
   const [openForgotPasswordForm, setOpenForgotPasswordForm] = useState(false);
   const [openLogOut, setOpenLogOut] = useState(false);
+  const [category, setCategory] = useState("");
+  const [categoryList, setCategoryList] = useState([]);
+  const [itemType, setItemType] = useState("");
+  const [searchText, setSearchText] = useState();
   const [alert, setAlert] = useState({
     open: false,
     message: "",
     backgroundColor: "",
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/categories`);
+      const workingData = response.data.data.data;
+      workingData.map((category) => {
+        allData.push({ id: category._id, name: category.name });
+      });
+      setCategoryList(allData);
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, []);
 
   const handleChange = (e, newValue) => {
     props.setValue(newValue);
@@ -223,6 +265,17 @@ const Header = (props) => {
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+    setItemType(event.target.value);
+  };
+
+  const onChangeSearchText = (event) => {
+    setSearchText(event.target.value);
+  };
+
+  console.log("the search text:", searchText);
 
   const handleLoginDialogOpenStatus = () => {
     // history.push("/categories/new");
@@ -316,6 +369,17 @@ const Header = (props) => {
     setOpenMenu(false);
   };
 
+  //get the vendor list
+  const renderCategoryList = () => {
+    return categoryList.map((item) => {
+      return (
+        <MenuItem key={item.id} value={item.id}>
+          {item.name}
+        </MenuItem>
+      );
+    });
+  };
+
   const renderLoginSignOffButton = () => {
     //let size = Object.values(props.token).length;
     //console.log("this size of this tokeeeen:", parseInt(size));
@@ -405,78 +469,6 @@ const Header = (props) => {
         // { name: "Profile", link: "/profile", activeIndex: 2 },
       ];
 
-  //   useEffect(() => {
-  //
-  //         if (window.location.pathname === "/" && value !== 0) {
-  //           setValue(0);
-  //         } else if (window.location.pathname === "/services" && value !== 1) {
-  //           setValue(1);
-  //         } else if (window.location.pathname === "/revolution" && value !== 2) {
-  //           setValue(2);
-  //         } else if (window.location.pathname === "/about" && value !== 3) {
-  //           setValue(3);
-  //         } else if (window.location.pathname === "/contact" && value !== 4) {
-  //           setValue(4);
-  //         } else if (window.location.pathname === "/estimate" && value !== 5) {
-  //           setValue(5);
-  //         }
-
-  //     switch (window.location.pathname) {
-  //       case "/":
-  //         if (value !== 0) {
-  //           setValue(0);
-  //         }
-  //         break;
-  //       case "/services":
-  //         if (value !== 1) {
-  //           setValue(1);
-  //           setSelectedIndex(0);
-  //         }
-  //         break;
-  //       case "/customservices":
-  //         if (value !== 1) {
-  //           setValue(1);
-  //           setSelectedIndex(1);
-  //         }
-  //         break;
-  //       case "/mobileapps":
-  //         if (value !== 1) {
-  //           setValue(1);
-  //           setSelectedIndex(2);
-  //         }
-  //         break;
-  //       case "/websites":
-  //         if (value !== 1) {
-  //           setValue(1);
-  //           setSelectedIndex(3);
-  //         }
-  //         break;
-  //       case "/revolutions":
-  //         if (value !== 2) {
-  //           setValue(2);
-  //         }
-  //         break;
-  //       case "/about":
-  //         if (value !== 3) {
-  //           setValue(3);
-  //         }
-  //         break;
-  //       case "/contact":
-  //         if (value !== 4) {
-  //           setValue(4);
-  //         }
-  //         break;
-  //       case "/estimate":
-  //         if (value !== 5) {
-  //           setValue(5);
-  //         }
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   }, [value]);
-
-  //this is the refactored version of the hook
   useEffect(() => {
     [...menuOptions, ...routes].forEach((route) => {
       switch (window.location.pathname) {
@@ -524,112 +516,8 @@ const Header = (props) => {
             );
           }
         })}
-        {/* <Tab className={classes.tab} component={Link} to="/" label="Home" />
-        {/* <Tab
-          aria-owns={anchorEl ? "simple-menu" : undefined}
-          aria-haspopup={anchorEl ? "true" : undefined}
-         //aria-owns={}
-          //aria-haspopup={}
-          className={classes.tab}
-          component={Link}
-          //onMouseOver={(event) => handleClick(event)}
-          onMouseOver={}
-          to="/services"
-          label="Services"
-        />
-        <Tab
-          className={classes.tab}
-          component={Link}
-          to="/revolution"
-          label="The Revolution"
-        />
-        <Tab
-          className={classes.tab}
-          component={Link}
-          to="/about"
-          label="About Us"
-        />
-        <Tab
-          className={classes.tab}
-          component={Link}
-          to="/contact"
-          label="Contact Us"
-        /> */}
       </Tabs>
       {renderLoginSignOffButton()}
-      {/* <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        open={openMenu}
-        onClose={handleClose}
-        classes={{ paper: classes.menu }}
-        MenuListProps={{ onMouseLeave: handleClose }}
-        elevation={0}
-        style={{ zIndex: 1302 }}
-        keepMounted
-      > */}
-      {/* <MenuItem
-                onClick={() => {
-                  handleClose();
-                  setValue(1);
-                }}
-                component={Link}
-                to="/services"
-                classes={{ root: classes.menuItem }}
-              >
-                Services
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  setValue(1);
-                }}
-                component={Link}
-                to="/customsoftware"
-                classes={{ root: classes.menuItem }}
-              >
-                Custom Software Development
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  setValue(1);
-                }}
-                component={Link}
-                to="/mobileapps"
-                classes={{ root: classes.menuItem }}
-              >
-                Mobile App Development
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  setValue(1);
-                }}
-                component={Link}
-                to="/websites"
-                classes={{ root: classes.menuItem }}
-              >
-                website Development
-              </MenuItem> */}
-
-      {/* {menuOptions.map((option, i) => (
-          <MenuItem
-            key={`${option}${i}`}
-            component={Link}
-            to={option.link}
-            classes={{ root: classes.menuItem }}
-            onClick={(event) => {
-              handleMenuItemClick(event, i);
-              props.setValue(1);
-              handleClose();
-            }}
-            selected={i === props.selectedIndex && props.value === 1}
-          >
-            {option.name}
-          </MenuItem>
-        ))} */}
-      {/* </Menu> */}
     </React.Fragment>
   );
 
@@ -750,6 +638,36 @@ const Header = (props) => {
     );
   };
 
+  const renderCategoryField = () => {
+    return (
+      <FormControl variant="outlined">
+        {/* <InputLabel id="vendor_city">City</InputLabel> */}
+        {itemType === "" ? (
+          <InputLabel
+            disableAnimation
+            shrink={false}
+            focused={false}
+            id="item_type_label"
+            style={{ fontSize: 11, marginTop: -8 }}
+          >
+            Select Category
+          </InputLabel>
+        ) : null}
+
+        <Select
+          labelId="category"
+          id="category"
+          value={category}
+          onChange={handleCategoryChange}
+          style={{ marginTop: 0, width: 150, height: 38, marginLeft: 0 }}
+        >
+          {renderCategoryList()}
+        </Select>
+        {/* <FormHelperText>Category</FormHelperText> */}
+      </FormControl>
+    );
+  };
+
   const drawer = (
     <React.Fragment>
       <SwipeableDrawer
@@ -784,112 +702,7 @@ const Header = (props) => {
               <ListItemText disableTypography>{route.name}</ListItemText>
             </ListItem>
           ))}
-          {/* <ListItem
-            onClick={() => {
-              setOpenDrawer(false);
-              setValue(0);
-            }}
-            divider
-            button
-            component={Link}
-            to="/"
-            selected={value === 0}
-          >
-            <ListItemText
-              className={
-                value === 0
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-              disableTypography
-            >
-              Home
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false);
-              setValue(1);
-            }}
-            divider
-            button
-            component={Link}
-            to="/services"
-            selected={value === 1}
-          >
-            <ListItemText
-              className={
-                value === 1
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-            >
-              Services
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false);
-              setValue(2);
-            }}
-            divider
-            button
-            component={Link}
-            to="/revolution"
-            selected={value === 2}
-          >
-            <ListItemText
-              className={
-                value === 2
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-            >
-              The Revolution
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false);
-              setValue(3);
-            }}
-            divider
-            button
-            component={Link}
-            to="/about"
-            selected={value === 3}
-          >
-            <ListItemText
-              className={
-                value === 3
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-            >
-              About Us
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false);
-              setValue(4);
-            }}
-            divider
-            button
-            component={Link}
-            to="/contact"
-            selected={value === 4}
-          >
-            <ListItemText
-              className={
-                value === 4
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-            >
-              Contact Us
-            </ListItemText>
-          </ListItem> */}
+
           <ListItem
             className={classes.drawerItemEstimate}
             // onClick={() => {
@@ -946,7 +759,7 @@ const Header = (props) => {
             <Box
               sx={{ backgroundColor: "white", padding: 10, borderRadius: 20 }}
             >
-              <TextField
+              {/* <TextField
                 variant="outlined"
                 className={classes.root}
                 style={{ width: 100 }}
@@ -955,18 +768,29 @@ const Header = (props) => {
                     height: 38,
                   },
                 }}
-              />
+              /> */}
+              {renderCategoryField()}
               <TextField
                 variant="outlined"
                 className={classes.root}
                 style={{ width: 300, marginLeft: 10 }}
+                onChange={onChangeSearchText}
+                defaultValue={searchText}
                 InputProps={{
                   style: {
                     height: 38,
                   },
                 }}
               />
-              <Button>Search</Button>
+              <Button
+                onClick={() => <SearchPage />}
+                disableRipple
+                component={Link}
+                to={`/${category}/products/${searchText}`}
+                className={classes.search}
+              >
+                Search
+              </Button>
             </Box>
 
             {matches ? drawer : tabs}

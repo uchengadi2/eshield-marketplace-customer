@@ -21,6 +21,7 @@ import ProductDetails from "./products/ProductDetails";
 import CheckoutPage from "./carts/CheckoutPage";
 
 import OrderPage from "./orders/OrderPage";
+import SearchPage from "./search/SearchPage";
 
 function App() {
   const { token, setToken } = useToken();
@@ -98,6 +99,15 @@ function App() {
             </Route>
             <Route path="/orders/:userId">
               <OrderPage
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+              />
+            </Route>
+
+            <Route path="/:categoryId/products/:searchText">
+              <SearchPage
                 token={token}
                 userId={userId}
                 setToken={setToken ? setToken : {}}
