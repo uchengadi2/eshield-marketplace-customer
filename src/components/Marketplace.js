@@ -47,6 +47,15 @@ import BecomePartnerFormContainer from "./partner/BecomePartnerFormContainer";
 //import mobileBackground from "./../../assets/mobileBackground.jpg";
 import heroVideo from "./../assets/video/background_video.mp4";
 import heroVideoMobile from "./../assets/video/background_video_mobile.mp4";
+import AllProductsCategoriesCard from "./homePageCards/AllProductsCategoriesCard";
+import RequestForVendorsCard from "./homePageCards/RequestForVendorsCard";
+import RequestForLogisticsCard from "./homePageCards/RequestForLogisticsCard";
+import FeatureProductsPage from "./homePageCards/FeatureProductsPage";
+import PromotionalProductsPage from "./homePageCards/PromotionalProductsPage";
+import Categories from "./Categories";
+import VendorPartner from "./VendorPartner";
+import LogisticsPartner from "./LogisticsPartner";
+import UpperFooter from "./ui/UpperFooter";
 
 import { baseURL } from "./../apis/util";
 
@@ -82,11 +91,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.orange,
     borderRadius: 50,
     height: 45,
-    width: 200,
-    marginRight: 40,
-    fontWeight: 400,
+    width: 250,
+    marginRight: 10,
+    marginLeft: 130,
+    fontWeight: 500,
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
+      color: "white",
     },
   },
   buttonContainer: {
@@ -209,6 +220,30 @@ const useStyles = makeStyles((theme) => ({
       backgroundAttachment: "inherit",
     },
   },
+  footer: {
+    width: "100%",
+    marginTop: "10rem",
+  },
+  category: {
+    marginTop: "1rem",
+    marginBottom: "2rem",
+  },
+  vendor: {
+    marginTop: "5rem",
+    marginBottom: "5rem",
+  },
+  logistics: {
+    marginTop: "15rem",
+    marginBottom: "5rem",
+  },
+  promotion: {
+    marginTop: "5rem",
+    marginBottom: "5rem",
+  },
+  features: {
+    marginTop: "5rem",
+    marginBottom: "5rem",
+  },
 }));
 
 const Marketplace = (props) => {
@@ -278,6 +313,11 @@ const Marketplace = (props) => {
     //call the function
 
     fetchData().catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
   //const imageUrl = `${baseURL}/images/categories/${image}`;
@@ -357,7 +397,6 @@ const Marketplace = (props) => {
     },
   ];
 
-  console.log("this is the marketplace props:", props);
   const Str = require("@supercharge/strings");
 
   const categoriesList = matchesMD ? (
@@ -465,15 +504,19 @@ const Marketplace = (props) => {
                     >
                       <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
                         {" "}
-                        We are Africa's leading Business-to-Business
+                        As direct Partner to Manufacturers and Dealers
                       </span>{" "}
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 80 : 110 }}>
-                        Marketplace for Fast Moving
+                      <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
+                        of Fast Moving Goods & Commodities,
                       </span>
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 120 : 160 }}>
-                        Goods & Commodities
+                      <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
+                        We assist Retailers and Businesses
+                      </span>
+                      <br />
+                      <span style={{ marginLeft: matchesSM ? 50 : 130 }}>
+                        to Stock Up and Re-stock
                       </span>
                     </Typography>
                     {matchesMD ? (
@@ -484,7 +527,7 @@ const Marketplace = (props) => {
                         className={classes.buttonContainer}
                       >
                         <Grid item>
-                          <Button
+                          {/* <Button
                             // component={Link}
                             // to="/estimate"
                             className={classes.estimateButton}
@@ -496,11 +539,19 @@ const Marketplace = (props) => {
                                 "https://partners.eshieldafrica.com/"
                               );
                             }}
+                          > */}
+                          <Button
+                            component={Link}
+                            // to="/mobileapps"
+                            to={`/categories`}
+                            varaint="outlined"
+                            className={classes.estimateButton}
+                            onClick={() => <Categories token={props.token} />}
                           >
-                            Become a Vendor Partner
+                            See Our Product Categories
                           </Button>
                         </Grid>
-                        <Grid item>
+                        {/* <Grid item>
                           <Button
                             // component={Link}
                             // to="/revolution"
@@ -529,7 +580,7 @@ const Marketplace = (props) => {
                               fill={theme.palette.common.orange}
                             />
                           </Button>
-                        </Grid>
+                        </Grid> */}
                       </Grid>
                     ) : (
                       <></>
@@ -544,221 +595,25 @@ const Marketplace = (props) => {
           </Grid>
         </Grid>
         {/* </section> */}
-        <Grid item>{categoriesList}</Grid>
-
-        <Grid item style={{ width: "100%", marginTop: "20px" }}>
-          {" "}
-          {/*....INFORMATION BLOCK....*/}
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            style={{ height: "80em" }}
-            className={classes.infoBackground}
-          >
-            <Grid
-              container
-              style={{
-                textAlign: matchesXS ? "center" : "inherit",
-              }}
-              direction={matchesSM ? "column" : "row"}
-            >
-              <Grid
-                item
-                sm
-                style={{
-                  marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-                }}
-              >
-                <Grid
-                  container
-                  direction="column"
-                  style={{ marginBottom: matchesXS ? "10em" : 0 }}
-                >
-                  <Typography
-                    variant="h2"
-                    style={{
-                      color: "white",
-                      fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                    }}
-                  >
-                    About Us
-                  </Typography>
-                  {matchesMD ? (
-                    <Typography variant="subtitle2">
-                      Let's get personal
-                    </Typography>
-                  ) : (
-                    <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                      <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
-                        {" "}
-                        We are Africa's leading Business-to-Business
-                      </span>{" "}
-                      <br />
-                      <span style={{ marginLeft: matchesSM ? 80 : 110 }}>
-                        Marketplace for Fast Moving
-                      </span>
-                      <br />
-                      <span style={{ marginLeft: matchesSM ? 120 : 160 }}>
-                        Goods & Commodities
-                      </span>
-                    </Typography>
-                  )}
-                  {matchesMD ? (
-                    <Grid item>
-                      <Button
-                        // component={Link}
-                        // to="/about"
-                        varaint="outlined"
-                        className={classes.learnButton}
-                        onClick={() => [
-                          setAboutUsOpen(true),
-                          history.push("/"),
-                        ]}
-                        style={{ color: "white", borderColor: "white" }}
-                      >
-                        <span style={{ marginRight: 10 }}>Learn More </span>
-                        <ButtonArrow height={10} width={10} fill="white" />
-                      </Button>
-                    </Grid>
-                  ) : (
-                    <></>
-                  )}
-                  <Dialog
-                    //style={{ zIndex: 1302 }}
-                    fullScreen={matchesXS}
-                    open={aboutUsOpen}
-                    onClose={() => [setAboutUsOpen(false), history.push("/")]}
-                    fullWidth
-                    maxWidth="md"
-                  >
-                    <DialogContent>
-                      <AboutUsFormContainer
-                        token={props.token}
-                        // handleDialogOpenStatus={handleDialogOpenStatus}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                </Grid>
-              </Grid>
-
-              <Grid
-                item
-                sm
-                style={{
-                  marginRight: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-                  textAlign: matchesXS ? "center" : "right",
-                }}
-              >
-                <Grid container direction="column">
-                  <Typography
-                    variant="h2"
-                    style={{
-                      color: "white",
-                      fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                    }}
-                  >
-                    Contact Us
-                  </Typography>
-                  {matchesMD ? (
-                    <Typography variant="subtitle2">Say hello!</Typography>
-                  ) : (
-                    <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                      <span>
-                        {" "}
-                        Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
-                      </span>
-                      <br />
-
-                      <span>info@eshieldafrica.com</span>
-                      <br />
-
-                      <span>+234 800 000 0000, +234 800 000 0000</span>
-                    </Typography>
-                  )}
-                  {matchesMD ? (
-                    <Grid item>
-                      <Button
-                        // component={Link}
-                        // to="/contact"
-                        varaint="outlined"
-                        className={classes.learnButton}
-                        style={{ color: "white", borderColor: "white" }}
-                        onClick={() => [
-                          setContactUsOpen(true),
-                          history.push("/"),
-                        ]}
-                      >
-                        <span style={{ marginRight: 10 }}>Learn More </span>
-                        <ButtonArrow height={10} width={10} fill="white" />
-                      </Button>
-                    </Grid>
-                  ) : (
-                    <></>
-                  )}
-                  <Dialog
-                    //style={{ zIndex: 1302 }}
-                    fullScreen={matchesXS}
-                    open={contactUsOpen}
-                    onClose={() => [setContactUsOpen(false), history.push("/")]}
-                  >
-                    <DialogContent>
-                      <ContactUsContainerForm
-                        token={props.token}
-                        // handleDialogOpenStatus={handleDialogOpenStatus}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                  <Dialog
-                    //style={{ zIndex: 1302 }}
-                    fullScreen={matchesXS}
-                    open={becomePartnerOpen}
-                    onClose={() => [
-                      setBecomePartnerOpen(false),
-                      history.push("/"),
-                    ]}
-                  >
-                    <DialogContent>
-                      <BecomePartnerFormContainer
-                        token={props.token}
-                        userId={props.userId}
-                        handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-                          handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-                        }
-                        handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-                          handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-                        }
-                      />
-                    </DialogContent>
-                  </Dialog>
-                  <Snackbar
-                    open={alert.open}
-                    message={alert.message}
-                    ContentProps={{
-                      style: { backgroundColor: alert.backgroundColor },
-                    }}
-                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                    onClose={() => setAlert({ ...alert, open: false })}
-                    autoHideDuration={4000}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+        {/* <Grid item>{categoriesList}</Grid> */}
+        <Grid item className={classes.category}>
+          <AllProductsCategoriesCard />
         </Grid>
-        <Grid item style={{ width: "100%" }}>
-          {/*....CALL TO ACTION BLOCK ....*/}
-          <CallToAction
-            setValue={props.setValue}
-            token={props.token}
-            userId={props.userId}
-            handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-              handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-            }
-            handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-              handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-            }
-          />
+        <Grid item className={classes.features}>
+          <FeatureProductsPage />
+        </Grid>
+
+        <Grid item>
+          <RequestForVendorsCard className={classes.vendor} />
+        </Grid>
+        <Grid item>
+          <PromotionalProductsPage className={classes.promotion} />
+        </Grid>
+        <Grid item>
+          <RequestForLogisticsCard className={classes.logistics} />
+        </Grid>
+        <Grid item className={classes.footer}>
+          <UpperFooter />
         </Grid>
       </Grid>
     </>

@@ -26,6 +26,7 @@ import history from "./../history";
 import data from "./../apis/local";
 import UserOwnPasswordChange from "./users/UserOwnPasswordChange";
 import UserOwnNameChangeContainer from "./users/UserOwnNameChangeContainer";
+import UpperFooter from "./ui/UpperFooter";
 
 const useStyles = makeStyles((theme) => ({
   sendButton: {
@@ -67,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     height: "80vh",
+    marginTop: "3rem",
     // height: "100%",
     position: "relative",
     "& video": {
@@ -178,6 +180,10 @@ const useStyles = makeStyles((theme) => ({
       padding: 25,
     },
   },
+  footer: {
+    width: "100%",
+    marginTop: "15rem",
+  },
   revolutionBackground: {
     backgroundImage: `url(${revolutionBackground})`,
     backgroundPosition: "center",
@@ -275,6 +281,11 @@ const ProfileLayout = (props) => {
     //call the function
 
     fetchData().catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
   const handleMakeChangeNameDialogForm = () => {
@@ -395,207 +406,9 @@ const ProfileLayout = (props) => {
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
         {" "}
         {/*....INFORMATION BLOCK....*/}
-        <Grid
-          container
-          direction="row"
-          alignItems="center"
-          style={{ height: "80em" }}
-          className={classes.infoBackground}
-        >
-          <Grid
-            container
-            style={{
-              textAlign: matchesXS ? "center" : "inherit",
-            }}
-            direction={matchesSM ? "column" : "row"}
-          >
-            <Grid
-              item
-              sm
-              style={{
-                marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-              }}
-            >
-              <Grid
-                container
-                direction="column"
-                style={{ marginBottom: matchesXS ? "10em" : 0 }}
-              >
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  About Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">
-                    Let's get personal
-                  </Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
-                      {" "}
-                      We are Africa's leading Business-to-Business
-                    </span>{" "}
-                    <br />
-                    <span style={{ marginLeft: matchesSM ? 80 : 110 }}>
-                      Marketplace for Fast Moving
-                    </span>
-                    <br />
-                    <span style={{ marginLeft: matchesSM ? 120 : 160 }}>
-                      Goods & Commodities
-                    </span>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/about"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true)]}
-                      style={{ color: "white", borderColor: "white" }}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false)]}
-                  fullWidth
-                  maxWidth="md"
-                >
-                  <DialogContent>
-                    <AboutUsFormContainer
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-              </Grid>
-            </Grid>
-
-            <Grid
-              item
-              sm
-              style={{
-                marginRight: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-                textAlign: matchesXS ? "center" : "right",
-              }}
-            >
-              <Grid container direction="column">
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  Contact Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">Say hello!</Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>
-                      {" "}
-                      Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
-                    </span>
-                    <br />
-
-                    <span>info@eshieldafrica.com</span>
-                    <br />
-
-                    <span>+234 800 000 0000, +234 800 000 0000</span>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/contact"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [setContactUsOpen(true)]}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false)]}
-                >
-                  <DialogContent>
-                    <ContactUsContainerForm
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={becomePartnerOpen}
-                  onClose={() => [setBecomePartnerOpen(false)]}
-                >
-                  <DialogContent>
-                    <BecomePartnerFormContainer
-                      token={props.token}
-                      userId={props.userId}
-                      // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                      // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Snackbar
-                  open={alert.open}
-                  message={alert.message}
-                  ContentProps={{
-                    style: { backgroundColor: alert.backgroundColor },
-                  }}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                  onClose={() => setAlert({ ...alert, open: false })}
-                  autoHideDuration={4000}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
       </Grid>
-      <Grid item style={{ width: "100%" }}>
-        {/*....CALL TO ACTION BLOCK ....*/}
-        <CallToAction
-          setValue={props.setValue}
-          token={props.token}
-          userId={props.userId}
-          // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-          // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-        />
+      <Grid item className={classes.footer}>
+        <UpperFooter />
       </Grid>
       {renderChangePasswordForm()}
       {renderChangeNameForm()}

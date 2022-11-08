@@ -14,6 +14,8 @@ import background from "./../../assets/images/footage/footage_image.png";
 import mobileBackground from "./../../assets/mobileBackground.jpg";
 import history from "./../../history";
 import BecomePartnerFormContainer from "../partner/BecomePartnerFormContainer";
+import LogisticsPartner from "../LogisticsPartner";
+import VendorPartner from "../VendorPartner";
 
 const useStyles = makeStyles((theme) => ({
   learnButton: {
@@ -130,7 +132,7 @@ export default function CallToAction(props) {
                 justifyContent={matchesSM ? "center" : undefined}
                 item
               >
-                <Button
+                {/* <Button
                   // component={Link}
                   // to="/revolution"
                   variant="outlined"
@@ -141,6 +143,23 @@ export default function CallToAction(props) {
                     //window.open("http://localhost:3009/");
                     window.open("https://partners.eshieldafrica.com/");
                   }}
+                >
+                  <span style={{ marginRight: 10 }}>
+                    Become a Courier Partner
+                  </span>
+                  <ButtonArrow
+                    height={10}
+                    width={10}
+                    fill={theme.palette.common.orange}
+                  />
+                </Button> */}
+                <Button
+                  component={Link}
+                  // to="/mobileapps"
+                  to={`/logistics`}
+                  variant="outlined"
+                  className={classes.visitPartnerButtonsite}
+                  onClick={() => <LogisticsPartner token={props.token} />}
                 >
                   <span style={{ marginRight: 10 }}>
                     Become a Courier Partner
@@ -161,7 +180,7 @@ export default function CallToAction(props) {
 
       {matchesMD ? (
         <Grid item>
-          <Button
+          {/* <Button
             // component={Link}
             // to="/estimate"
             variant="contained"
@@ -174,6 +193,16 @@ export default function CallToAction(props) {
               //window.open("http://localhost:3009/");
               window.open("https://partners.eshieldafrica.com/");
             }}
+          >
+            Become a Vendor Partner
+          </Button> */}
+          <Button
+            component={Link}
+            // to="/mobileapps"
+            to={`/vendors`}
+            variant="outlined"
+            className={classes.estimateButton}
+            onClick={() => <VendorPartner token={props.token} />}
           >
             Become a Vendor Partner
           </Button>

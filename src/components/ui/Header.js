@@ -43,6 +43,7 @@ import { Fragment } from "react";
 import ShowCustomerCart from "../carts/ShowCustomerCart";
 import CheckoutPage from "../carts/CheckoutPage";
 import SearchPage from "../search/SearchPage";
+import Categories from "../Categories";
 import { padding } from "@mui/system";
 import api from "./../../apis/local";
 
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logo: {
-    height: "8em",
+    height: "12em",
     width: "11em",
     marginLeft: -15,
     padding: 0,
@@ -190,6 +191,11 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     // zIndex: theme.zIndex.modal + 1,
+    "&:hover": {},
+  },
+  topappbar: {
+    // zIndex: theme.zIndex.modal + 1,
+    height: 50,
     "&:hover": {},
   },
   buttonSignOut: {
@@ -751,6 +757,19 @@ const Header = (props) => {
     <React.Fragment>
       <ElevationScroll>
         <AppBar position="fixed" className={classes.appbar}>
+          <Box
+            sx={{
+              backgroundColor: "#125C13",
+              padding: 15,
+              borderRadius: 0,
+            }}
+          >
+            <Typography style={{ marginLeft: 30 }}>
+              <span>Contact Us On:</span>
+              <span>Email: sales@eshieldafrica.com</span>
+              <span>Tel: 0806 378 6726; 0802 469 7155</span>
+            </Typography>
+          </Box>
           <Toolbar disableGutters>
             <Button
               onClick={() => props.setValue(0)}

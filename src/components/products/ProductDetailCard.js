@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
     marginLeft: "10px",
     borderRadius: 0,
-    marginTop: "2em",
+    marginTop: "12em",
     padding: 0,
     // "&:hover": {
     //   border: "solid",
@@ -89,6 +89,10 @@ const useStyles = makeStyles((theme) => ({
     width: 550,
     border: "1px dotted",
     padding: 20,
+  },
+  footer: {
+    width: "100%",
+    marginTop: "10rem",
   },
   thirdRow: {
     marginLeft: 10,
@@ -197,6 +201,16 @@ export default function ProductDetailCard(props) {
     //call the function
 
     fetchData().catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
   const handleExpandClick = () => {
@@ -415,6 +429,7 @@ export default function ProductDetailCard(props) {
       }
     }
   };
+  console.log("make is:", props.product.make);
 
   return (
     <Grid container direction="column" className={classes.root}>
@@ -456,165 +471,210 @@ export default function ProductDetailCard(props) {
             >
               {props.product.shortDescription}
             </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                <strong>Sku:</strong>
-              </span>
-              {props.product.sku}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Reference Number:</strong>
-              </span>
-              {props.product.refNumber}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Weight per Unit:</strong>
-              </span>
-              {props.product.weightPerUnit
-                ? props.product.weightPerUnit
-                    .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                : 0}
-              <span style={{ fontSize: 12, marginLeft: 0 }}>kg</span>
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Number of Units in Stock:</strong>
-              </span>
-              {props.product.remainingTotalUnits}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Make:</strong>
-              </span>
-              {props.product.make}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Model:</strong>
-              </span>
-              {props.product.model}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Colour:</strong>
-              </span>
-              {props.product.color}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Size:</strong>
-              </span>
-              {props.product.size}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Design:</strong>
-              </span>
-              {props.product.design}
-            </Typography>
+            {props.product.sku !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  <strong>Sku:</strong>
+                </span>
+                {props.product.sku}
+              </Typography>
+            )}
+            {props.product.refNumber !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Reference Number:</strong>
+                </span>
+                {props.product.refNumber}
+              </Typography>
+            )}
+            {props.product.weightPerUnit !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Weight per Unit:</strong>
+                </span>
+                {props.product.weightPerUnit
+                  ? props.product.weightPerUnit
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                  : 0}
+                <span style={{ fontSize: 12, marginLeft: 0 }}>kg</span>
+              </Typography>
+            )}
+            {props.product.remainingTotalUnits !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Number of Units in Stock:</strong>
+                </span>
+                {props.product.remainingTotalUnits}
+              </Typography>
+            )}
 
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Content:</strong>
-              </span>
-              {props.product.content}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Smell:</strong>
-              </span>
-              {props.product.smell}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Taste:</strong>
-              </span>
-              {props.product.taste}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Feel:</strong>
-              </span>
-              {props.product.feel}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Ingredients:</strong>
-              </span>
-              {props.product.ingredients}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Reliability:</strong>
-              </span>
-              {props.product.reliability}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Safety:</strong>
-              </span>
-              {props.product.safety}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Packaging:</strong>
-              </span>
-              {props.product.packaging}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Durability:</strong>
-              </span>
-              {props.product.durability}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>MarketingClaims:</strong>
-              </span>
-              {props.product.marketingClaims}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Target Delivery Location:</strong>
-              </span>
-              {stateName}/{countryName}
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+            {props.product.make !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Make:</strong>
+                </span>
+
+                {props.product.make}
+              </Typography>
+            )}
+
+            {props.product.model !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Model:</strong>
+                </span>
+                {props.product.model}
+              </Typography>
+            )}
+            {props.product.color !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Colour:</strong>
+                </span>
+                {props.product.color}
+              </Typography>
+            )}
+            {props.product.size !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Size:</strong>
+                </span>
+                {props.product.size}
+              </Typography>
+            )}
+            {props.product.design !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Design:</strong>
+                </span>
+                {props.product.design}
+              </Typography>
+            )}
+
+            {props.product.content !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Content:</strong>
+                </span>
+                {props.product.content}
+              </Typography>
+            )}
+            {props.product.smell !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Smell:</strong>
+                </span>
+                {props.product.smell}
+              </Typography>
+            )}
+            {props.product.taste !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Taste:</strong>
+                </span>
+                {props.product.taste}
+              </Typography>
+            )}
+            {props.product.feel !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Feel:</strong>
+                </span>
+                {props.product.feel}
+              </Typography>
+            )}
+            {props.product.ingredients !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Ingredients:</strong>
+                </span>
+                {props.product.ingredients}
+              </Typography>
+            )}
+            {props.product.reliability !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Reliability:</strong>
+                </span>
+                {props.product.reliability}
+              </Typography>
+            )}
+            {props.product.safety !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Safety:</strong>
+                </span>
+                {props.product.safety}
+              </Typography>
+            )}
+            {props.product.packaging !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Packaging:</strong>
+                </span>
+                {props.product.packaging}
+              </Typography>
+            )}
+            {props.product.durability !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Durability:</strong>
+                </span>
+                {props.product.durability}
+              </Typography>
+            )}
+            {props.product.marketingClaims !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>MarketingClaims:</strong>
+                </span>
+                {props.product.marketingClaims}
+              </Typography>
+            )}
+            {stateName !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Target Delivery Location:</strong>
+                </span>
+                {stateName}/{countryName}
+              </Typography>
+            )}
+            {/* <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
               <span style={{ marginRight: 20 }}>
                 {" "}
                 <strong>Supports delivery beyond Target Location:</strong>
               </span>
               No
-            </Typography>
-            <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-              <span style={{ marginRight: 20 }}>
-                {" "}
-                <strong>Minimum Quantity Required:</strong>
-              </span>
-              {props.product.minimumQuantity} unit(s)
-            </Typography>
+            </Typography> */}
+            {props.product.minimumQuantity !== "undefined" && (
+              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                <span style={{ marginRight: 20 }}>
+                  {" "}
+                  <strong>Minimum Quantity Required:</strong>
+                </span>
+                {props.product.minimumQuantity} unit(s)
+              </Typography>
+            )}
           </Box>
         </Grid>
         <Grid item className={classes.thirdRow}>

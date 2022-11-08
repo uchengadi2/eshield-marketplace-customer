@@ -18,6 +18,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import data from "./../../apis/local";
 import background from "../../assets/images/covers/aboutus-cover.png";
 
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
 
 function AboutUsForm(props) {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [params, setParams] = useState({});
@@ -182,16 +186,16 @@ function AboutUsForm(props) {
               style={{
                 marginTop: 70,
                 marginLeft: 100,
-                color: "orange",
+                color: "white",
                 fontSize: 20,
               }}
             >
               <strong>
-                We are an online Business-to-Business Marketplace.
-                <br /> We connect Retailers to Dealers & Manufacturers <br />
-                of Fast Moving Goods and Commodities
-                <br />
-                across Africa.
+                We are partners with leading Manufacturers and Dealers of
+                <br /> Fast Moving Goods & Commodities with a commitment to
+                directly <br />
+                Stock Up or Re-stock Businesses and Retailers at
+                <br />a hard to beat prices
               </strong>
             </Typography>
           </Grid>

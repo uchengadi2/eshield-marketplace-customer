@@ -29,6 +29,7 @@ import ContactUsContainerForm from "./../contactus/ContactUsContainerForm";
 import BecomePartnerFormContainer from "./../partner/BecomePartnerFormContainer";
 import CategoryProductsCard from "../CategoryProductsCard";
 import ProductDetailCard from "./ProductDetailCard";
+import UpperFooter from "../ui/UpperFooter";
 
 import { baseURL } from "./../../apis/util";
 import api from "./../../apis/local";
@@ -59,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       maxWidth: "30em",
     },
+  },
+  footer: {
+    width: "100%",
+    marginTop: "10rem",
   },
   estimateButton: {
     ...theme.typography.estimate,
@@ -288,6 +293,17 @@ function ProductDetails(props) {
         minimumQuantity: product.minimumQuantity,
         deliveryCostPerUnitWithinProductLocation:
           product.deliveryCostPerUnitWithinProductLocation,
+        priceMarkupPerUnit: product.priceMarkupPerUnit,
+        configuration: product.configuration,
+        isFeaturedProduct: product.isFeaturedProduct,
+        baselineDeliveryCostWithinProductLocation:
+          product.baselineDeliveryCostWithinProductLocation,
+        maxmumQuantityForBaselineDelivery:
+          product.maxmumQuantityForBaselineDelivery,
+        estimatedDeliveryPeriodInDays: product.estimatedDeliveryPeriodInDays,
+        estimatedDeliveryPeriodInHours: product.estimatedDeliveryPeriodInHours,
+        estimatedDeliveryPeriodInMinutes:
+          product.estimatedDeliveryPeriodInMinutes,
       });
 
       setProduct({
@@ -326,6 +342,18 @@ function ProductDetails(props) {
         minimumQuantity: allData[0].minimumQuantity,
         deliveryCostPerUnitWithinProductLocation:
           allData[0].deliveryCostPerUnitWithinProductLocation,
+        priceMarkupPerUnit: allData[0].priceMarkupPerUnit,
+        configuration: allData[0].configuration,
+        isFeaturedProduct: allData[0].isFeaturedProduct,
+        baselineDeliveryCostWithinProductLocation:
+          allData[0].baselineDeliveryCostWithinProductLocation,
+        maxmumQuantityForBaselineDelivery:
+          allData[0].maxmumQuantityForBaselineDelivery,
+        estimatedDeliveryPeriodInDays: allData[0].estimatedDeliveryPeriodInDays,
+        estimatedDeliveryPeriodInHours:
+          allData[0].estimatedDeliveryPeriodInHours,
+        estimatedDeliveryPeriodInMinutes:
+          allData[0].estimatedDeliveryPeriodInMinutes,
       });
     };
 
@@ -379,206 +407,9 @@ function ProductDetails(props) {
         <Grid item>{productData}</Grid>
 
         {/*....INFORMATION BLOCK....*/}
-        <Grid
-          container
-          direction="row"
-          alignItems="center"
-          style={{ height: "80em" }}
-          className={classes.infoBackground}
-        >
-          <Grid
-            container
-            style={{
-              textAlign: matchesXS ? "center" : "inherit",
-            }}
-            direction={matchesSM ? "column" : "row"}
-          >
-            <Grid
-              item
-              sm
-              style={{
-                marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-              }}
-            >
-              <Grid
-                container
-                direction="column"
-                style={{ marginBottom: matchesXS ? "10em" : 0 }}
-              >
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  About Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">
-                    Let's get personal
-                  </Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <strong>
-                      We are an online Business-to-Business Marketplace.
-                      <br /> We connect Retailers to Dealers & Manufacturers{" "}
-                      <br />
-                      of Fast Moving Goods and Commodities
-                      <br />
-                      across Africa.
-                    </strong>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/about"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true)]}
-                      style={{ color: "white", borderColor: "white" }}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false)]}
-                  fullWidth
-                  maxWidth="md"
-                >
-                  <DialogContent>
-                    <AboutUsFormContainer
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-              </Grid>
-            </Grid>
-
-            <Grid
-              item
-              sm
-              style={{
-                marginRight: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-                textAlign: matchesXS ? "center" : "right",
-              }}
-            >
-              <Grid container direction="column">
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  Contact Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">Say hello!</Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>
-                      {" "}
-                      Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
-                    </span>
-                    <br />
-
-                    <span>info@eshieldafrica.com</span>
-                    <br />
-
-                    <span>+234 800 000 0000, +234 800 000 0000</span>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/contact"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [setContactUsOpen(true)]}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false)]}
-                >
-                  <DialogContent>
-                    <ContactUsContainerForm
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={becomePartnerOpen}
-                  onClose={() => [
-                    setBecomePartnerOpen(false),
-                    history.push("/"),
-                  ]}
-                >
-                  <DialogContent>
-                    <BecomePartnerFormContainer
-                      token={props.token}
-                      userId={props.userId}
-                      // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                      // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Snackbar
-                  open={alert.open}
-                  message={alert.message}
-                  ContentProps={{
-                    style: { backgroundColor: alert.backgroundColor },
-                  }}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                  onClose={() => setAlert({ ...alert, open: false })}
-                  autoHideDuration={4000}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
       </Grid>
-      <Grid item style={{ width: "100%" }}>
-        {/*....CALL TO ACTION BLOCK ....*/}
-        <CallToAction
-          setValue={props.setValue}
-          token={props.token}
-          userId={props.userId}
-          // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-          // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-        />
+      <Grid item className={classes.footer}>
+        <UpperFooter />
       </Grid>
     </Grid>
   );

@@ -11,7 +11,7 @@ import instagram from "./../../assets/instagram.svg";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.common.blue,
+    backgroundColor: theme.palette.common.green,
     width: "100%",
     zIndex: 1302,
     position: "relative",
@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.75rem",
     fontWeight: "bold",
     textDecoration: "none",
+    "&:hover": {
+      color: "orange",
+    },
   },
   gridItem: {
     margin: "3em",
@@ -95,44 +98,44 @@ const Footer = (props) => {
                 }}
                 className={classes.link}
               >
-                Services
+                Products
               </Grid>
               <Grid
                 item
                 component={Link}
-                to="/customsoftware"
+                to="/customservices"
                 onClick={() => {
                   props.setValue(1);
                   props.setSelectedIndex(1);
                 }}
                 className={classes.link}
               >
-                Custom Software Development
+                Custom Services
               </Grid>
               <Grid
                 item
                 component={Link}
-                to="/mobileapps"
+                to="/categories"
                 onClick={() => {
                   props.setValue(1);
                   props.setSelectedIndex(2);
                 }}
                 className={classes.link}
               >
-                Mobile App Development
+                Product Categories
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 component={Link}
-                to="/websites"
+                to="/categories"
                 onClick={() => {
                   props.setValue(1);
                   props.setSelectedIndex(3);
                 }}
                 className={classes.link}
               >
-                Website Development
-              </Grid>
+                Cart
+              </Grid> */}
             </Grid>
           </Grid>
           <Grid item className={classes.gridItem}>
@@ -147,7 +150,7 @@ const Footer = (props) => {
                 }}
                 className={classes.link}
               >
-                The Revolution
+                The Partners
               </Grid>
               <Grid
                 item
@@ -156,7 +159,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(2)}
                 className={classes.link}
               >
-                Vision
+                Vendor
               </Grid>
               <Grid
                 item
@@ -165,9 +168,9 @@ const Footer = (props) => {
                 onClick={() => props.setValue(2)}
                 className={classes.link}
               >
-                Technology
+                Courier
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 component={Link}
                 to="/revolution"
@@ -175,7 +178,7 @@ const Footer = (props) => {
                 className={classes.link}
               >
                 Process
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
           <Grid item className={classes.gridItem}>

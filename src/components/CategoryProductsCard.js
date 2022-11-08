@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
     marginLeft: "10px",
     borderRadius: 30,
-    marginTop: "5em",
+    marginTop: "15em",
     padding: 0,
     // "&:hover": {
     //   border: "solid",
@@ -106,6 +106,11 @@ export default function CategoryProductsCard(props) {
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
 
   //get the currency name
   useEffect(() => {

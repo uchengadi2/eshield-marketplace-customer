@@ -114,6 +114,11 @@ export default function CheckoutCard(props) {
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
 
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
   //get the product details
   useEffect(() => {
     const fetchData = async () => {

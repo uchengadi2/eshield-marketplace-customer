@@ -71,6 +71,11 @@ import {
   FETCH_RATE,
   EDIT_RATE,
   DELETE_RATE,
+  CREATE_LOGISTICSPARTNER,
+  FETCH_LOGISTICSPARTNERS,
+  FETCH_LOGISTICSPARTNER,
+  EDIT_LOGISTICSPARTNER,
+  DELETE_LOGISTICSPARTNER,
 } from "./types";
 
 //authentication and authorization  operations
@@ -759,5 +764,58 @@ export const deleteRate = (id, token) => {
   return async (dispatch) => {
     await data.delete(`/rates/${id}`);
     dispatch({ type: DELETE_RATE, payload: id });
+  };
+};
+
+////////////////////////////////// LOGISTICS PARTNERS ///////////////////////////////
+
+//vendor resource crud operation
+export const createLogisticsPartner = (formValues, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    const response = await data.post("/logisticspartners", formValues);
+
+    //console.log(response);
+    dispatch({
+      type: CREATE_LOGISTICSPARTNER,
+      payload: response.data.data.data,
+    });
+    //history.push("/vendors");
+  };
+};
+
+export const fetchLogisticsPartners = (tokens) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${tokens}`;
+  return async (dispatch) => {
+    const response = await data.get("/logisticspartners");
+
+    dispatch({
+      type: FETCH_LOGISTICSPARTNERS,
+      payload: response.data.data.data,
+    });
+  };
+};
+
+export const fetchLogisticsPartner = (id, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    const response = await data.get(`/logisticspartners/${id}`);
+    dispatch({ type: FETCH_LOGISTICSPARTNER, payload: response.data });
+  };
+};
+
+export const editLogisticsPartner = (id, formValues, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    const response = await data.patch(`/logisticspartners/${id}`, formValues);
+    dispatch({ type: EDIT_LOGISTICSPARTNER, payload: response.data });
+  };
+};
+
+export const deleteLogisticsPartner = (id, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    await data.delete(`/logisticspartners/${id}`);
+    dispatch({ type: DELETE_LOGISTICSPARTNER, payload: id });
   };
 };

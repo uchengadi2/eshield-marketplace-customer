@@ -15,6 +15,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
+import UpperFooter from "../ui/UpperFooter";
 
 import CallToAction from "./../ui/CallToAction";
 
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     height: "80vh",
+    marginTop: "10em",
     // height: "100%",
     position: "relative",
     "& video": {
@@ -51,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
     width: "99rem",
     height: "42rem",
     backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  footer: {
+    width: "100%",
+    marginTop: "10rem",
   },
   animation: {
     // maxWidth: "100em",
@@ -246,6 +252,11 @@ function CheckoutPage(props) {
   };
 
   useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
@@ -360,203 +371,9 @@ function CheckoutPage(props) {
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
         <Grid item>{cartList}</Grid>
         {/*....INFORMATION BLOCK....*/}
-        <Grid
-          container
-          direction="row"
-          alignItems="center"
-          style={{ height: "80em" }}
-          className={classes.infoBackground}
-        >
-          <Grid
-            container
-            style={{
-              textAlign: matchesXS ? "center" : "inherit",
-            }}
-            direction={matchesSM ? "column" : "row"}
-          >
-            <Grid
-              item
-              sm
-              style={{
-                marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-              }}
-            >
-              <Grid
-                container
-                direction="column"
-                style={{ marginBottom: matchesXS ? "10em" : 0 }}
-              >
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  About Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">
-                    Let's get personal
-                  </Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <strong>
-                      We are an online Business-to-Business Marketplace.
-                      <br /> We connect Retailers to Dealers & Manufacturers{" "}
-                      <br />
-                      of Fast Moving Goods and Commodities
-                      <br />
-                      across Africa.
-                    </strong>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/about"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true)]}
-                      style={{ color: "white", borderColor: "white" }}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false)]}
-                  fullWidth
-                  maxWidth="md"
-                >
-                  <DialogContent>
-                    <AboutUsFormContainer
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-              </Grid>
-            </Grid>
-
-            <Grid
-              item
-              sm
-              style={{
-                marginRight: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-                textAlign: matchesXS ? "center" : "right",
-              }}
-            >
-              <Grid container direction="column">
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  Contact Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">Say hello!</Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>
-                      {" "}
-                      Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
-                    </span>
-                    <br />
-
-                    <span>info@eshieldafrica.com</span>
-                    <br />
-
-                    <span>+234 800 000 0000, +234 800 000 0000</span>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/contact"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [setContactUsOpen(true)]}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false)]}
-                >
-                  <DialogContent>
-                    <ContactUsContainerForm
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={becomePartnerOpen}
-                  onClose={() => [setBecomePartnerOpen(false)]}
-                >
-                  <DialogContent>
-                    <BecomePartnerFormContainer
-                      token={props.token}
-                      userId={props.userId}
-                      // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                      // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Snackbar
-                  open={alert.open}
-                  message={alert.message}
-                  ContentProps={{
-                    style: { backgroundColor: alert.backgroundColor },
-                  }}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                  onClose={() => setAlert({ ...alert, open: false })}
-                  autoHideDuration={4000}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
       </Grid>
-      <Grid item style={{ width: "100%" }}>
-        {/*....CALL TO ACTION BLOCK ....*/}
-        <CallToAction
-          setValue={props.setValue}
-          token={props.token}
-          userId={props.userId}
-          // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-          // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-        />
+      <Grid item className={classes.footer}>
+        <UpperFooter />
       </Grid>
     </Grid>
   );

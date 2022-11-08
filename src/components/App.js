@@ -19,6 +19,9 @@ import ProfileLayout from "./ProfileLayout";
 import ProductsForCategory from "./products/ProductsForCategory";
 import ProductDetails from "./products/ProductDetails";
 import CheckoutPage from "./carts/CheckoutPage";
+import Categories from "./Categories";
+import VendorPartner from "./VendorPartner";
+import LogisticsPartner from "./LogisticsPartner";
 
 import OrderPage from "./orders/OrderPage";
 import SearchPage from "./search/SearchPage";
@@ -62,6 +65,14 @@ function App() {
               <OrderLayout token={token} />
             </Route> */}
 
+            <Route exact path="/categories">
+              <Categories
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+              />
+            </Route>
             <Route exact path="/categories/:categoryId">
               <ProductsForCategory
                 token={token}
@@ -108,6 +119,22 @@ function App() {
 
             <Route path="/:categoryId/products/:searchText">
               <SearchPage
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+              />
+            </Route>
+            <Route exact path="/vendors">
+              <VendorPartner
+                token={token}
+                userId={userId}
+                setToken={setToken ? setToken : {}}
+                setUserId={setUserId ? setUserId : {}}
+              />
+            </Route>
+            <Route exact path="/logistics">
+              <LogisticsPartner
                 token={token}
                 userId={userId}
                 setToken={setToken ? setToken : {}}
