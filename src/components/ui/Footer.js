@@ -82,7 +82,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(0)}
                 className={classes.link}
               >
-                Home
+                {/* Home */}
               </Grid>
             </Grid>
           </Grid>
@@ -98,7 +98,7 @@ const Footer = (props) => {
                 }}
                 className={classes.link}
               >
-                Products
+                {/* Products */}
               </Grid>
               <Grid
                 item
@@ -110,7 +110,7 @@ const Footer = (props) => {
                 }}
                 className={classes.link}
               >
-                Custom Services
+                {/* Custom Services */}
               </Grid>
               <Grid
                 item
@@ -122,7 +122,7 @@ const Footer = (props) => {
                 }}
                 className={classes.link}
               >
-                Product Categories
+                {/* Product Categories */}
               </Grid>
               {/* <Grid
                 item
@@ -150,7 +150,7 @@ const Footer = (props) => {
                 }}
                 className={classes.link}
               >
-                The Partners
+                {/* The Partners */}
               </Grid>
               <Grid
                 item
@@ -159,7 +159,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(2)}
                 className={classes.link}
               >
-                Vendor
+                {/* Vendor */}
               </Grid>
               <Grid
                 item
@@ -168,7 +168,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(2)}
                 className={classes.link}
               >
-                Courier
+                {/* Courier */}
               </Grid>
               {/* <Grid
                 item
@@ -190,7 +190,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(3)}
                 className={classes.link}
               >
-                About Us
+                {/* About Us */}
               </Grid>
               <Grid
                 item
@@ -199,7 +199,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(3)}
                 className={classes.link}
               >
-                History
+                {/* History */}
               </Grid>
               <Grid
                 item
@@ -208,7 +208,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(3)}
                 className={classes.link}
               >
-                Team
+                {/* Team */}
               </Grid>
             </Grid>
           </Grid>
@@ -221,7 +221,7 @@ const Footer = (props) => {
                 onClick={() => props.setValue(4)}
                 className={classes.link}
               >
-                Contact Us
+                {/* Contact Us */}
               </Grid>
             </Grid>
           </Grid>

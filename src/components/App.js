@@ -22,6 +22,7 @@ import CheckoutPage from "./carts/CheckoutPage";
 import Categories from "./Categories";
 import VendorPartner from "./VendorPartner";
 import LogisticsPartner from "./LogisticsPartner";
+import Footer from "./ui/Footer";
 
 import OrderPage from "./orders/OrderPage";
 import SearchPage from "./search/SearchPage";

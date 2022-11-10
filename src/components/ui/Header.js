@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     ...theme.typography.estimate,
     borderRadius: "250px",
-    marginLeft: "30px",
+    marginLeft: "20px",
     marginRight: "10px",
     height: "45px",
     width: "100px",
@@ -115,8 +115,8 @@ const useStyles = makeStyles((theme) => ({
   cart: {
     ...theme.typography.estimate,
     borderRadius: "250px",
-    marginLeft: "20px",
-    marginRight: "10px",
+    marginLeft: "10px",
+    marginRight: "5px",
     height: "45px",
     width: "100px",
     "&:hover": {
@@ -141,8 +141,8 @@ const useStyles = makeStyles((theme) => ({
   checkout: {
     ...theme.typography.estimate,
     borderRadius: "250px",
-    marginLeft: "20px",
-    marginRight: "10px",
+    marginLeft: "10px",
+    marginRight: "5px",
     height: "45px",
     width: "100px",
     "&:hover": {
@@ -392,17 +392,19 @@ const Header = (props) => {
 
     if (props.token === undefined) {
       return (
-        <Button
-          variant="contained"
-          // component={Link}
-          // to="/logout"
-          color="secondary"
-          className={classes.button}
-          //onClick={() => [setOpenLoginForm(true), history.push("/")]}
-          onClick={() => [setOpenLoginForm(true)]}
-        >
-          Sign In
-        </Button>
+        <Fragment>
+          <Button
+            variant="contained"
+            // component={Link}
+            // to="/logout"
+            color="secondary"
+            className={classes.button}
+            //onClick={() => [setOpenLoginForm(true), history.push("/")]}
+            onClick={() => [setOpenLoginForm(true)]}
+          >
+            Sign In
+          </Button>
+        </Fragment>
       );
     } else {
       return (
@@ -466,10 +468,9 @@ const Header = (props) => {
   const menuOptions = [];
 
   const routes = matches
-    ? // ? [{ name: "Marketplace", link: "/", activeIndex: 0 }]
-      [{ name: "Orders", link: `/orders/${props.userId}`, activeIndex: 1 }]
+    ? [{ name: "Home", link: "/", activeIndex: 0 }]
     : [
-        // { name: "Orders", link: "/orders", activeIndex: 1 },
+        { name: "Home", link: "/", activeIndex: 0 },
 
         { name: "Orders", link: `/orders/${props.userId}`, activeIndex: 1 },
         // { name: "Profile", link: "/profile", activeIndex: 2 },
@@ -791,7 +792,7 @@ const Header = (props) => {
               <TextField
                 variant="outlined"
                 className={classes.root}
-                style={{ width: 300, marginLeft: 10 }}
+                style={{ width: 270, marginLeft: 8 }}
                 onChange={onChangeSearchText}
                 defaultValue={searchText}
                 InputProps={{
