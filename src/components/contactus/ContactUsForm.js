@@ -102,7 +102,7 @@ function ContactUsForm(props) {
             <span style={{ color: "orange" }}>Email:</span>{" "}
             <span style={{ marginLeft: 30 }}>info@eshieldafrica.com </span>
             <br /> <br /> <span style={{ color: "orange" }}>Tel:</span>{" "}
-            <span style={{ marginLeft: 50 }}>+234 806 378 6726</span>
+            <span style={{ marginLeft: 50 }}>+234 803 937 3978</span>
             <br /> <br />
             <span style={{ marginLeft: 100 }}>+234 802 469 7155</span>
           </Typography>

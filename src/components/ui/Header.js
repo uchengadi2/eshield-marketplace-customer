@@ -768,7 +768,7 @@ const Header = (props) => {
             <Typography style={{ marginLeft: 30 }}>
               <span>Contact Us On:</span>
               <span>Email: sales@eshieldafrica.com</span>
-              <span>Tel: 0806 378 6726; 0802 469 7155</span>
+              <span>Tel: 0803 937 3978; 0802 469 7155</span>
             </Typography>
           </Box>
           <Toolbar disableGutters>

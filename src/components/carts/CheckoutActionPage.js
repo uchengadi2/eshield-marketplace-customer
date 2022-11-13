@@ -23,6 +23,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
 import { CREATE_ORDER } from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
+import Paystack from "../../Paystack";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -188,6 +189,7 @@ function CheckoutActionPage(props) {
   const [stateList, setStateList] = useState([]);
   const [orderDetails, setOrderDetails] = useState({});
   const [ordered, setOrdered] = useState(false);
+  const [isOnlinePayment, setIsOnlinePayment] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -339,6 +341,11 @@ function CheckoutActionPage(props) {
 
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
+    if (event.target.value === "card") {
+      setIsOnlinePayment(true);
+    } else {
+      setIsOnlinePayment(false);
+    }
   };
 
   const handleCountryChange = (event) => {
@@ -560,14 +567,7 @@ function CheckoutActionPage(props) {
     );
   };
 
-  const renderPaymentMethodField = ({
-    input,
-    label,
-    meta: { touched, error, invalid },
-    type,
-    id,
-    ...custom
-  }) => {
+  const renderPaymentMethodField = () => {
     return (
       <Box>
         <FormControl variant="outlined" className={classes.accountType}>
@@ -578,7 +578,7 @@ function CheckoutActionPage(props) {
             value={paymentMethod}
             onChange={handlePaymentMethodChange}
             label="Account Type"
-            style={{ height: 38, width: 300, marginTop: 10 }}
+            style={{ height: 38, width: 300, marginTop: 10, marginLeft: 10 }}
           >
             <MenuItem value={"cheque"}>Cheque</MenuItem>
             <MenuItem value={"card"}>Credit/Debit Card</MenuItem>
@@ -590,7 +590,6 @@ function CheckoutActionPage(props) {
       </Box>
     );
   };
-  console.log("props at checkout action:", props);
 
   const quantityUnitsForNonBaselineDelivery =
     parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
@@ -612,8 +611,6 @@ function CheckoutActionPage(props) {
   const buttonContent = () => {
     return <React.Fragment>Make Payment</React.Fragment>;
   };
-
-  console.log("props at checkout action is:", props);
 
   const onSubmit = (formValues) => {
     setLoading(true);
@@ -729,80 +726,113 @@ function CheckoutActionPage(props) {
     return;
   };
 
+  const email = "williams@gmail.com";
+  const amount = 3333399;
+  const orderNumber = "67990-ert";
+
   return (
-    <form id="checkoutActionPage">
-      <Box
-        sx={{
-          width: 200,
-          //height: 450,
-        }}
-        noValidate
-        autoComplete="off"
-        className={classes.root}
+    <>
+      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
+        Total Product Cost:{props.getCurrencyCode()}
+        {total}
+      </Typography>
+      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
+        Total Delivery Cost:{props.getCurrencyCode()}
+        {totalDeliveryCostForDisplay}
+      </Typography>
+      <Typography
+        style={{ width: 300, fontSize: 20, marginTop: 15, marginLeft: 10 }}
       >
-        <Grid
-          item
-          container
-          style={{ marginTop: 10, marginBottom: 10 }}
-          justifyContent="center"
-        ></Grid>
-        <Field
-          label=""
-          id="minimumQuantity"
-          name="minimumQuantity"
-          defaultValue={`${props.minimumQuantity} unit(s)`}
-          type="text"
-          component={renderMinimumQuantityField}
-          style={{ width: 300 }}
-        />
-        <Field
-          label=""
-          id="quantity"
-          name="quantity"
-          defaultValue={quantity}
-          type="number"
-          onChange={onChange}
-          component={renderRequestedQuantityField}
-          style={{ width: 300, marginTop: 10 }}
-        />
+        Total Cost:{props.getCurrencyCode()}
+        {totalProductCostForDisplay}
+      </Typography>
 
-        <Typography style={{ width: 300, marginTop: 15 }}>
-          Total Product Cost:{props.getCurrencyCode()}
-          {total}
-        </Typography>
-        <Typography style={{ width: 300, marginTop: 15 }}>
-          Total Delivery Cost:{props.getCurrencyCode()}
-          {totalDeliveryCostForDisplay}
-        </Typography>
-        <Typography style={{ width: 300, fontSize: 20, marginTop: 15 }}>
-          Total Cost:{props.getCurrencyCode()}
-          {totalProductCostForDisplay}
-        </Typography>
+      {renderPaymentMethodField()}
 
-        <Field
-          label=""
-          id="paymentMethod"
-          name="paymentMethod"
-          type="text"
-          component={renderPaymentMethodField}
-          style={{ width: 300 }}
+      {!isOnlinePayment && (
+        <Button
+          variant="contained"
+          className={classes.submitButton}
+          onClick={props.handleSubmit(onSubmit)}
+        >
+          {loading ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            buttonContent()
+          )}
+        </Button>
+      )}
+
+      {isOnlinePayment && (
+        <Paystack
+          email={email}
+          amount={amount}
+          text={"Make Payment2"}
+          orderNumber={orderNumber}
         />
+      )}
+    </>
 
-        {isVisible && !isCheckoutVisible && (
-          <Button
-            variant="contained"
-            className={classes.submitButton}
-            onClick={props.handleSubmit(onSubmit)}
-          >
-            {loading ? (
-              <CircularProgress size={30} color="inherit" />
-            ) : (
-              buttonContent()
-            )}
-          </Button>
-        )}
-      </Box>
-    </form>
+    // <form id="checkoutActionPage">
+    //   <Box
+    //     sx={{
+    //       width: 200,
+    //       //height: 450,
+    //     }}
+    //     noValidate
+    //     autoComplete="off"
+    //     className={classes.root}
+    //   >
+    //     <Grid
+    //       item
+    //       container
+    //       style={{ marginTop: 10, marginBottom: 10 }}
+    //       justifyContent="center"
+    //     ></Grid>
+    //     <Field
+    //       label=""
+    //       id="minimumQuantity"
+    //       name="minimumQuantity"
+    //       defaultValue={`${props.minimumQuantity} unit(s)`}
+    //       type="text"
+    //       component={renderMinimumQuantityField}
+    //       style={{ width: 300 }}
+    //     />
+    //     <Field
+    //       label=""
+    //       id="quantity"
+    //       name="quantity"
+    //       defaultValue={quantity}
+    //       type="number"
+    //       onChange={onChange}
+    //       component={renderRequestedQuantityField}
+    //       style={{ width: 300, marginTop: 10 }}
+    //     />
+
+    //     <Field
+    //       label=""
+    //       id="paymentMethod"
+    //       name="paymentMethod"
+    //       type="text"
+    //       component={renderPaymentMethodField}
+    //       style={{ width: 300 }}
+    //     />
+
+    //     {isVisible && !isCheckoutVisible && (
+    //       <Button
+    //         variant="contained"
+    //         className={classes.submitButton}
+    //         onClick={props.handleSubmit(onSubmit)}
+    //       >
+    //         {loading ? (
+    //           <CircularProgress size={30} color="inherit" />
+    //         ) : (
+    //           buttonContent()
+    //         )}
+    //       </Button>
+    //     )}
+    //   </Box>
+    // </form>
   );
 }
 

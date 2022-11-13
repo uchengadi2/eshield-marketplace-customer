@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { PaystackButton } from "react-paystack";
 import Card from "@material-ui/core/Card";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
@@ -228,8 +229,6 @@ export default function CheckoutCard(props) {
 
     fetchData().catch(console.error);
   }, []);
-
-  console.log("checkout proppppps:", props);
 
   //get the currency name
   useEffect(() => {
