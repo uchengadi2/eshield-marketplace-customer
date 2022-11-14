@@ -191,11 +191,13 @@ function AboutUsForm(props) {
               }}
             >
               <strong>
-                We are partners with leading Manufacturers and Dealers of
-                <br /> Fast Moving Goods & Commodities with a commitment to
-                directly <br />
-                Stock Up or Re-stock Businesses and Retailers at
-                <br />a hard to beat prices
+                E-Shield Africa is an online/e-commerce Marketplace (B2B).
+                <br /> Our business is to provide a trusted and unified online
+                portal <br /> for multiple manufacturers, distributors and
+                vendors.
+                <br />
+                We connect them to retailers for trade and services
+                <br />
               </strong>
             </Typography>
           </Grid>

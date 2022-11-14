@@ -201,6 +201,8 @@ function CheckoutActionPage(props) {
   );
   const [loading, setLoading] = useState();
 
+  console.log("this is the props:", props);
+
   // //get the currency name
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -607,6 +609,12 @@ function CheckoutActionPage(props) {
   const totalDeliveryCostForDisplay = totalDeliveryCost
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+  const amountForPayment = +totalProductCost + totalDeliveryCost - 100;
+  const amountDue = +totalProductCost + totalDeliveryCost;
+
+  console.log("amount due is:", amountDue);
+  console.log("amountForPayment is:", amountForPayment);
 
   const buttonContent = () => {
     return <React.Fragment>Make Payment</React.Fragment>;

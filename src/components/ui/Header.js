@@ -43,6 +43,9 @@ import { Fragment } from "react";
 import ShowCustomerCart from "../carts/ShowCustomerCart";
 import CheckoutPage from "../carts/CheckoutPage";
 import SearchPage from "../search/SearchPage";
+import facebook from "./../../assets/facebook.svg";
+import twitter from "./../../assets/twitter.svg";
+import instagram from "./../../assets/instagram.svg";
 import Categories from "../Categories";
 import { padding } from "@mui/system";
 import api from "./../../apis/local";
@@ -99,6 +102,10 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.tab,
     minWidth: 10,
     marginLeft: "15px",
+    height: "45px",
+    width: "80px",
+    fontSize: "15px",
+    fontWeight: "700px",
   },
   button: {
     ...theme.typography.estimate,
@@ -107,6 +114,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "10px",
     height: "45px",
     width: "100px",
+
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
       color: "white",
@@ -115,10 +123,12 @@ const useStyles = makeStyles((theme) => ({
   cart: {
     ...theme.typography.estimate,
     borderRadius: "250px",
-    marginLeft: "10px",
-    marginRight: "5px",
+    marginLeft: "5px",
+    marginRight: "2px",
     height: "45px",
-    width: "100px",
+    fontSize: "15px",
+    fontWeight: "700px",
+    width: "120px",
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
       color: "white",
@@ -141,10 +151,12 @@ const useStyles = makeStyles((theme) => ({
   checkout: {
     ...theme.typography.estimate,
     borderRadius: "250px",
-    marginLeft: "10px",
-    marginRight: "5px",
+    marginLeft: "5px",
+    marginRight: "2px",
     height: "45px",
-    width: "100px",
+    width: "80px",
+    fontSize: "15px",
+    fontWeight: "700px",
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
       color: "white",
@@ -191,6 +203,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     // zIndex: theme.zIndex.modal + 1,
+    //backgroundColor: theme.palette.common.white,
+
     "&:hover": {},
   },
   topappbar: {
@@ -214,6 +228,21 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiFilledInput-root": {
       background: "white",
     },
+  },
+  icon: {
+    height: "1.7em",
+    width: "1.7em",
+
+    [theme.breakpoints.down("xs")]: {
+      height: "1em",
+      width: "1em",
+    },
+  },
+  topHeader: {
+    backgroundColor: "#125C13",
+  },
+  socialPos: {
+    marginLeft: "45em",
   },
 }));
 
@@ -428,7 +457,7 @@ const Header = (props) => {
             className={classes.cart}
           >
             {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
-            Go to Cart
+            Cart
           </Button>
           <Button
             onClick={() => <CheckoutPage />}
@@ -758,7 +787,7 @@ const Header = (props) => {
     <React.Fragment>
       <ElevationScroll>
         <AppBar position="fixed" className={classes.appbar}>
-          <Box
+          {/* <Box
             sx={{
               backgroundColor: "#125C13",
               padding: 15,
@@ -766,11 +795,60 @@ const Header = (props) => {
             }}
           >
             <Typography style={{ marginLeft: 30 }}>
-              <span>Contact Us On:</span>
               <span>Email: sales@eshieldafrica.com</span>
               <span>Tel: 0803 937 3978; 0802 469 7155</span>
             </Typography>
-          </Box>
+            
+          </Box> */}
+          <Grid container direction="row" className={classes.topHeader}>
+            <Grid item style={{ width: 250 }}>
+              <Typography>
+                {" "}
+                <span>Email: sales@eshieldafrica.com</span>
+              </Typography>
+            </Grid>
+            <Grid item style={{ width: 250 }}>
+              <Typography>
+                <span>Tel: 0803 937 3978; 0802 469 7155</span>
+              </Typography>
+            </Grid>
+
+            <Grid
+              item
+              component={"a"}
+              href="https://www.facebook.com"
+              rel="noopener noreferrer"
+              target="_blank"
+              className={classes.socialPos}
+            >
+              <img alt="facebok logo" src={facebook} className={classes.icon} />
+            </Grid>
+            <Grid
+              item
+              component={"a"}
+              href="https://www.twitter.com"
+              rel="noopener noreferrer"
+              target="_blank"
+              style={{ marginLeft: 30 }}
+            >
+              <img alt="twitter logo" src={twitter} className={classes.icon} />
+            </Grid>
+            <Grid
+              item
+              component={"a"}
+              href="https://www.instagram.com"
+              rel="noopener noreferrer"
+              target="_blank"
+              style={{ marginLeft: 30 }}
+            >
+              <img
+                alt="instagram logo"
+                src={instagram}
+                className={classes.icon}
+              />
+            </Grid>
+          </Grid>
+
           <Toolbar disableGutters>
             <Button
               onClick={() => props.setValue(0)}
@@ -792,7 +870,7 @@ const Header = (props) => {
               <TextField
                 variant="outlined"
                 className={classes.root}
-                style={{ width: 270, marginLeft: 8 }}
+                style={{ width: 220, marginLeft: 8 }}
                 onChange={onChangeSearchText}
                 defaultValue={searchText}
                 InputProps={{

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     // height: 500,
     maxWidth: 325,
     //height: 440,
-    height: 440,
+    height: 370,
     width: 325,
 
     marginLeft: "10px",
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     // height: 300,
     // width: 500,
-    height: 170,
+    height: 150,
     width: 325,
   },
 
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.7rem",
     height: 35,
     padding: 5,
-    marginTop: "55px",
+    marginTop: "2px",
     marginLeft: "160px",
     border: `2px solid ${theme.palette.common.blue}`,
     [theme.breakpoints.down("sm")]: {
@@ -410,7 +410,7 @@ export default function FeatureProductsCard(props) {
           <Typography variant="body2" color="textSecondary" component="p">
             Minimum Quantity Required: {props.minimumQuantity} unit(s)
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          {/* <Typography variant="body2" color="textSecondary" component="p">
             Product Location: {stateName}/{countryName}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -427,7 +427,7 @@ export default function FeatureProductsCard(props) {
               ? props.estimatedDeliveryPeriodInMinutes
               : ""}
             {props.estimatedDeliveryPeriodInMinutes ? " mins" : ""}
-          </Typography>
+          </Typography> */}
         </CardContent>
       </CardActionArea>
       <CardActions>

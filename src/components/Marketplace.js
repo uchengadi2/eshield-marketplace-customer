@@ -101,8 +101,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   buttonContainer: {
-    marginTop: "2.9em",
-    marginLeft: "1.5em",
+    marginTop: "3.9em",
+    marginLeft: "6.9em",
   },
   learnButtonHero: {
     ...theme.typography.learnButton,
@@ -504,19 +504,25 @@ const Marketplace = (props) => {
                     >
                       <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
                         {" "}
-                        As direct Partner to Manufacturers and Dealers
+                        E-Shield Africa is an online/e-commerce Marketplace
+                        (B2B).
                       </span>{" "}
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
-                        of Fast Moving Goods & Commodities,
+                      <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
+                        Our business is to provide a trusted and unified online
+                        portal
                       </span>
                       <br />
                       <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
-                        We assist Retailers and Businesses
+                        for multiple manufacturers, distributors and vendors.
                       </span>
                       <br />
                       <span style={{ marginLeft: matchesSM ? 50 : 130 }}>
-                        to Stock Up and Re-stock
+                        We connect them to retailers for
+                      </span>
+                      <br />
+                      <span style={{ marginLeft: matchesSM ? 50 : 230 }}>
+                        trade and services.
                       </span>
                     </Typography>
                     {matchesMD ? (
