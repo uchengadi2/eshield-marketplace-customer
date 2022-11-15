@@ -243,7 +243,7 @@ const Footer = (props) => {
         <Grid
           item
           component={"a"}
-          href="https://www.facebook.com"
+          href="https://www.facebook.com/eshieldafricab2b/"
           rel="noopener noreferrer"
           target="_blank"
         >
@@ -261,7 +261,7 @@ const Footer = (props) => {
         <Grid
           item
           component={"a"}
-          href="https://www.instagram.com"
+          href="https://www.instagram.com/e_shieldafrica/"
           rel="noopener noreferrer"
           target="_blank"
         >

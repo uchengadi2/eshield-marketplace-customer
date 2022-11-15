@@ -689,7 +689,7 @@ function OrderPageAction(props) {
           Payment Status:&nbsp;{props.paymentStatus}
         </Typography>
 
-        <Field
+        {/* <Field
           label=""
           id="rate"
           name="rate"
@@ -719,7 +719,7 @@ function OrderPageAction(props) {
           ) : (
             buttonContent()
           )}
-        </Button>
+        </Button> */}
       </Box>
     </form>
   );
