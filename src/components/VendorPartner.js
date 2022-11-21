@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import { useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from "@material-ui/core/Snackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -22,6 +23,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import UpperFooter from "./ui/UpperFooter";
 
 import { CREATE_VENDOR } from "../actions/types";
+import history from "../history";
 
 import api from "./../apis/local";
 
@@ -384,7 +386,7 @@ const renderDescriptionField = ({
       error={touched && invalid}
       //placeholder="category description"
       variant="outlined"
-      helperText="Describe the Vendor"
+      helperText="Describe the Vendor (Please include a list of products that this vendor offers)"
       label={label}
       id={input.name}
       fullWidth
@@ -705,8 +707,9 @@ function VendorPartner(props) {
   const [cityList, setCityList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [countryList, setCountryList] = useState([]);
-  const [bankAccountType, setBankAccountType] = useState();
+  const [bankAccountType, setBankAccountType] = useState("current");
   const [vendorType, setVendorType] = useState();
+  const [isNotSubmitted, setIsNotSubmitted] = useState(true);
   const [
     enforceGlobalPlatformPolicyContract,
     setEnforceGlobalPlatformPolicyContract,
@@ -716,6 +719,11 @@ function VendorPartner(props) {
     setPermittableMaximumNumberOfPaymentInstallments,
   ] = useState("1");
   const [loading, setLoading] = useState(false);
+  // const [alert, setAlert] = useState({
+  //   open: false,
+  //   message: "",
+  //   backgroundColor: "",
+  // });
 
   //spool the vendor document & data
 
@@ -781,6 +789,24 @@ function VendorPartner(props) {
 
     fetchData().catch(console.error);
   }, [locationState]);
+
+  // const handleSuccessfulCreateSnackbar = (message) => {
+  //   //setBecomePartnerOpen(false);
+  //   setAlert({
+  //     open: true,
+  //     message: message,
+  //     backgroundColor: "#4BB543",
+  //   });
+  // };
+
+  // const handleFailedSnackbar = (message) => {
+  //   setAlert({
+  //     open: true,
+  //     message: message,
+  //     backgroundColor: "#FF3232",
+  //   });
+  //   //setBecomePartnerOpen(true);
+  // };
 
   const handleVendorTypeChange = (event) => {
     setVendorType(event.target.value);
@@ -1123,6 +1149,73 @@ function VendorPartner(props) {
 
   const onSubmit = (formValues) => {
     setLoading(true);
+
+    if (!formValues["name"]) {
+      props.handleFailedSnackbar("Please enter the name of the vendor");
+      setLoading(false);
+      return;
+    }
+
+    if (!vendorType) {
+      props.handleFailedSnackbar("Please select the vendor type");
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["locationAddress"]) {
+      props.handleFailedSnackbar("Please enter the vendor's address location");
+      setLoading(false);
+      return;
+    }
+
+    if (!locationCountry) {
+      props.handleFailedSnackbar("Please select the vendor's country");
+      setLoading(false);
+      return;
+    }
+
+    if (!locationState) {
+      props.handleFailedSnackbar("Please select the vendor's state");
+      setLoading(false);
+      return;
+    }
+
+    if (!locationCity) {
+      props.handleFailedSnackbar("Please select the vendor's city");
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["contactPersonName"]) {
+      props.handleFailedSnackbar(
+        "Please enter the vendor contact person's name"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["contactPersonPhoneNumber"]) {
+      props.handleFailedSnackbar(
+        "Please enter the vendor contact person's phone number"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["contactPersonEmailAddress"]) {
+      props.handleFailedSnackbar(
+        "Please enter the vendor contact person's email address"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["description"]) {
+      props.handleFailedSnackbar("Please provide a description of this vendor");
+      setLoading(false);
+      return;
+    }
+
     const data = {
       vendorNumber: Math.floor(Math.random() * 100000000),
       name: formValues["name"],
@@ -1143,44 +1236,52 @@ function VendorPartner(props) {
         contactPersonEmailAddress: formValues["contactPersonEmailAddress"],
       },
       bankDetails: {
-        bankName: formValues["bankName"],
-        bankAccountNumber: formValues["bankAccountNumber"],
-        bankAccountType: bankAccountType,
-        bankAccountName: formValues["bankAccountName"],
+        bankName: formValues["bankName"] ? formValues["bankName"] : "",
+        bankAccountNumber: formValues["bankAccountNumber"]
+          ? formValues["bankAccountNumber"]
+          : "",
+        bankAccountType: bankAccountType ? bankAccountType : "current",
+        bankAccountName: formValues["bankAccountName"]
+          ? formValues["bankAccountName"]
+          : "",
         bankCountry: bankCountry,
-        bankAccountSwiftCode: formValues["bankAccountSwiftCode"],
-        bankAccountIBAN: formValues["bankAccountIBAN"],
+        bankAccountSwiftCode: formValues["bankAccountSwiftCode"]
+          ? formValues["bankAccountSwiftCode"]
+          : "",
+        bankAccountIBAN: formValues["bankAccountIBAN"]
+          ? formValues["bankAccountIBAN"]
+          : "",
       },
-      contract: {
-        enforceGlobalPlatformPolicyContract:
-          enforceGlobalPlatformPolicyContract,
-        permittableMaximumNumberOfPaymentInstallments:
-          permittableMaximumNumberOfPaymentInstallments,
-        initialPaymentInstallment: {
-          initialPaymentAgreedRemittablePercentage:
-            formValues["initialPaymentAgreedRemittablePercentage"] || 0,
-          initialPaymentAgreedDaysToPaymentRemittance:
-            formValues["initialPaymentAgreedDaysToPaymentRemittance"],
-          initialPaymentPlatformPercentageForRetention:
-            formValues["initialPaymentPlatformPercentageForRetention"] || 0,
-        },
-        secondPaymentInstallment: {
-          secondPaymentAgreedRemittablePercentage:
-            formValues["secondPaymentAgreedRemittablePercentage"] || 0,
-          secondPaymentAgreedDaysToPaymentRemittance:
-            formValues["secondPaymentAgreedDaysToPaymentRemittance"],
-          secondPaymentPlatformPercentageForRetention:
-            formValues["secondPaymentPlatformPercentageForRetention"] || 0,
-        },
-        thirdPaymentInstallment: {
-          thirdPaymentAgreedRemittablePercentage:
-            formValues["thirdPaymentAgreedRemittablePercentage"] || 0,
-          thirdPaymentAgreedDaysToPaymentRemittance:
-            formValues["thirdPaymentAgreedDaysToPaymentRemittance"] || 0,
-          thirdPaymentPlatformPercentageForRetention:
-            formValues["thirdPaymentPlatformPercentageForRetention"] || 0,
-        },
-      },
+      // contract: {
+      //   enforceGlobalPlatformPolicyContract:
+      //     enforceGlobalPlatformPolicyContract,
+      //   permittableMaximumNumberOfPaymentInstallments:
+      //     permittableMaximumNumberOfPaymentInstallments,
+      //   initialPaymentInstallment: {
+      //     initialPaymentAgreedRemittablePercentage:
+      //       formValues["initialPaymentAgreedRemittablePercentage"] || 0,
+      //     initialPaymentAgreedDaysToPaymentRemittance:
+      //       formValues["initialPaymentAgreedDaysToPaymentRemittance"],
+      //     initialPaymentPlatformPercentageForRetention:
+      //       formValues["initialPaymentPlatformPercentageForRetention"] || 0,
+      //   },
+      //   secondPaymentInstallment: {
+      //     secondPaymentAgreedRemittablePercentage:
+      //       formValues["secondPaymentAgreedRemittablePercentage"] || 0,
+      //     secondPaymentAgreedDaysToPaymentRemittance:
+      //       formValues["secondPaymentAgreedDaysToPaymentRemittance"],
+      //     secondPaymentPlatformPercentageForRetention:
+      //       formValues["secondPaymentPlatformPercentageForRetention"] || 0,
+      //   },
+      //   thirdPaymentInstallment: {
+      //     thirdPaymentAgreedRemittablePercentage:
+      //       formValues["thirdPaymentAgreedRemittablePercentage"] || 0,
+      //     thirdPaymentAgreedDaysToPaymentRemittance:
+      //       formValues["thirdPaymentAgreedDaysToPaymentRemittance"] || 0,
+      //     thirdPaymentPlatformPercentageForRetention:
+      //       formValues["thirdPaymentPlatformPercentageForRetention"] || 0,
+      //   },
+      // },
     };
 
     if (data) {
@@ -1195,10 +1296,12 @@ function VendorPartner(props) {
           });
 
           props.handleSuccessfulCreateSnackbar(
-            `${response.data.data.data.name} Vendor is added successfully!!!`
+            `${response.data.data.data.name} , your registration is successfully recieved. We will be contacting you soon`
           );
-          props.handleDialogOpenStatus();
+          //handleDialogOpenStatus();
+
           setLoading(false);
+          history.push("/");
         } else {
           props.handleFailedSnackbar(
             "Something went wrong, please try again!!!"
@@ -1340,13 +1443,13 @@ function VendorPartner(props) {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid container style={{ marginTop: 20 }}>
+                  {/* <Grid container style={{ marginTop: 20 }}>
                     <FormLabel style={{ color: "blue" }} component="legend">
                       Enter Vendor Bank Details
                     </FormLabel>
-                  </Grid>
+                  </Grid> */}
                   <Grid container direction="row" style={{ marginTop: 20 }}>
-                    <Grid item style={{ marginTop: 20 }}>
+                    {/* <Grid item style={{ marginTop: 20 }}>
                       <Field
                         label=""
                         id="bankAccountType"
@@ -1354,8 +1457,8 @@ function VendorPartner(props) {
                         component={renderBankAccountTypeField}
                         className={classes.dropDown}
                       />
-                    </Grid>
-                    <Grid item style={{ marginLeft: 20, marginTop: 20 }}>
+                    </Grid> */}
+                    {/* <Grid item style={{ marginLeft: 20, marginTop: 20 }}>
                       <Field
                         label=""
                         id="bankAccountNumber"
@@ -1363,8 +1466,8 @@ function VendorPartner(props) {
                         type="text"
                         component={renderBankAccountNumberField}
                       />
-                    </Grid>
-                    <Grid item style={{ marginLeft: 20, marginTop: 20 }}>
+                    </Grid> */}
+                    {/* <Grid item style={{ marginLeft: 20, marginTop: 20 }}>
                       <Field
                         label=""
                         id="bankAccountName"
@@ -1372,9 +1475,9 @@ function VendorPartner(props) {
                         type="text"
                         component={renderBankAccountNameField}
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
-                  <Grid container direction="row">
+                  {/* <Grid container direction="row">
                     <Grid item style={{ marginTop: 20 }}>
                       <Field
                         label=""
@@ -1401,8 +1504,8 @@ function VendorPartner(props) {
                         component={renderBankIBANField}
                       />
                     </Grid>
-                  </Grid>
-                  <Grid item style={{ marginTop: 20 }}>
+                  </Grid> */}
+                  {/* <Grid item style={{ marginTop: 20 }}>
                     <Field
                       label=""
                       id="bankName"
@@ -1410,7 +1513,7 @@ function VendorPartner(props) {
                       type="text"
                       component={renderBankNameField}
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 <Field
                   label=""
@@ -1435,6 +1538,16 @@ function VendorPartner(props) {
               </Box>
             </form>
           </div>
+          {/* <Snackbar
+            open={alert.open}
+            message={alert.message}
+            ContentProps={{
+              style: { backgroundColor: alert.backgroundColor },
+            }}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            onClose={() => setAlert({ ...alert, open: false })}
+            autoHideDuration={4000}
+          /> */}
         </Grid>
         <Grid item className={classes.footer}>
           <UpperFooter />

@@ -16,6 +16,7 @@ import Marketplace from "./../components/Marketplace";
 import ShowCustomerCart from "./carts/ShowCustomerCart";
 import PaymentLayout from "./PaymentLayout";
 import ProfileLayout from "./ProfileLayout";
+import Snackbar from "@material-ui/core/Snackbar";
 import ProductsForCategory from "./products/ProductsForCategory";
 import ProductDetails from "./products/ProductDetails";
 import CheckoutPage from "./carts/CheckoutPage";
@@ -33,6 +34,29 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [value, setValue] = useState(0);
   const [cartItemForCheckout, setCartItemForCheckout] = useState(false);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    backgroundColor: "",
+  });
+
+  const handleSuccessfulCreateSnackbar = (message) => {
+    //setBecomePartnerOpen(false);
+    setAlert({
+      open: true,
+      message: message,
+      backgroundColor: "#4BB543",
+    });
+  };
+
+  const handleFailedSnackbar = (message) => {
+    setAlert({
+      open: true,
+      message: message,
+      backgroundColor: "#FF3232",
+    });
+    //setBecomePartnerOpen(true);
+  };
 
   const handleCartItemForCheckoutBox = () => {
     setCartItemForCheckout(true);
@@ -132,6 +156,8 @@ function App() {
                 userId={userId}
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
+                handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+                handleFailedSnackbar={handleFailedSnackbar}
               />
             </Route>
             <Route exact path="/logistics">
@@ -140,6 +166,8 @@ function App() {
                 userId={userId}
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
+                handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+                handleFailedSnackbar={handleFailedSnackbar}
               />
             </Route>
             <Route path="/profile">
@@ -154,6 +182,16 @@ function App() {
           </Switch>
         </Router>
       </ThemeProvider>
+      <Snackbar
+        open={alert.open}
+        message={alert.message}
+        ContentProps={{
+          style: { backgroundColor: alert.backgroundColor },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => setAlert({ ...alert, open: false })}
+        autoHideDuration={4000}
+      />
     </div>
   );
 }

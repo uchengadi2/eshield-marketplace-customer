@@ -24,6 +24,7 @@ import UpperFooter from "./ui/UpperFooter";
 import { CREATE_LOGISTICSPARTNER } from "../actions/types";
 
 import api from "./../apis/local";
+import history from "../history";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -384,7 +385,7 @@ const renderDescriptionField = ({
       error={touched && invalid}
       //placeholder="category description"
       variant="outlined"
-      helperText="Describe the Partner"
+      helperText="Describe the Partner(You can include the list of all type of vehicles you have)"
       label={label}
       id={input.name}
       fullWidth
@@ -551,7 +552,7 @@ const renderBankAccountNumberField = ({
   return (
     <TextField
       //error={touched && invalid}
-      helperText="Enter the bank account number"
+      helperText="Enter your Bank account number"
       variant="outlined"
       label={label}
       id={input.name}
@@ -613,7 +614,7 @@ const renderBankSwiftCodeNumberField = ({
   return (
     <TextField
       //error={touched && invalid}
-      helperText="Enter the bank Swift code"
+      helperText="Swift code"
       variant="outlined"
       label={label}
       id={input.name}
@@ -644,7 +645,7 @@ const renderBankIBANField = ({
   return (
     <TextField
       //error={touched && invalid}
-      helperText="Enter the bank IBAN number"
+      helperText="IBAN number "
       variant="outlined"
       label={label}
       id={input.name}
@@ -705,7 +706,7 @@ function LogisticsPartner(props) {
   const [cityList, setCityList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [countryList, setCountryList] = useState([]);
-  const [bankAccountType, setBankAccountType] = useState();
+  const [bankAccountType, setBankAccountType] = useState("current");
   const [partnerType, setPartnerType] = useState();
   const [
     enforceGlobalPlatformPolicyContract,
@@ -1123,8 +1124,77 @@ function LogisticsPartner(props) {
 
   const onSubmit = (formValues) => {
     setLoading(true);
+
+    if (!formValues["name"]) {
+      props.handleFailedSnackbar("Please enter the name of the partner");
+      setLoading(false);
+      return;
+    }
+
+    if (!partnerType) {
+      props.handleFailedSnackbar("Please select the partner type");
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["locationAddress"]) {
+      props.handleFailedSnackbar("Please enter the partner's address location");
+      setLoading(false);
+      return;
+    }
+
+    if (!locationCountry) {
+      props.handleFailedSnackbar("Please select the partner's country");
+      setLoading(false);
+      return;
+    }
+
+    if (!locationState) {
+      props.handleFailedSnackbar("Please select the partner's state");
+      setLoading(false);
+      return;
+    }
+
+    if (!locationCity) {
+      props.handleFailedSnackbar("Please select the partner's city");
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["contactPersonName"]) {
+      props.handleFailedSnackbar(
+        "Please enter the partner contact person's name"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["contactPersonPhoneNumber"]) {
+      props.handleFailedSnackbar(
+        "Please enter the partner contact person's phone number"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["contactPersonEmailAddress"]) {
+      props.handleFailedSnackbar(
+        "Please enter the vendor contact person's email address"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (!formValues["description"]) {
+      props.handleFailedSnackbar(
+        "Please provide a description of this partner"
+      );
+      setLoading(false);
+      return;
+    }
+
     const data = {
-      partnerNumber: "LOG-" + Math.floor(Math.random() * 100000000) + "PT",
+      partnerNumber: "LOG-" + Math.floor(Math.random() * 100000000000) + "PT",
       name: formValues["name"],
       description: formValues["description"],
       type: partnerType,
@@ -1144,44 +1214,52 @@ function LogisticsPartner(props) {
         contactPersonEmailAddress: formValues["contactPersonEmailAddress"],
       },
       bankDetails: {
-        bankName: formValues["bankName"],
-        bankAccountNumber: formValues["bankAccountNumber"],
-        bankAccountType: bankAccountType,
-        bankAccountName: formValues["bankAccountName"],
+        bankName: formValues["bankName"] ? formValues["bankName"] : "",
+        bankAccountNumber: formValues["bankAccountNumber"]
+          ? formValues["bankAccountNumber"]
+          : "",
+        bankAccountType: bankAccountType ? bankAccountType : "current",
+        bankAccountName: formValues["bankAccountName"]
+          ? formValues["bankAccountName"]
+          : "",
         bankCountry: bankCountry,
-        bankAccountSwiftCode: formValues["bankAccountSwiftCode"],
-        bankAccountIBAN: formValues["bankAccountIBAN"],
+        bankAccountSwiftCode: formValues["bankAccountSwiftCode"]
+          ? formValues["bankAccountSwiftCode"]
+          : "",
+        bankAccountIBAN: formValues["bankAccountIBAN"]
+          ? formValues["bankAccountIBAN"]
+          : "",
       },
-      contract: {
-        enforceGlobalPlatformPolicyContract:
-          enforceGlobalPlatformPolicyContract,
-        permittableMaximumNumberOfPaymentInstallments:
-          permittableMaximumNumberOfPaymentInstallments,
-        initialPaymentInstallment: {
-          initialPaymentAgreedRemittablePercentage:
-            formValues["initialPaymentAgreedRemittablePercentage"] || 0,
-          initialPaymentAgreedDaysToPaymentRemittance:
-            formValues["initialPaymentAgreedDaysToPaymentRemittance"],
-          initialPaymentPlatformPercentageForRetention:
-            formValues["initialPaymentPlatformPercentageForRetention"] || 0,
-        },
-        secondPaymentInstallment: {
-          secondPaymentAgreedRemittablePercentage:
-            formValues["secondPaymentAgreedRemittablePercentage"] || 0,
-          secondPaymentAgreedDaysToPaymentRemittance:
-            formValues["secondPaymentAgreedDaysToPaymentRemittance"],
-          secondPaymentPlatformPercentageForRetention:
-            formValues["secondPaymentPlatformPercentageForRetention"] || 0,
-        },
-        thirdPaymentInstallment: {
-          thirdPaymentAgreedRemittablePercentage:
-            formValues["thirdPaymentAgreedRemittablePercentage"] || 0,
-          thirdPaymentAgreedDaysToPaymentRemittance:
-            formValues["thirdPaymentAgreedDaysToPaymentRemittance"] || 0,
-          thirdPaymentPlatformPercentageForRetention:
-            formValues["thirdPaymentPlatformPercentageForRetention"] || 0,
-        },
-      },
+      // contract: {
+      //   enforceGlobalPlatformPolicyContract:
+      //     enforceGlobalPlatformPolicyContract,
+      //   permittableMaximumNumberOfPaymentInstallments:
+      //     permittableMaximumNumberOfPaymentInstallments,
+      //   initialPaymentInstallment: {
+      //     initialPaymentAgreedRemittablePercentage:
+      //       formValues["initialPaymentAgreedRemittablePercentage"] || 0,
+      //     initialPaymentAgreedDaysToPaymentRemittance:
+      //       formValues["initialPaymentAgreedDaysToPaymentRemittance"],
+      //     initialPaymentPlatformPercentageForRetention:
+      //       formValues["initialPaymentPlatformPercentageForRetention"] || 0,
+      //   },
+      //   secondPaymentInstallment: {
+      //     secondPaymentAgreedRemittablePercentage:
+      //       formValues["secondPaymentAgreedRemittablePercentage"] || 0,
+      //     secondPaymentAgreedDaysToPaymentRemittance:
+      //       formValues["secondPaymentAgreedDaysToPaymentRemittance"],
+      //     secondPaymentPlatformPercentageForRetention:
+      //       formValues["secondPaymentPlatformPercentageForRetention"] || 0,
+      //   },
+      //   thirdPaymentInstallment: {
+      //     thirdPaymentAgreedRemittablePercentage:
+      //       formValues["thirdPaymentAgreedRemittablePercentage"] || 0,
+      //     thirdPaymentAgreedDaysToPaymentRemittance:
+      //       formValues["thirdPaymentAgreedDaysToPaymentRemittance"] || 0,
+      //     thirdPaymentPlatformPercentageForRetention:
+      //       formValues["thirdPaymentPlatformPercentageForRetention"] || 0,
+      //   },
+      // },
     };
 
     if (data) {
@@ -1196,10 +1274,11 @@ function LogisticsPartner(props) {
           });
 
           props.handleSuccessfulCreateSnackbar(
-            `${response.data.data.data.name} Partner is added successfully!!!`
+            `${response.data.data.data.name}, Your registeration is submitted  successfully, We will be reaching soon for details`
           );
-          props.handleDialogOpenStatus();
+          //props.handleDialogOpenStatus();
           setLoading(false);
+          history.push("/");
         } else {
           props.handleFailedSnackbar(
             "Something went wrong, please try again!!!"

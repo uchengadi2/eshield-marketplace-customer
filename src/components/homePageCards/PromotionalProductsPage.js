@@ -254,7 +254,7 @@ function PromotionalProductsPage(props) {
       items.map((sale) => {
         allData.push({
           id: sale._id,
-          product: sale.product,
+          product: sale.product.id,
           salesPricePerUnit: sale.salesPricePerUnit,
           minimumQuantity: sale.minimumQuantity,
           vendor: sale.vendor,
