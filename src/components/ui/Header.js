@@ -45,6 +45,7 @@ import CheckoutPage from "../carts/CheckoutPage";
 import SearchPage from "../search/SearchPage";
 import facebook from "./../../assets/facebook.svg";
 import twitter from "./../../assets/twitter.svg";
+import linkedIn from "./../../assets/linkedin.svg";
 import instagram from "./../../assets/instagram.svg";
 import Categories from "../Categories";
 import { padding } from "@mui/system";
@@ -826,12 +827,12 @@ const Header = (props) => {
             <Grid
               item
               component={"a"}
-              href="https://www.twitter.com"
+              href="https://www.linkedin.com/company/e-shield-africa"
               rel="noopener noreferrer"
               target="_blank"
               style={{ marginLeft: 30 }}
             >
-              <img alt="twitter logo" src={twitter} className={classes.icon} />
+              <img alt="twitter logo" src={linkedIn} className={classes.icon} />
             </Grid>
             <Grid
               item

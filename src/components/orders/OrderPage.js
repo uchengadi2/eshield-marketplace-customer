@@ -271,7 +271,7 @@ function OrderPage(props) {
           id: order._id,
           orderNumber: order.orderNumber,
           cartId: order.cartId,
-          product: order.product,
+          product: order.product.id,
           dateAddedToCart: order.dateAddedToCart,
           orderedQuantity: order.orderedQuantity,
           orderedPrice: order.orderedPrice,
