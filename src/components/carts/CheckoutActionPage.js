@@ -24,6 +24,7 @@ import api from "./../../apis/local";
 import { CREATE_ORDER } from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
 import Paystack from "../../Paystack";
+import history from "../../history";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -654,6 +655,7 @@ function CheckoutActionPage(props) {
             type: CREATE_ORDER,
             payload: response.data.data.data,
           });
+          history.push("/");
 
           props.handleSuccessfulCreateSnackbar(
             `Thank you for the order. We appreciate your patronage!`
@@ -717,6 +719,8 @@ function CheckoutActionPage(props) {
         orderNumber={orderNumber}
         data={data}
         token={props.token}
+        handleSuccessfulCreateSnackbar={props.handleSuccessfulCreateSnackbar}
+        handleFailedSnackbar={props.handleFailedSnack}
       />
     );
   };

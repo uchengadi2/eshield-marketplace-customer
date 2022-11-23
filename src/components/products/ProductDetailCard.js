@@ -418,8 +418,6 @@ export default function ProductDetailCard(props) {
     );
   };
 
-  console.log("the props:", props);
-
   const getCurrencyCode = () => {
     if (currencyName) {
       if (currencyName.toLowerCase() === "naira") {
@@ -699,8 +697,10 @@ export default function ProductDetailCard(props) {
               handleMakeCloseForgotPasswordFormDialogStatus={
                 handleMakeCloseForgotPasswordFormDialogStatus
               }
-              handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
-              handleFailedSnackbar={handleFailedSnackbar}
+              handleSuccessfulCreateSnackbar={
+                props.handleSuccessfulCreateSnackbar
+              }
+              handleFailedSnackbar={props.handleFailedSnackbar}
               handleFailedSignUpDialogOpenStatusWithSnackbar={
                 handleFailedSignUpDialogOpenStatusWithSnackbar
               }

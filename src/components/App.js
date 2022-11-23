@@ -45,7 +45,8 @@ function App() {
     setAlert({
       open: true,
       message: message,
-      backgroundColor: "#4BB543",
+      //backgroundColor: "#4BB543",
+      backgroundColor: "#FF731D",
     });
   };
 
@@ -112,6 +113,8 @@ function App() {
                 userId={userId}
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
+                handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+                handleFailedSnackbar={handleFailedSnackbar}
               />
             </Route>
             <Route path="/carts/:userId">
@@ -121,6 +124,8 @@ function App() {
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
                 handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
+                handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+                handleFailedSnackbar={handleFailedSnackbar}
               />
             </Route>
 
@@ -131,6 +136,8 @@ function App() {
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
                 handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
+                handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+                handleFailedSnackbar={handleFailedSnackbar}
               />
             </Route>
             <Route path="/orders/:userId">

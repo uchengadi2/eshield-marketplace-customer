@@ -309,6 +309,10 @@ function ShowCustomerCart(props) {
               setToken={props.setToken}
               setUserId={props.setUserId}
               handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
+              handleSuccessfulCreateSnackbar={
+                props.handleSuccessfulCreateSnackbar
+              }
+              handleFailedSnackbar={props.handleFailedSnackbar}
             />
           ))}
         </Grid>
@@ -339,6 +343,10 @@ function ShowCustomerCart(props) {
               setToken={props.setToken}
               setUserId={props.setUserId}
               handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
+              handleSuccessfulCreateSnackbar={
+                props.handleSuccessfulCreateSnackbar
+              }
+              handleFailedSnackbar={props.handleFailedSnackbar}
             />
           ))}
         </Grid>

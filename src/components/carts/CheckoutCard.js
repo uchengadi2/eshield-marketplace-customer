@@ -652,12 +652,14 @@ export default function CheckoutCard(props) {
                 handleMakeOpenLoginFormDialogStatus={
                   handleMakeOpenLoginFormDialogStatus
                 }
-                handleFailedSnackbar={handleFailedSnackbar}
-                handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
                 getCurrencyCode={getCurrencyCode}
                 handleCartItemForCheckoutBox={
                   props.handleCartItemForCheckoutBox
                 }
+                handleSuccessfulCreateSnackbar={
+                  props.handleSuccessfulCreateSnackbar
+                }
+                handleFailedSnackbar={props.handleFailedSnack}
               />
             )}
           </Grid>

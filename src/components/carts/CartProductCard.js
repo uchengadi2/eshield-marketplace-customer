@@ -684,8 +684,10 @@ export default function CartProductCard(props) {
                 handleMakeOpenLoginFormDialogStatus={
                   handleMakeOpenLoginFormDialogStatus
                 }
-                handleFailedSnackbar={handleFailedSnackbar}
-                handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+                handleSuccessfulCreateSnackbar={
+                  props.handleSuccessfulCreateSnackbar
+                }
+                handleFailedSnackbar={props.handleFailedSnackbar}
                 getCurrencyCode={getCurrencyCode}
                 handleCartItemForCheckoutBox={
                   props.handleCartItemForCheckoutBox

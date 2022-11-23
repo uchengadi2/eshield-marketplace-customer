@@ -23,6 +23,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
 import { EDIT_CART } from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
+import history from "../../history";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -605,9 +606,9 @@ function CartUpdateAndDeliveryForm(props) {
               type: EDIT_CART,
               payload: response.data.data.data,
             });
-
+            history.push("/");
             props.handleSuccessfulCreateSnackbar(
-              `This item is successfully included in checkout!`
+              `This item is successfully included in checkout, Please visit the checkout page to effect payment!`
             );
             props.handleCartItemForCheckoutBox();
 

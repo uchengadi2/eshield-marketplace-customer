@@ -375,6 +375,10 @@ function ProductDetails(props) {
             userId={props.userId}
             setToken={props.setToken}
             setUserId={props.setUserId}
+            handleSuccessfulCreateSnackbar={
+              props.handleSuccessfulCreateSnackbar
+            }
+            handleFailedSnackbar={props.handleFailedSnackbar}
           />
         </Grid>
       }
@@ -395,6 +399,10 @@ function ProductDetails(props) {
             userId={props.userId}
             setToken={props.setToken}
             setUserId={props.setUserId}
+            handleSuccessfulCreateSnackbar={
+              props.handleSuccessfulCreateSnackbar
+            }
+            handleFailedSnackbar={props.handleFailedSnackbar}
           />
         </Grid>
       }

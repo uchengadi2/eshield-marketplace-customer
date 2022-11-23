@@ -322,6 +322,10 @@ function CheckoutPage(props) {
               setToken={props.setToken}
               setUserId={props.setUserId}
               handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
+              handleSuccessfulCreateSnackbar={
+                props.handleSuccessfulCreateSnackbar
+              }
+              handleFailedSnackbar={props.handleFailedSnackbar}
             />
           ))}
         </Grid>
@@ -359,6 +363,10 @@ function CheckoutPage(props) {
               setToken={props.setToken}
               setUserId={props.setUserId}
               handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
+              handleSuccessfulCreateSnackbar={
+                props.handleSuccessfulCreateSnackbar
+              }
+              handleFailedSnackbar={props.handleFailedSnack}
             />
           ))}
         </Grid>

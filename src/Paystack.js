@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import api from "./apis/local";
 import { CREATE_ORDER } from "./actions/types";
+import history from "./history";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,6 +100,12 @@ function Paystack(props) {
             type: CREATE_ORDER,
             payload: response.data.data.data,
           });
+
+          history.push("/");
+
+          props.handleSuccessfulCreateSnackbar(
+            `Thank you for the order. We appreciate your patronage!`
+          );
 
           //delete the product from the cart
           api.defaults.headers.common[

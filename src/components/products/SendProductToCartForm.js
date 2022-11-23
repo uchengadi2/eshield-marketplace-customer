@@ -13,6 +13,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
 import { CREATE_CART, EDIT_CART } from "../../actions/types";
+import history from "../../history";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -272,11 +273,11 @@ function SendProductToCartForm(props) {
               type: CREATE_CART,
               payload: response.data.data.data,
             });
-
+            history.push("/");
             props.handleSuccessfulCreateSnackbar(
-              `item(s) successfully added to cart!!!`
+              `item(s) successfully added to cart. Please visit the cart to continue to checkout and payment`
             );
-
+            history.push("/");
             setLoading(false);
           } else {
             props.handleFailedSnackbar(
