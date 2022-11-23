@@ -647,6 +647,7 @@ export default function CheckoutCard(props) {
                 recipientCountry={props.recipientCountry}
                 recipientState={props.recipientState}
                 currency={product.currency}
+                productVendor={product.vendor}
                 dateAddedToCart={props.dateAddedToCart}
                 handleMakeOpenLoginFormDialogStatus={
                   handleMakeOpenLoginFormDialogStatus

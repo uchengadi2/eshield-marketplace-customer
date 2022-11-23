@@ -190,6 +190,11 @@ function CheckoutActionPage(props) {
   const [orderDetails, setOrderDetails] = useState({});
   const [ordered, setOrdered] = useState(false);
   const [isOnlinePayment, setIsOnlinePayment] = useState(false);
+  const [customerEmail, setCustomerEmail] = useState();
+  const [customerName, setCustomerName] = useState();
+  const [orderNumber, setOrderNumber] = useState(
+    "OR-" + Math.floor(Math.random() * 10000000000000) + "-" + "ES"
+  );
 
   const dispatch = useDispatch();
 
@@ -200,75 +205,6 @@ function CheckoutActionPage(props) {
       : 0
   );
   const [loading, setLoading] = useState();
-
-  console.log("this is the props:", props);
-
-  // //get the currency name
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     let allData = [];
-  //     api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-  //     const response = await api.get(`/carts/${props.cartId}`);
-
-  //     const item = response.data.data.data;
-
-  //     console.log("the response is:", item);
-
-  //     allData.push({
-  //       id: item[0]._id,
-  //       quantity: item[0].quantity,
-  //       productLocation: item[0].productLocation,
-  //       locationCountry: item[0].locationCountry,
-  //       cartHolder: item[0].cartHolder,
-  //       recipientName: item[0].recipientName,
-  //       recipientPhoneNumber: item[0].recipientPhoneNumber,
-  //       recipientAddress: item[0].recipientAddress,
-  //       recipientCountry: item[0].recipientCountry,
-  //       recipientState: item[0].recipientState,
-  //       status: item[0].status,
-  //       quantityAdddedToCart: item[0].quantityAdddedToCart,
-  //       dateAddedToCart: item[0].dateAddedToCart,
-  //     });
-
-  //     if (!allData) {
-  //       return;
-  //     }
-
-  //     if (allData[0].quantity) {
-  //       setProductQuantityInCart(allData[0].quantity);
-  //     }
-  //     if (allData[0].location) {
-  //       setProductLocation(allData[0].location);
-  //     }
-  //     if (allData[0].locationCountry) {
-  //       setProductLocationCountry(allData[0].locationCountry);
-  //     }
-  //     if (allData[0].cartHolder) {
-  //       setCartHolder(allData[0].cartHolder);
-  //     }
-
-  //     if (allData[0].id) {
-  //       setCartId(allData[0].id);
-  //     }
-
-  //     setOrderDetails({
-  //       productLocation: allData[0].productLocation,
-  //       locationCountry: allData[0].locationCountry,
-  //       cartHolder: allData[0].cartHolder,
-  //       recipientName: allData[0].recipientName,
-  //       recipientPhoneNumber: allData[0].recipientPhoneNumber,
-  //       recipientAddress: allData[0].recipientAddress,
-  //       recipientCountry: allData[0].recipientCountry,
-  //       recipientState: allData[0].recipientState,
-  //       quantityAdddedToCart: allData[0].quantityAdddedToCart,
-  //       dateAddedToCart: allData[0].dateAddedToCart,
-  //     });
-  //   };
-
-  //   //call the function
-
-  //   fetchData().catch(console.error);
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -310,6 +246,24 @@ function CheckoutActionPage(props) {
 
     fetchData().catch(console.error);
   }, [country]);
+
+  //get the email address of the customer
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/users/${props.userId}`);
+      const user = response.data.data.data;
+      allData.push({ id: user._id, name: user.name, email: user.email });
+      setCustomerEmail(allData[0].email);
+      setCustomerName(allData[0].name);
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, []);
 
   const onChange = (e) => {
     const quantity = parseFloat(e.target.value);
@@ -593,14 +547,24 @@ function CheckoutActionPage(props) {
     );
   };
 
-  const quantityUnitsForNonBaselineDelivery =
-    parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
-  const costforNonBaselineDelivery =
-    +quantityUnitsForNonBaselineDelivery *
-    parseFloat(props.deliveryCostPerUnitWithinProductLocation);
-  const totalDeliveryCost =
-    +costforNonBaselineDelivery +
-    parseFloat(props.baselineDeliveryCostWithinProductLocation);
+  let totalDeliveryCost;
+
+  const diff = +quantity - +props.maxmumQuantityForBaselineDelivery;
+
+  if (diff <= 0) {
+    totalDeliveryCost = parseFloat(
+      props.baselineDeliveryCostWithinProductLocation
+    );
+  } else {
+    const quantityUnitsForNonBaselineDelivery =
+      parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
+    const costforNonBaselineDelivery =
+      +quantityUnitsForNonBaselineDelivery *
+      parseFloat(props.deliveryCostPerUnitWithinProductLocation);
+    totalDeliveryCost =
+      +costforNonBaselineDelivery +
+      parseFloat(props.baselineDeliveryCostWithinProductLocation);
+  }
 
   const totalProductCost = price * quantity + totalDeliveryCost;
   const totalProductCostForDisplay = totalProductCost
@@ -610,11 +574,7 @@ function CheckoutActionPage(props) {
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
-  const amountForPayment = +totalProductCost + totalDeliveryCost - 100;
-  const amountDue = +totalProductCost + totalDeliveryCost;
-
-  console.log("amount due is:", amountDue);
-  console.log("amountForPayment is:", amountForPayment);
+  const amountForPayment = +totalProductCost.toFixed(2) * 100;
 
   const buttonContent = () => {
     return <React.Fragment>Make Payment</React.Fragment>;
@@ -656,8 +616,7 @@ function CheckoutActionPage(props) {
     let data = {};
 
     data = {
-      orderNumber:
-        "OR-" + Math.floor(Math.random() * 100000000000) + "-" + "ES",
+      orderNumber: orderNumber,
       product: props.productId,
       orderedPrice: props.price,
       recipientName: props.recipientName,
@@ -667,8 +626,10 @@ function CheckoutActionPage(props) {
       recipientState: props.recipientState,
       productLocation: props.location,
       locationCountry: props.locationCountry,
-      totalDeliveryCost: totalDeliveryCost,
-      totalProductCost: totalProductCost,
+      productVendor: props.productVendor,
+      totalDeliveryCost: totalDeliveryCost.toFixed(2),
+
+      totalProductCost: totalProductCost.toFixed(2),
       cartId: props.cartId,
       quantityAdddedToCart: props.quantity,
       orderedQuantity: quantity,
@@ -683,60 +644,82 @@ function CheckoutActionPage(props) {
       orderedBy: props.userId,
     };
 
-    if (paymentMethod !== "card") {
-      if (data) {
-        const createForm = async () => {
+    if (data) {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.post(`/orders`, data);
+
+        if (response.data.status === "success") {
+          dispatch({
+            type: CREATE_ORDER,
+            payload: response.data.data.data,
+          });
+
+          props.handleSuccessfulCreateSnackbar(
+            `Thank you for the order. We appreciate your patronage!`
+          );
+
+          setLoading(false);
+          setIsCheckoutVisible(true);
+          setOrdered(true);
+
+          //delete the product from the cart
           api.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${props.token}`;
-          const response = await api.post(`/orders`, data);
-
-          if (response.data.status === "success") {
-            dispatch({
-              type: CREATE_ORDER,
-              payload: response.data.data.data,
-            });
-
-            props.handleSuccessfulCreateSnackbar(
-              `Thank you for the order. We appreciate your patronage!`
-            );
-
-            setLoading(false);
-            setIsCheckoutVisible(true);
-            setOrdered(true);
-
-            //delete the product from the cart
-            api.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${props.token}`;
-            await api.delete(`/carts/${props.cartId}`);
-            //props.handleCartItemForCheckoutBox();
-          } else {
-            props.handleFailedSnackbar(
-              "Something went wrong, please try again!!!"
-            );
-          }
-        };
-        createForm().catch((err) => {
-          props.handleFailedSnackbar();
-          console.log("err:", err.message);
-        });
-      } else {
-        props.handleFailedSnackbar("Something went wrong, please try again!!!");
-      }
+          await api.delete(`/carts/${props.cartId}`);
+          //props.handleCartItemForCheckoutBox();
+        } else {
+          props.handleFailedSnackbar(
+            "Something went wrong, please try again!!!"
+          );
+        }
+      };
+      createForm().catch((err) => {
+        props.handleFailedSnackbar();
+        console.log("err:", err.message);
+      });
     } else {
-      //integrate to paystack payment gateway here
-      props.handleFailedSnackbar(
-        "We currently do not support payment with Credit or Debit Card, Please select other payment method options and try again"
-      );
-      setLoading(false);
+      props.handleFailedSnackbar("Something went wrong, please try again!!!");
     }
-    return;
   };
 
-  const email = "williams@gmail.com";
-  const amount = 3333399;
-  const orderNumber = "67990-ert123";
+  const renderOnlinePayment = (email, amount, orderNumber) => {
+    const data = {
+      orderNumber: orderNumber,
+      product: props.productId,
+      orderedPrice: props.price,
+      recipientName: props.recipientName,
+      recipientPhoneNumber: props.recipientPhoneNumber,
+      recipientAddress: props.recipientAddress,
+      recipientCountry: props.recipientCountry,
+      recipientState: props.recipientState,
+      productLocation: props.location,
+      locationCountry: props.locationCountry,
+      totalDeliveryCost: totalDeliveryCost.toFixed(2),
+      totalProductCost: totalProductCost.toFixed(2),
+      productVendor: props.productVendor,
+      cartId: props.cartId,
+      quantityAdddedToCart: props.quantity,
+      orderedQuantity: quantity,
+      dateAddedToCart: props.dateAddedToCart,
+      productCurrency: props.currency,
+      paymentMethod: paymentMethod,
+      paymentStatus: "paid",
+
+      orderedBy: props.userId,
+    };
+    return (
+      <Paystack
+        email={email}
+        amount={parseInt(amount)}
+        text={"Make Payment"}
+        orderNumber={orderNumber}
+        data={data}
+        token={props.token}
+      />
+    );
+  };
 
   return (
     <>
@@ -761,7 +744,7 @@ function CheckoutActionPage(props) {
         <Button
           variant="contained"
           className={classes.submitButton}
-          onClick={props.handleSubmit(onSubmit)}
+          onClick={onSubmit}
         >
           {loading ? (
             <CircularProgress size={30} color="inherit" />
@@ -771,76 +754,9 @@ function CheckoutActionPage(props) {
         </Button>
       )}
 
-      {isOnlinePayment && (
-        <Paystack
-          email={email}
-          amount={amount}
-          text={"Make Payment2"}
-          orderNumber={orderNumber}
-        />
-      )}
+      {isOnlinePayment &&
+        renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
     </>
-
-    // <form id="checkoutActionPage">
-    //   <Box
-    //     sx={{
-    //       width: 200,
-    //       //height: 450,
-    //     }}
-    //     noValidate
-    //     autoComplete="off"
-    //     className={classes.root}
-    //   >
-    //     <Grid
-    //       item
-    //       container
-    //       style={{ marginTop: 10, marginBottom: 10 }}
-    //       justifyContent="center"
-    //     ></Grid>
-    //     <Field
-    //       label=""
-    //       id="minimumQuantity"
-    //       name="minimumQuantity"
-    //       defaultValue={`${props.minimumQuantity} unit(s)`}
-    //       type="text"
-    //       component={renderMinimumQuantityField}
-    //       style={{ width: 300 }}
-    //     />
-    //     <Field
-    //       label=""
-    //       id="quantity"
-    //       name="quantity"
-    //       defaultValue={quantity}
-    //       type="number"
-    //       onChange={onChange}
-    //       component={renderRequestedQuantityField}
-    //       style={{ width: 300, marginTop: 10 }}
-    //     />
-
-    //     <Field
-    //       label=""
-    //       id="paymentMethod"
-    //       name="paymentMethod"
-    //       type="text"
-    //       component={renderPaymentMethodField}
-    //       style={{ width: 300 }}
-    //     />
-
-    //     {isVisible && !isCheckoutVisible && (
-    //       <Button
-    //         variant="contained"
-    //         className={classes.submitButton}
-    //         onClick={props.handleSubmit(onSubmit)}
-    //       >
-    //         {loading ? (
-    //           <CircularProgress size={30} color="inherit" />
-    //         ) : (
-    //           buttonContent()
-    //         )}
-    //       </Button>
-    //     )}
-    //   </Box>
-    // </form>
   );
 }
 
