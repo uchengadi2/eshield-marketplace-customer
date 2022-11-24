@@ -636,6 +636,7 @@ function CartUpdateAndDeliveryForm(props) {
         recipientCountry: country,
         recipientState: location,
         contactMeForTheDeliveryCost: true,
+        status: "confirm-for-checkout",
       };
       if (data) {
         const createForm = async () => {
@@ -649,6 +650,8 @@ function CartUpdateAndDeliveryForm(props) {
               type: EDIT_CART,
               payload: response.data.data.data,
             });
+
+            history.push("/");
 
             props.handleSuccessfulCreateSnackbar(
               `Your request for the delivery cost have been recieved, we will get back to you shortly`
