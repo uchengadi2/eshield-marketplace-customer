@@ -188,16 +188,37 @@ function CartUpdateAndDeliveryForm(props) {
   const [provideDeliveryCost, setProvideDeliveryCost] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
+  const [total, setTotal] = useState();
 
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const [total, setTotal] = useState(
-    price
-      ? (+props.quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-      : 0
-  );
+  // const [total, setTotal] = useState(
+  //   price
+  //     ? (+props.quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+  //     : 0
+  // );
+  // const [total, setTotal] = useState(
+  //   price
+  //     ? (+props.quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+  //     : 0
+  // );
   const [loading, setLoading] = useState();
+
+  useEffect(() => {
+    if (!price) {
+      return;
+    }
+    if (!quantity) {
+      return;
+    }
+    const sum = price * quantity;
+    setTotal(sum.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
+  }, [price, quantity]);
+
+  console.log("quantity issss:", props.quantity);
+  console.log("price isss :", price);
+  console.log("total isss:", total);
 
   //get the currency name
   useEffect(() => {
@@ -531,14 +552,41 @@ function CartUpdateAndDeliveryForm(props) {
     );
   };
 
-  const quantityUnitsForNonBaselineDelivery =
-    parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
-  const costforNonBaselineDelivery =
-    +quantityUnitsForNonBaselineDelivery *
-    parseFloat(props.deliveryCostPerUnitWithinProductLocation);
-  const totalDeliveryCost =
-    +costforNonBaselineDelivery +
-    parseFloat(props.baselineDeliveryCostWithinProductLocation);
+  // const quantityUnitsForNonBaselineDelivery =
+  //   parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
+  // const costforNonBaselineDelivery =
+  //   +quantityUnitsForNonBaselineDelivery *
+  //   parseFloat(props.deliveryCostPerUnitWithinProductLocation);
+  // const totalDeliveryCost =
+  //   +costforNonBaselineDelivery +
+  //   parseFloat(props.baselineDeliveryCostWithinProductLocation);
+
+  // const totalProductCost = price * quantity + totalDeliveryCost;
+  // const totalProductCostForDisplay = totalProductCost
+  //   .toFixed(2)
+  //   .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  // const totalDeliveryCostForDisplay = totalDeliveryCost
+  //   .toFixed(2)
+  //   .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+  let totalDeliveryCost;
+
+  const diff = +quantity - +props.maxmumQuantityForBaselineDelivery;
+
+  if (diff <= 0) {
+    totalDeliveryCost = parseFloat(
+      props.baselineDeliveryCostWithinProductLocation
+    );
+  } else {
+    const quantityUnitsForNonBaselineDelivery =
+      parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
+    const costforNonBaselineDelivery =
+      +quantityUnitsForNonBaselineDelivery *
+      parseFloat(props.deliveryCostPerUnitWithinProductLocation);
+    totalDeliveryCost =
+      +costforNonBaselineDelivery +
+      parseFloat(props.baselineDeliveryCostWithinProductLocation);
+  }
 
   const totalProductCost = price * quantity + totalDeliveryCost;
   const totalProductCostForDisplay = totalProductCost
@@ -547,6 +595,8 @@ function CartUpdateAndDeliveryForm(props) {
   const totalDeliveryCostForDisplay = totalDeliveryCost
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+  //const amountForPayment = +totalProductCost.toFixed(2) * 100;
 
   console.log("total product cost:", totalProductCost);
 

@@ -287,8 +287,6 @@ function ShowCustomerCart(props) {
 
   const Str = require("@supercharge/strings");
 
-  console.log("the cart list:", cartProductList);
-
   const cartList = matchesMD ? (
     <React.Fragment>
       {

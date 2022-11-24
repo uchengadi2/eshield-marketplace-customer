@@ -36,104 +36,55 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderRequestedQuantityField = ({
-  input,
-  label,
-  meta: { touched, error, invalid },
-  type,
-  id,
-  ...custom
-}) => {
-  return (
-    <TextField
-      //error={touched && invalid}
-      helperText="How many units do you need?"
-      variant="outlined"
-      label={label}
-      id={input.name}
-      //value={input.value}
-      fullWidth
-      //required
-      type={type}
-      {...custom}
-      onChange={input.onChange}
-      //   inputProps={{
-      //     style: {
-      //       height: 1,
-      //     },
-
-      //   }}
-      InputProps={{
-        inputProps: {
-          min: 1,
-          style: {
-            height: 1,
-          },
-        },
-      }}
-    />
-  );
-};
-
-const renderMinimumQuantityField = ({
-  input,
-  label,
-  meta: { touched, error, invalid },
-  type,
-  id,
-  ...custom
-}) => {
-  return (
-    <TextField
-      //error={touched && invalid}
-      helperText="Minimum Quantity Required(MQR)"
-      variant="outlined"
-      label={label}
-      id={input.name}
-      //value={input.value}
-      fullWidth
-      //required
-      type={type}
-      {...custom}
-      disabled
-      onChange={input.onChange}
-      //   inputProps={{
-      //     style: {
-      //       height: 1,
-      //     },
-
-      //   }}
-      InputProps={{
-        inputProps: {
-          min: 1,
-          style: {
-            height: 1,
-          },
-        },
-      }}
-    />
-  );
-};
-
 function SendProductToCartForm(props) {
-  const { price, productId, token, userId, location, locationCountry } = props;
-  const [quantity, setQuantity] = useState(+props.minimumQuantity);
+  const {
+    minimumQuantity,
+    productId,
+    token,
+    userId,
+    location,
+    locationCountry,
+  } = props;
+  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState();
   const [productQuantityInCart, setProductQuantityInCart] = useState();
   const [productLocation, setProductLocation] = useState();
   const [productLocationCountry, setProductLocationCountry] = useState();
   const [cartHolder, setCartHolder] = useState();
   const [cartId, setCartId] = useState();
+  const [total, setTotal] = useState();
   const [sameProductAlreadyInCart, setSameProductAlreadyInCart] =
     useState(false);
 
   const dispatch = useDispatch();
+  console.log("first quantity", quantity);
+
+  useEffect(() => {
+    setQuantity(props.minimumQuantity);
+    setPrice(props.price);
+  }, [props]);
+
+  useEffect(() => {
+    if (!quantity) {
+      return;
+    }
+    if (!price) {
+      return;
+    }
+
+    const sum = (+quantity * +price)
+      .toFixed(2)
+      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+    setTotal(sum);
+  }, [quantity, price]);
 
   const classes = useStyles();
-  const [total, setTotal] = useState(
-    price
-      ? (+quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-      : 0
-  );
+  // const [total, setTotal] = useState(
+  //   price
+  //     ? (
+  //     : 0
+  // );
   const [loading, setLoading] = useState();
 
   //get the currency name
@@ -226,6 +177,75 @@ function SendProductToCartForm(props) {
     );
   };
 
+  const renderMinimumQuantityField = ({
+    input,
+    label,
+    meta: { touched, error, invalid },
+    type,
+    id,
+    ...custom
+  }) => {
+    return (
+      <TextField
+        //error={touched && invalid}
+        helperText="Minimum Quantity Required(MQR)"
+        variant="outlined"
+        label={label}
+        id={input.name}
+        //value={input.value}
+        fullWidth
+        //required
+        type={type}
+        {...custom}
+        disabled
+        defaultValue={`${minimumQuantity} unit(s)`}
+        onChange={input.onChange}
+        InputProps={{
+          inputProps: {
+            min: 1,
+            style: {
+              height: 1,
+            },
+          },
+        }}
+      />
+    );
+  };
+
+  const renderRequestedQuantityField = ({
+    input,
+    label,
+    meta: { touched, error, invalid },
+    type,
+    id,
+    ...custom
+  }) => {
+    return (
+      <TextField
+        //error={touched && invalid}
+        helperText="How many units do you need?"
+        variant="outlined"
+        label={label}
+        id={input.name}
+        //value={input.value}
+        fullWidth
+        //required
+        type={type}
+        defaultValue={quantity}
+        {...custom}
+        onChange={input.onChange}
+        InputProps={{
+          inputProps: {
+            min: 1,
+            style: {
+              height: 1,
+            },
+          },
+        }}
+      />
+    );
+  };
+
   const buttonContent = () => {
     return <React.Fragment> Add to Cart</React.Fragment>;
   };
@@ -239,7 +259,7 @@ function SendProductToCartForm(props) {
       return;
     }
 
-    if (+quantity < +props.minimumQuantity) {
+    if (+quantity < +minimumQuantity) {
       props.handleFailedSnackbar(
         "The order quantity cannot be lower than the Minimum Quantity Required(MQR)"
       );
@@ -362,7 +382,6 @@ function SendProductToCartForm(props) {
           label=""
           id="minimumQuantity"
           name="minimumQuantity"
-          defaultValue={`${props.minimumQuantity} unit(s)`}
           type="text"
           component={renderMinimumQuantityField}
           style={{ width: 300 }}
@@ -371,7 +390,6 @@ function SendProductToCartForm(props) {
           label=""
           id="quantity"
           name="quantity"
-          defaultValue={quantity}
           type="number"
           onChange={onChange}
           component={renderRequestedQuantityField}

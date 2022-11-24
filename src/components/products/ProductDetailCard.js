@@ -30,6 +30,7 @@ import api from "./../../apis/local";
 import { baseURL } from "./../../apis/util";
 
 import theme from "./../ui/Theme";
+import { RoomSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,6 +120,8 @@ export default function ProductDetailCard(props) {
   const [currencyName, setCurrencyName] = useState();
   const [countryName, setCountryName] = useState();
   const [stateName, setStateName] = useState();
+  const [price, setPrice] = useState();
+  const [minQuantity, setMinQuantity] = useState();
 
   // const { token, setToken } = useToken();
   // const { userId, setUserId } = useUserId();
@@ -143,6 +146,16 @@ export default function ProductDetailCard(props) {
   //   "this is description trim:",
   //   Str(props.description).limit(100, "...").get()
   // );
+
+  useEffect(() => {
+    if (props.isOnPromo) {
+      setPrice(props.promoPrice);
+      setMinQuantity(props.promoMinQuantity);
+    } else {
+      setPrice(props.product.pricePerUnit);
+      setMinQuantity(props.product.minimumQuantity);
+    }
+  }, [props]);
 
   //get the currency name
   useEffect(() => {
@@ -451,11 +464,7 @@ export default function ProductDetailCard(props) {
             </Typography>
             <Typography variant="h4">
               {getCurrencyCode()}
-              {props.product.pricePerUnit
-                ? props.product.pricePerUnit
-                    .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                : 0}
+              {price ? price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0}
               <span style={{ fontSize: 12, marginLeft: 0 }}>per Unit</span>
             </Typography>
             <Typography
@@ -670,7 +679,7 @@ export default function ProductDetailCard(props) {
                   {" "}
                   <strong>Minimum Quantity Required:</strong>
                 </span>
-                {props.product.minimumQuantity} unit(s)
+                {minQuantity} unit(s)
               </Typography>
             )}
           </Box>
@@ -678,11 +687,11 @@ export default function ProductDetailCard(props) {
         <Grid item className={classes.thirdRow}>
           <Box>
             <SendProductToCartForm
-              price={props.product.pricePerUnit}
+              price={price}
+              minimumQuantity={minQuantity}
               productId={props.product.id}
               token={props.token}
               userId={props.userId}
-              minimumQuantity={props.product.minimumQuantity}
               location={props.product.location}
               locationCountry={props.product.locationCountry}
               handleMakeOpenSignUpDialogStatus={

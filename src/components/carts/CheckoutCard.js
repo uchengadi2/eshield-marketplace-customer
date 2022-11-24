@@ -100,6 +100,9 @@ export default function CheckoutCard(props) {
   const [stateName, setStateName] = useState();
   const [product, setProduct] = useState({});
   const [vendorName, setVendorName] = useState();
+  const [isOnPromo, setIsOnPromo] = useState(false);
+  const [promoPrice, setPromoPrice] = useState();
+  const [promoMinQuantity, setPromoMinQuantity] = useState();
 
   // const { token, setToken } = useToken();
   // const { userId, setUserId } = useUserId();
@@ -120,6 +123,45 @@ export default function CheckoutCard(props) {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
+  //confirm if product is on promp
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/productsonsale`, {
+        params: {
+          product: props.product,
+          //status: "active",
+        },
+      });
+      const item = response.data.data.data;
+
+      console.log("items:", item);
+
+      allData.push({
+        id: item[0].id,
+        price: item[0].salesPricePerUnit,
+        minQuantity: item[0].minimumQuantity,
+      });
+
+      if (!allData) {
+        return;
+      }
+
+      setPromoPrice(allData[0].price);
+      setIsOnPromo(true);
+      setPromoMinQuantity(allData[0].minQuantity);
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, [props]);
+
+  console.log("isOnPromo:", isOnPromo);
+  console.log("promoPrice:", promoPrice);
+  console.log("promoMinimumQuantity:", promoMinQuantity);
+
   //get the product details
   useEffect(() => {
     const fetchData = async () => {
@@ -131,6 +173,7 @@ export default function CheckoutCard(props) {
       allData.push({
         id: product._id,
         name: product.name,
+        configuration: product.configuration,
         imageCover: product.imageCover,
         shortDescription: product.shortDescription,
         fullDescription: product.fullDescription,
@@ -181,6 +224,7 @@ export default function CheckoutCard(props) {
         id: allData[0].id,
         name: allData[0].name,
         imageCover: allData[0].imageCover,
+        configuration: allData[0].configuration,
         shortDescription: allData[0].shortDescription,
         fullDescription: allData[0].fullDescription,
         sku: allData[0].sku,
@@ -543,7 +587,7 @@ export default function CheckoutCard(props) {
           <Grid item style={{ width: 600, border: "1px dotted grey" }}>
             <CardContent disableRipple>
               <Typography variant="h4" color="textSecondary" component="p">
-                {product.name}
+                {`${product.name} (${product.configuration})`}
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -561,12 +605,16 @@ export default function CheckoutCard(props) {
                 <span style={{ marginLeft: 130 }}>
                   <strong>
                     {getCurrencyCode()}
-                    {product.pricePerUnit
+                    {isOnPromo
+                      ? promoPrice
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                      : product.pricePerUnit
                       ? product.pricePerUnit
                           .toFixed(2)
                           .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : 0}
-                    /unit
+                      : ""}
+                    <span style={{ fontSize: 12 }}>per unit</span>
                   </strong>
                 </span>
               </Typography>
@@ -623,11 +671,13 @@ export default function CheckoutCard(props) {
           <Grid item style={{ width: 349, border: "1px dotted grey" }}>
             {product.pricePerUnit && (
               <CheckoutActionPage
-                price={product.pricePerUnit}
+                price={isOnPromo ? promoPrice : product.pricePerUnit}
+                minimumQuantity={
+                  isOnPromo ? promoMinQuantity : product.minimumQuantity
+                }
                 productId={product.id}
                 token={props.token}
                 userId={props.userId}
-                minimumQuantity={product.minimumQuantity}
                 location={product.location}
                 locationCountry={product.locationCountry}
                 baselineDeliveryCostWithinProductLocation={

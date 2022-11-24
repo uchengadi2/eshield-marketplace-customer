@@ -210,6 +210,9 @@ function ProductDetails(props) {
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
   const [product, setProduct] = useState({});
+  const [isOnPromo, setIsOnPromo] = useState(false);
+  const [promoPrice, setPromoPrice] = useState();
+  const [promoMinQuantity, setPromoMinQuantity] = useState();
 
   const [alert, setAlert] = useState({
     open: false,
@@ -249,6 +252,39 @@ function ProductDetails(props) {
     });
     setBecomePartnerOpen(true);
   };
+
+  //confirm if product is on promp
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/productsonsale`, {
+        params: {
+          product: productId,
+          //status: "active",
+        },
+      });
+      const item = response.data.data.data;
+
+      allData.push({
+        id: item[0].id,
+        price: item[0].salesPricePerUnit,
+        minQuantity: item[0].minimumQuantity,
+      });
+
+      if (!allData) {
+        return;
+      }
+
+      setPromoPrice(allData[0].price);
+      setIsOnPromo(true);
+      setPromoMinQuantity(allData[0].minQuantity);
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -370,6 +406,9 @@ function ProductDetails(props) {
         <Grid container direction="row">
           <ProductDetailCard
             product={product}
+            isOnPromo={isOnPromo}
+            promoPrice={promoPrice}
+            promoMinQuantity={promoMinQuantity}
             key={product.id}
             token={props.token}
             userId={props.userId}
@@ -394,6 +433,9 @@ function ProductDetails(props) {
         >
           <ProductDetailCard
             product={product}
+            isOnPromo={isOnPromo}
+            promoPrice={promoPrice}
+            promoMinQuantity={promoMinQuantity}
             key={product.id}
             token={props.token}
             userId={props.userId}
@@ -408,7 +450,7 @@ function ProductDetails(props) {
       }
     </React.Fragment>
   );
-
+  console.log("the products details:", product);
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "10px" }}>

@@ -193,6 +193,7 @@ function CheckoutActionPage(props) {
   const [isOnlinePayment, setIsOnlinePayment] = useState(false);
   const [customerEmail, setCustomerEmail] = useState();
   const [customerName, setCustomerName] = useState();
+  const [total, setTotal] = useState();
   const [orderNumber, setOrderNumber] = useState(
     "OR-" + Math.floor(Math.random() * 10000000000000) + "-" + "ES"
   );
@@ -200,12 +201,23 @@ function CheckoutActionPage(props) {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const [total, setTotal] = useState(
-    price
-      ? (+props.quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-      : 0
-  );
+  // const [total, setTotal] = useState(
+  //   price
+  //     ? (+props.quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+  //     : 0
+  // );
   const [loading, setLoading] = useState();
+
+  useEffect(() => {
+    if (!price) {
+      return;
+    }
+    if (!quantity) {
+      return;
+    }
+    const sum = price * quantity;
+    setTotal(sum.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
+  }, [price, quantity]);
 
   useEffect(() => {
     const fetchData = async () => {
