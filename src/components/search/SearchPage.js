@@ -17,6 +17,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
 
 import CallToAction from "../ui/CallToAction";
+import UpperFooter from "../ui/UpperFooter";
 
 import revolutionBackground from "./../../assets/repeatingBackground.svg";
 import infoBackground from "./../../assets/infoBackground.svg";
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "80vh",
     // height: "100%",
+    marginTop: "10em",
     position: "relative",
     "& video": {
       objectFit: "cover",
@@ -210,6 +212,8 @@ function SearchPage(props) {
   const [keyword2ProductList, setKeyword2ProductList] = useState();
   const [keyword3ProductList, setKeyword3ProductList] = useState();
   const [productList, setProductList] = useState([]);
+  const [searchCategory, setSearchCategory] = useState();
+  const [searchStringText, setSearchStringText] = useState();
 
   const [alert, setAlert] = useState({
     open: false,
@@ -227,12 +231,6 @@ function SearchPage(props) {
 
   const category = params.categoryId;
   const searchString = params.searchText;
-
-  //const category = "63325c4f8b6f041cb4654414";
-  //const searchString = "Rice";
-
-  console.log("search category is:", category);
-  console.log("search substring is:", searchString);
 
   const handleBecomeAPartnerOpenDialogBox = () => {
     setBecomePartnerOpen(false);
@@ -257,18 +255,50 @@ function SearchPage(props) {
   };
 
   useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    if (!category) {
+      return;
+    }
+    setSearchCategory(category);
+    if (!searchString) {
+      return;
+    } else {
+      setSearchStringText(searchString);
+    }
+  }, [category, searchString]);
+
+  useEffect(() => {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(
-        `/products?keyword1=` + searchString.toLowerCase(),
-        {
-          params: { category: category },
-        }
-      );
-      const items = response.data.data.data;
+      let response;
+      if (searchCategory && searchStringText) {
+        response = await api.get(
+          `/products?keyword1=` + searchStringText.toLowerCase(),
+          {
+            params: { category: searchCategory },
+          }
+        );
+      }
 
-      console.log("items are:", items);
+      if (
+        searchCategory &&
+        (!searchStringText || searchStringText === "undefined")
+      ) {
+        response = await api.get(`/products`, {
+          params: { category: searchCategory },
+        });
+      }
+
+      if (searchCategory === "undefined" && !searchStringText === "undefined") {
+        response = await api.get(`/products`);
+      }
+
+      const items = response.data.data.data;
 
       items.map((product) => {
         allData.push({
@@ -286,18 +316,22 @@ function SearchPage(props) {
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [searchStringText, searchCategory]);
 
   useEffect(() => {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(
-        `/products?keyword2=` + searchString.toLowerCase(),
-        {
-          params: { category: category },
-        }
-      );
+      let response;
+      if (searchCategory && searchStringText) {
+        response = await api.get(
+          `/products?keyword2=` + searchStringText.toLowerCase(),
+          {
+            params: { category: searchCategory },
+          }
+        );
+      }
+
       const items = response.data.data.data;
 
       items.map((product) => {
@@ -316,18 +350,21 @@ function SearchPage(props) {
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [searchStringText, searchCategory]);
 
   useEffect(() => {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(
-        `/products?keyword3=` + searchString.toLowerCase(),
-        {
-          params: { category: category },
-        }
-      );
+      let response;
+      if (searchCategory && searchStringText) {
+        response = await api.get(
+          `/products?keyword3=` + searchStringText.toLowerCase(),
+          {
+            params: { category: searchCategory },
+          }
+        );
+      }
       const items = response.data.data.data;
 
       items.map((product) => {
@@ -346,7 +383,7 @@ function SearchPage(props) {
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [searchStringText, searchCategory]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -442,203 +479,9 @@ function SearchPage(props) {
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
         <Grid item>{customerOrderList}</Grid>
         {/*....INFORMATION BLOCK....*/}
-        <Grid
-          container
-          direction="row"
-          alignItems="center"
-          style={{ height: "80em" }}
-          className={classes.infoBackground}
-        >
-          <Grid
-            container
-            style={{
-              textAlign: matchesXS ? "center" : "inherit",
-            }}
-            direction={matchesSM ? "column" : "row"}
-          >
-            <Grid
-              item
-              sm
-              style={{
-                marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-              }}
-            >
-              <Grid
-                container
-                direction="column"
-                style={{ marginBottom: matchesXS ? "10em" : 0 }}
-              >
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  About Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">
-                    Let's get personal
-                  </Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <strong>
-                      We are an online Business-to-Business Marketplace.
-                      <br /> We connect Retailers to Dealers & Manufacturers{" "}
-                      <br />
-                      of Fast Moving Goods and Commodities
-                      <br />
-                      across Africa.
-                    </strong>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/about"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      onClick={() => [setAboutUsOpen(true)]}
-                      style={{ color: "white", borderColor: "white" }}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={aboutUsOpen}
-                  onClose={() => [setAboutUsOpen(false)]}
-                  fullWidth
-                  maxWidth="md"
-                >
-                  <DialogContent>
-                    <AboutUsFormContainer
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-              </Grid>
-            </Grid>
-
-            <Grid
-              item
-              sm
-              style={{
-                marginRight: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-                textAlign: matchesXS ? "center" : "right",
-              }}
-            >
-              <Grid container direction="column">
-                <Typography
-                  variant="h2"
-                  style={{
-                    color: "white",
-                    fontSize: matchesSM ? "1.75rem" : "2.5rem",
-                  }}
-                >
-                  Contact Us
-                </Typography>
-                {matchesMD ? (
-                  <Typography variant="subtitle2">Say hello!</Typography>
-                ) : (
-                  <Typography variant="subtitle2" style={{ fontSize: 14 }}>
-                    <span>
-                      {" "}
-                      Pearl Garden Estate, Block 9, Plot 11, Sangotedo, Lagos
-                    </span>
-                    <br />
-
-                    <span>info@eshieldafrica.com</span>
-                    <br />
-
-                    <span>+234 800 000 0000, +234 800 000 0000</span>
-                  </Typography>
-                )}
-                {matchesMD ? (
-                  <Grid item>
-                    <Button
-                      // component={Link}
-                      // to="/contact"
-                      varaint="outlined"
-                      className={classes.learnButton}
-                      style={{ color: "white", borderColor: "white" }}
-                      onClick={() => [setContactUsOpen(true)]}
-                    >
-                      <span style={{ marginRight: 10 }}>Learn More </span>
-                      <ButtonArrow height={10} width={10} fill="white" />
-                    </Button>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={contactUsOpen}
-                  onClose={() => [setContactUsOpen(false)]}
-                >
-                  <DialogContent>
-                    <ContactUsContainerForm
-                      token={props.token}
-                      // handleDialogOpenStatus={handleDialogOpenStatus}
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Dialog
-                  //style={{ zIndex: 1302 }}
-                  fullScreen={matchesXS}
-                  open={becomePartnerOpen}
-                  onClose={() => [setBecomePartnerOpen(false)]}
-                >
-                  <DialogContent>
-                    <BecomePartnerFormContainer
-                      token={props.token}
-                      userId={props.userId}
-                      // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                      // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-                      //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-                      // }
-                    />
-                  </DialogContent>
-                </Dialog>
-                <Snackbar
-                  open={alert.open}
-                  message={alert.message}
-                  ContentProps={{
-                    style: { backgroundColor: alert.backgroundColor },
-                  }}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                  onClose={() => setAlert({ ...alert, open: false })}
-                  autoHideDuration={4000}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
       </Grid>
-      <Grid item style={{ width: "100%" }}>
-        {/*....CALL TO ACTION BLOCK ....*/}
-        <CallToAction
-          setValue={props.setValue}
-          token={props.token}
-          userId={props.userId}
-          // handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-          // handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar={
-          //   handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar
-          // }
-        />
+      <Grid item className={classes.footer}>
+        <UpperFooter />
       </Grid>
     </Grid>
   );
