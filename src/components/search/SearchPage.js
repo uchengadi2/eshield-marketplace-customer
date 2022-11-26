@@ -29,6 +29,7 @@ import AboutUsFormContainer from "../aboutus/AboutUsFormContainer";
 import ContactUsContainerForm from "../contactus/ContactUsContainerForm";
 import BecomePartnerFormContainer from "../partner/BecomePartnerFormContainer";
 import CategoryProductsCard from "../CategoryProductsCard";
+import AppPagination from "../pagination/AppPagination";
 
 import SearchProductCard from "./SearchProductCard";
 
@@ -216,9 +217,12 @@ function SearchPage(props) {
   const [searchStringText, setSearchStringText] = useState();
   const [page, setPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState();
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(15);
   const [totalData, setTotalData] = useState();
   const [isPaginationVisible, setIsPaginationVisible] = useState(false);
+  const [keyword1NumberOfPages, setKeyword1NumberOfPages] = useState();
+  const [keyword2NumberOfPages, setKeyword2NumberOfPages] = useState();
+  const [keyword3NumberOfPages, setKeyword3NumberOfPages] = useState();
 
   const [alert, setAlert] = useState({
     open: false,
@@ -317,6 +321,7 @@ function SearchPage(props) {
       }
 
       setKeyword1ProductList(allData);
+      setKeyword1NumberOfPages(response.data?.total);
     };
 
     //call the function
@@ -352,12 +357,40 @@ function SearchPage(props) {
       }
 
       setKeyword2ProductList(allData);
+      setKeyword2NumberOfPages(response.data?.total);
     };
 
     //call the function
 
     fetchData().catch(console.error);
   }, [searchStringText, searchCategory, page]);
+
+  console.log("productList length:", productList.length);
+
+  useEffect(() => {
+    let preference = 1;
+    if (+keyword1NumberOfPages >= +keyword2NumberOfPages) {
+      if (+keyword1NumberOfPages >= +keyword3NumberOfPages) {
+        preference = 1;
+      } else {
+        preference = 3;
+      }
+    } else if (+keyword2NumberOfPages >= +keyword3NumberOfPages) {
+      preference = 2;
+    } else {
+      preference = 3;
+    }
+
+    if (preference === 1) {
+      setNumberOfPages(keyword1NumberOfPages);
+    }
+    if (preference === 2) {
+      setNumberOfPages(keyword2NumberOfPages);
+    }
+    if (preference === 3) {
+      setNumberOfPages(keyword3NumberOfPages);
+    }
+  }, [keyword3NumberOfPages, keyword2NumberOfPages, keyword1NumberOfPages]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -386,6 +419,7 @@ function SearchPage(props) {
       }
 
       setKeyword3ProductList(allData);
+      setKeyword3NumberOfPages(response.data?.total);
     };
 
     //call the function
@@ -439,6 +473,30 @@ function SearchPage(props) {
     fetchData().catch(console.error);
   }, [keyword1ProductList, keyword2ProductList, keyword3ProductList]);
 
+  useEffect(() => {
+    if (!numberOfPages) {
+      setIsPaginationVisible(false);
+      return;
+    }
+
+    const totalPages = numberOfPages / limit;
+
+    let newTotalPages;
+
+    if (parseInt(numberOfPages) <= parseInt(limit)) {
+      newTotalPages = 1;
+      setIsPaginationVisible(false);
+    } else if (parseInt(numberOfPages) % parseInt(limit) === 0) {
+      newTotalPages = +totalPages;
+      setIsPaginationVisible(true);
+    } else {
+      newTotalPages = +totalPages + 1;
+      setIsPaginationVisible(true);
+    }
+
+    setTotalData(parseInt(newTotalPages));
+  }, [numberOfPages]);
+
   const Str = require("@supercharge/strings");
 
   const customerOrderList = matchesMD ? (
@@ -482,12 +540,22 @@ function SearchPage(props) {
     </React.Fragment>
   );
 
+  console.log("isPaginationVisible:", isPaginationVisible);
+  console.log(" new numberOfPages is:", numberOfPages);
+  console.log("keyword1NumberOfPages:", keyword1NumberOfPages);
+  console.log("keyword2NumberOfPages:", keyword2NumberOfPages);
+  console.log("keyword3NumberOfPages:", keyword3NumberOfPages);
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
         <Grid item>{customerOrderList}</Grid>
         {/*....INFORMATION BLOCK....*/}
       </Grid>
+      {isPaginationVisible && (
+        <Grid item style={{ marginTop: 80 }}>
+          <AppPagination setPage={setPage} page={page} pageNumber={totalData} />
+        </Grid>
+      )}
       <Grid item className={classes.footer}>
         <UpperFooter />
       </Grid>
