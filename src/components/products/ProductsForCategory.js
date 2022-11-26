@@ -15,6 +15,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
+import AppPagination from "../pagination/AppPagination";
 
 import CallToAction from "./../ui/CallToAction";
 
@@ -209,6 +210,11 @@ function ProductsForCategory(props) {
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
   const [productList, setProductList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState();
+  const [limit, setLimit] = useState(20);
+  const [totalData, setTotalData] = useState();
+  const [isPaginationVisible, setIsPaginationVisible] = useState(false);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -252,10 +258,11 @@ function ProductsForCategory(props) {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get("/products", {
+      const response = await api.get(`/products?page=${page}&limit=${limit}`, {
         params: { category: categoryId },
       });
       const workingData = response.data.data.data;
+      console.log("the response:", response);
       workingData.map((product) => {
         allData.push({
           id: product._id,
@@ -279,12 +286,37 @@ function ProductsForCategory(props) {
         });
       });
       setProductList(allData);
+      setNumberOfPages(response.data?.total);
     };
 
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [page]);
+
+  useEffect(() => {
+    if (!numberOfPages) {
+      setIsPaginationVisible(false);
+      return;
+    }
+
+    const totalPages = numberOfPages / limit;
+
+    let newTotalPages;
+
+    if (parseInt(numberOfPages) <= parseInt(limit)) {
+      newTotalPages = 1;
+      setIsPaginationVisible(false);
+    } else if (parseInt(numberOfPages) % parseInt(limit) === 0) {
+      newTotalPages = +totalPages;
+      setIsPaginationVisible(true);
+    } else {
+      newTotalPages = +totalPages + 1;
+      setIsPaginationVisible(true);
+    }
+
+    setTotalData(parseInt(newTotalPages));
+  }, [numberOfPages]);
 
   const Str = require("@supercharge/strings");
 
@@ -370,6 +402,11 @@ function ProductsForCategory(props) {
         <Grid item>{productsList}</Grid>
         {/*....INFORMATION BLOCK....*/}
       </Grid>
+      {isPaginationVisible && (
+        <Grid item style={{ marginTop: 80 }}>
+          <AppPagination setPage={setPage} page={page} pageNumber={totalData} />
+        </Grid>
+      )}
       <Grid item className={classes.footer}>
         <UpperFooter />
       </Grid>

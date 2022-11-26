@@ -214,6 +214,11 @@ function SearchPage(props) {
   const [productList, setProductList] = useState([]);
   const [searchCategory, setSearchCategory] = useState();
   const [searchStringText, setSearchStringText] = useState();
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState();
+  const [limit, setLimit] = useState(20);
+  const [totalData, setTotalData] = useState();
+  const [isPaginationVisible, setIsPaginationVisible] = useState(false);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -278,7 +283,8 @@ function SearchPage(props) {
       let response;
       if (searchCategory && searchStringText) {
         response = await api.get(
-          `/products?keyword1=` + searchStringText.toLowerCase(),
+          `/products?page=${page}&limit=${limit}&keyword1=` +
+            searchStringText.toLowerCase(),
           {
             params: { category: searchCategory },
           }
@@ -289,13 +295,13 @@ function SearchPage(props) {
         searchCategory &&
         (!searchStringText || searchStringText === "undefined")
       ) {
-        response = await api.get(`/products`, {
+        response = await api.get(`/products?page=${page}&limit=${limit}`, {
           params: { category: searchCategory },
         });
       }
 
       if (searchCategory === "undefined" && !searchStringText === "undefined") {
-        response = await api.get(`/products`);
+        response = await api.get(`/products?page=${page}&limit=${limit}`);
       }
 
       const items = response.data.data.data;
@@ -316,7 +322,7 @@ function SearchPage(props) {
     //call the function
 
     fetchData().catch(console.error);
-  }, [searchStringText, searchCategory]);
+  }, [searchStringText, searchCategory, page]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -325,7 +331,8 @@ function SearchPage(props) {
       let response;
       if (searchCategory && searchStringText) {
         response = await api.get(
-          `/products?keyword2=` + searchStringText.toLowerCase(),
+          `/products?page=${page}&limit=${limit}&keyword2=` +
+            searchStringText.toLowerCase(),
           {
             params: { category: searchCategory },
           }
@@ -350,7 +357,7 @@ function SearchPage(props) {
     //call the function
 
     fetchData().catch(console.error);
-  }, [searchStringText, searchCategory]);
+  }, [searchStringText, searchCategory, page]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -359,7 +366,8 @@ function SearchPage(props) {
       let response;
       if (searchCategory && searchStringText) {
         response = await api.get(
-          `/products?keyword3=` + searchStringText.toLowerCase(),
+          `/products?page=${page}&limit=${limit}&keyword3=` +
+            searchStringText.toLowerCase(),
           {
             params: { category: searchCategory },
           }
@@ -383,7 +391,7 @@ function SearchPage(props) {
     //call the function
 
     fetchData().catch(console.error);
-  }, [searchStringText, searchCategory]);
+  }, [searchStringText, searchCategory, page]);
 
   useEffect(() => {
     const fetchData = async () => {

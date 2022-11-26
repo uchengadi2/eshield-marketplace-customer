@@ -23,12 +23,13 @@ import revolutionBackground from "./../../assets/repeatingBackground.svg";
 import infoBackground from "./../../assets/infoBackground.svg";
 import ProductCard from "./../ProductCard";
 import background from "./../../logistic_assets/cover_image_1.png";
-import { Category } from "@material-ui/icons";
+import { Category, LibraryMusicOutlined } from "@material-ui/icons";
 import history from "../../history";
 import AboutUsFormContainer from "./../aboutus/AboutUsFormContainer";
 import ContactUsContainerForm from "./../contactus/ContactUsContainerForm";
 import BecomePartnerFormContainer from "./../partner/BecomePartnerFormContainer";
 import CategoryProductsCard from "../CategoryProductsCard";
+import AppPagination from "../pagination/AppPagination";
 
 import OrderProductCard from "./OrderProductCard";
 //import CheckoutCard from "./CheckoutCard";
@@ -213,6 +214,11 @@ function OrderPage(props) {
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
   const [orderList, setOrderList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState();
+  const [limit, setLimit] = useState(10);
+  const [totalData, setTotalData] = useState();
+  const [isPaginationVisible, setIsPaginationVisible] = useState(false);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -261,7 +267,7 @@ function OrderPage(props) {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(`/orders`, {
+      const response = await api.get(`/orders?page=${page}&limit=${limit}`, {
         params: { orderedBy: user },
       });
       const items = response.data.data.data;
@@ -294,12 +300,37 @@ function OrderPage(props) {
       });
 
       setOrderList(allData);
+      setNumberOfPages(response.data?.total);
     };
 
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [page]);
+
+  useEffect(() => {
+    if (!numberOfPages) {
+      setIsPaginationVisible(false);
+      return;
+    }
+
+    const totalPages = numberOfPages / limit;
+
+    let newTotalPages;
+
+    if (parseInt(numberOfPages) <= parseInt(limit)) {
+      newTotalPages = 1;
+      setIsPaginationVisible(false);
+    } else if (parseInt(numberOfPages) % parseInt(limit) === 0) {
+      newTotalPages = +totalPages;
+      setIsPaginationVisible(true);
+    } else {
+      newTotalPages = +totalPages + 1;
+      setIsPaginationVisible(true);
+    }
+
+    setTotalData(parseInt(newTotalPages));
+  }, [numberOfPages]);
 
   const Str = require("@supercharge/strings");
 
@@ -386,6 +417,11 @@ function OrderPage(props) {
         <Grid item>{customerOrderList}</Grid>
         {/*....INFORMATION BLOCK....*/}
       </Grid>
+      {isPaginationVisible && (
+        <Grid item style={{ marginTop: 80 }}>
+          <AppPagination setPage={setPage} page={page} pageNumber={totalData} />
+        </Grid>
+      )}
       <Grid item className={classes.footer}>
         <UpperFooter />
       </Grid>
