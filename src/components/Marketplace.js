@@ -515,41 +515,77 @@ const Marketplace = (props) => {
                   color="#fff"
                 >
                   <Grid sm item className={classes.heroTextContainer}>
-                    <Typography
-                      variant={matchesSM ? "subtitle2" : "h2"}
-                      align="left"
-                      style={{ marginTop: "16rem", fontSize: "1.2rem" }}
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <span
-                        style={{
-                          marginLeft: matchesSM ? 20 : 5,
-                        }}
+                    {matchesMD ? (
+                      <Typography
+                        variant={matchesSM ? "subtitle2" : "h2"}
+                        align="left"
+                        style={{ marginTop: "16rem" }}
+                        //justifyContent="center"
+                        //alignItems="center"
                       >
-                        {" "}
-                        E-Shield Africa is an online/e-commerce <br />
-                      </span>{" "}
-                      <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
-                        Marketplace(B2B). Our business is to provide
-                      </span>
-                      <br />
-                      <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
-                        a trusted and unified online portal for multiple
-                      </span>
-                      <br />
-                      <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
-                        manufacturers, distributors and vendors.
-                      </span>
-                      <br />
-                      <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
-                        We connect them to retailers for
-                      </span>
-                      <br />
-                      <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
-                        trade and services.
-                      </span>
-                    </Typography>
+                        <span
+                          style={{
+                            marginLeft: matchesSM ? 20 : 5,
+                          }}
+                        >
+                          {" "}
+                          E-Shield Africa is an online/e-commerce
+                          Marketplace(B2B). <br />
+                        </span>{" "}
+                        <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
+                          Our business is to provide a trusted and unified
+                          online
+                        </span>
+                        <br />
+                        <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
+                          portal for multiple manufacturers, distributors
+                        </span>
+                        <br />
+                        <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
+                          and vendors. We connect them to
+                        </span>
+                        <br />
+                        <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
+                          retailers for trade and services.
+                        </span>
+                      </Typography>
+                    ) : (
+                      <Typography
+                        variant={matchesSM ? "subtitle2" : "h2"}
+                        align="left"
+                        style={{ marginTop: "16rem", fontSize: "1.2rem" }}
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <span
+                          style={{
+                            marginLeft: matchesSM ? 20 : 5,
+                          }}
+                        >
+                          {" "}
+                          E-Shield Africa is an online/e-commerce <br />
+                        </span>{" "}
+                        <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
+                          Marketplace(B2B). Our business is to provide
+                        </span>
+                        <br />
+                        <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
+                          a trusted and unified online portal for multiple
+                        </span>
+                        <br />
+                        <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
+                          manufacturers, distributors and vendors.
+                        </span>
+                        <br />
+                        <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
+                          We connect them to retailers for
+                        </span>
+                        <br />
+                        <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
+                          trade and services.
+                        </span>
+                      </Typography>
+                    )}
 
                     {matchesMD ? (
                       <Grid
