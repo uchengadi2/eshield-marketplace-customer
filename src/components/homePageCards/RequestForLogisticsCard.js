@@ -27,6 +27,7 @@ import ProductDetails from "./../products/ProductDetails";
 import LogisticsPartner from "../LogisticsPartner";
 import api from "./../../apis/local";
 import CoverImage from "./../../assets/images/home/cover15.png";
+import MobileCoverImage from "./../../assets/images/home/mobile/logistics-cover.png";
 
 import { baseURL } from "./../../apis/util";
 
@@ -51,6 +52,25 @@ const useStyles = makeStyles((theme) => ({
     //   //borderColor: theme.palette.common.grey,
     // },
   },
+
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    height: 800,
+    width: 400,
+
+    marginLeft: "10px",
+    //borderRadius: 30,
+    marginTop: "230em",
+    marginBottom: "1em",
+    padding: 0,
+
+    // "&:hover": {
+    //   //border: "solid",
+    //   //borderColor: theme.palette.common.grey,
+    // },
+  },
+
   imageContainer: {
     padding: 0,
     "&:hover": {
@@ -69,9 +89,38 @@ const useStyles = makeStyles((theme) => ({
       height: "6.5em",
     },
   },
+  imageMobile: {
+    height: 650,
+    width: 500,
+    marginLeft: 10,
+    padding: 0,
+    [theme.breakpoints.down("md")]: {
+      height: "7.5em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "28.5em",
+      width: "22.5em",
+    },
+  },
+
   media: {
     height: 550,
     width: 650,
+  },
+  homeMobileButton: {
+    ...theme.typography.estimate,
+    backgroundColor: theme.palette.common.orange,
+    borderRadius: 50,
+    height: 45,
+    width: 220,
+    marginRight: 10,
+    marginTop: 80,
+    marginLeft: 40,
+    fontWeight: 500,
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+      color: "white",
+    },
   },
 
   learnButton: {
@@ -152,6 +201,7 @@ export default function RequestForLogisticsCard(props) {
   const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const imageUrl = CoverImage;
+  const mobileImageUrl = MobileCoverImage;
 
   const Str = require("@supercharge/strings");
 
@@ -369,61 +419,122 @@ export default function RequestForLogisticsCard(props) {
   }
 
   return (
-    <Grid container direction="row" className={classes.root}>
-      <Grid item style={{ width: 650 }}>
-        <Button
-          onClick={() => props.setValue(0)}
-          disableRipple
-          component={Link}
-          to="/"
-          className={classes.imageContainer}
-        >
-          <img
-            alt="general product image"
-            src={imageUrl}
-            className={classes.image}
-          />
-        </Button>
-      </Grid>
-      <Grid item style={{ width: 630, marginLeft: 30 }}>
-        <Box
-          sx={{
-            marginTop: 150,
-            marginLeft: 100,
-            //border: "1px dotted grey",
-            padding: 15,
-            //borderRadius: 50,
-            //height: 450,
-          }}
-        >
-          <Typography>
-            Are you a Transporter or into Logistics business and want to
-            participate in our supply chain? Then partner with us.
-          </Typography>
-          {/* <Button
+    <>
+      {matchesMDUp ? (
+        <Grid container direction="row" className={classes.root}>
+          <Grid item style={{ width: 650 }}>
+            <Button
+              onClick={() => props.setValue(0)}
+              disableRipple
+              component={Link}
+              to="/"
+              className={classes.imageContainer}
+            >
+              <img
+                alt="general product image"
+                src={imageUrl}
+                className={classes.image}
+              />
+            </Button>
+          </Grid>
+          <Grid item style={{ width: 630, marginLeft: 30 }}>
+            <Box
+              sx={{
+                marginTop: 150,
+                marginLeft: 100,
+                //border: "1px dotted grey",
+                padding: 15,
+                //borderRadius: 50,
+                //height: 450,
+              }}
+            >
+              <Typography>
+                Are you a Transporter or into Logistics business and want to
+                participate in our supply chain? Then partner with us.
+              </Typography>
+              {/* <Button
             className={classes.homeButton}
             variant="outlined"
             // style={{ marginTop: 50 }}
           >
             Click here to Enroll
           </Button> */}
-          <Button
-            component={Link}
-            // to="/mobileapps"
-            to={`/logistics`}
-            variant="outlined"
+              <Button
+                component={Link}
+                // to="/mobileapps"
+                to={`/logistics`}
+                variant="outlined"
+                className={classes.homeButton}
+                onClick={() => <LogisticsPartner token={props.token} />}
+              >
+                <span style={{ marginRight: 10 }}>Click here to Register</span>
+                <ButtonArrow
+                  height={10}
+                  width={10}
+                  fill={theme.palette.common.orange}
+                />
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid container direction="row" className={classes.rootMobile}>
+          <Grid item style={{ width: 500 }}>
+            <Button
+              onClick={() => props.setValue(0)}
+              disableRipple
+              component={Link}
+              to="/"
+              className={classes.imageContainer}
+            >
+              <img
+                alt="general product image"
+                src={imageUrl}
+                className={classes.imageMobile}
+              />
+            </Button>
+          </Grid>
+          <Grid item style={{ width: 400, marginLeft: 10 }}>
+            <Box
+              sx={{
+                marginTop: 30,
+                marginLeft: 10,
+                //border: "1px dotted grey",
+                padding: 15,
+                //borderRadius: 50,
+                //height: 450,
+              }}
+            >
+              <Typography>
+                Are you a Transporter or into Logistics business <br /> and want
+                to participate in our supply chain? <br /> Then partner with us.
+              </Typography>
+              {/* <Button
             className={classes.homeButton}
-            onClick={() => <LogisticsPartner token={props.token} />}
+            variant="outlined"
+            // style={{ marginTop: 50 }}
           >
-            <span style={{ marginRight: 10 }}>Click here to Register</span>
-            <ButtonArrow
-              height={10}
-              width={10}
-              fill={theme.palette.common.orange}
-            />
-          </Button>
-        </Box>
-      </Grid>
-    </Grid>
+            Click here to Enroll
+          </Button> */}
+              <Button
+                component={Link}
+                // to="/mobileapps"
+                to={`/logistics`}
+                variant="outlined"
+                className={classes.homeMobileButton}
+                onClick={() => <LogisticsPartner token={props.token} />}
+              >
+                <span style={{ marginRight: 10 }}>Click here to Register</span>
+                <ButtonArrow
+                  height={10}
+                  width={10}
+                  fill={theme.palette.common.orange}
+                />
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }

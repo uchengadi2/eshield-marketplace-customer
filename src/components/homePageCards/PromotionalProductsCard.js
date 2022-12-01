@@ -524,7 +524,9 @@ export default function PromotionalProductsCard(props) {
   if (!product) {
     return <></>;
   }
-
+  console.log("this is the props:", props);
+  console.log("imageUrl: ", imageUrl);
+  console.log("product is:", product);
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -642,7 +644,17 @@ export default function PromotionalProductsCard(props) {
               </CardActionArea>
             </Card>
           ) : (
-            <></>
+            <Card className={classes.dialog}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  alt={props.alt}
+                  image={imageUrl}
+                  crossOrigin="anonymous"
+                />
+              </CardActionArea>
+            </Card>
           )}
 
           <Bookings

@@ -40,6 +40,16 @@ const useStyles = makeStyles((theme) => ({
       objectFit: "cover",
     },
   },
+  rootMobile: {
+    width: "100%",
+    height: "80vh",
+    marginTop: "8em",
+    // height: "100%",
+    position: "relative",
+    "& video": {
+      objectFit: "cover",
+    },
+  },
   overlay: {
     position: "absolute",
     top: 0,
@@ -380,13 +390,26 @@ function FeatureProductsPage(props) {
   );
 
   return (
-    <Grid container direction="row" className={classes.root}>
-      <Typography variant="h4" style={{ marginLeft: 650 }}>
-        Hot Sales
-      </Typography>
-      <Grid item style={{ width: "100%", marginTop: "20px" }}>
-        <Grid item>{cartList}</Grid>
-      </Grid>
+    <>
+      {matchesMD ? (
+        <Grid container direction="row" className={classes.root}>
+          <Typography variant="h4" style={{ marginLeft: 650 }}>
+            Hot Sales
+          </Typography>
+          <Grid item style={{ width: "100%", marginTop: "20px" }}>
+            <Grid item>{cartList}</Grid>
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid container direction="row" className={classes.rootMobile}>
+          <Typography variant="h4" style={{ marginLeft: 130, marginTop: 0 }}>
+            Hot Sales
+          </Typography>
+          <Grid item style={{ width: "100%", marginTop: "20px" }}>
+            <Grid item>{cartList}</Grid>
+          </Grid>
+        </Grid>
+      )}
       <Snackbar
         open={alert.open}
         message={alert.message}
@@ -397,7 +420,7 @@ function FeatureProductsPage(props) {
         onClose={() => setAlert({ ...alert, open: false })}
         autoHideDuration={4000}
       />
-    </Grid>
+    </>
   );
 }
 

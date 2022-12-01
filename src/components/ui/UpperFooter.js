@@ -65,6 +65,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     position: "relative",
   },
+  footerMobile: {
+    marginTop: "90rem",
+    width: "100%",
+    position: "relative",
+  },
   estimateButton: {
     ...theme.typography.estimate,
     backgroundColor: theme.palette.common.orange,
@@ -297,12 +302,13 @@ function UpperFooter(props) {
                   ) : (
                     <Typography variant="subtitle2" style={{ fontSize: 14 }}>
                       <strong>
-                        We are an online Business-to-Business Marketplace.
-                        <br /> We connect Retailers to Dealers & Manufacturers{" "}
-                        <br />
-                        of Fast Moving Goods and Commodities
-                        <br />
-                        across Africa.
+                        E-Shield Africa is an online/e-commerce
+                        Business-to-Business(B2B) Marketplace. Our business is
+                        to <br />
+                        provide a trusted and unified online portal for <br />
+                        multiple manufacturers, distributors and <br />
+                        vendors. We connect them to retailers <br />
+                        for trade and services
                       </strong>
                     </Typography>
                   )}
@@ -372,7 +378,7 @@ function UpperFooter(props) {
                       <span>info@eshieldafrica.com</span>
                       <br />
 
-                      <span>+234 800 000 0000, +234 800 000 0000</span>
+                      <span>+234 803 937 3978, +234 802 469 7155</span>
                     </Typography>
                   )}
                   {matchesMD ? (
@@ -454,9 +460,15 @@ function UpperFooter(props) {
           />
         </Grid>
       </Grid>
-      <Grid item className={classes.footer}>
-        <Footer />
-      </Grid>
+      {matchesMD ? (
+        <Grid item className={classes.footer}>
+          <Footer />
+        </Grid>
+      ) : (
+        <Grid item className={classes.footerMobile}>
+          <Footer />
+        </Grid>
+      )}
     </>
   );
 }

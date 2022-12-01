@@ -90,7 +90,25 @@ const useStyles = makeStyles((theme) => ({
       height: "6.5em",
     },
   },
+  logoMobile: {
+    height: "11em",
+    width: "10em",
+    marginLeft: -15,
+    padding: 0,
+    [theme.breakpoints.down("md")]: {
+      height: "7em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "6.5em",
+    },
+  },
   logoContainer: {
+    padding: 0,
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+  logoContainerMobile: {
     padding: 0,
     "&:hover": {
       backgroundColor: "transparent",
@@ -687,7 +705,7 @@ const Header = (props) => {
             id="item_type_label"
             style={{ fontSize: 11, marginTop: -8 }}
           >
-            Select Category
+            {matchesMDUp ? "Select Category" : "Category"}
           </InputLabel>
         ) : null}
 
@@ -698,7 +716,7 @@ const Header = (props) => {
           onChange={handleCategoryChange}
           style={{
             marginTop: 0,
-            width: 150,
+            width: matchesMDUp ? 150 : 105,
             height: 38,
             marginLeft: 0,
           }}
@@ -788,33 +806,82 @@ const Header = (props) => {
     <React.Fragment>
       <ElevationScroll>
         <AppBar position="fixed" className={classes.appbar}>
-          {/* <Box
-            sx={{
-              backgroundColor: "#125C13",
-              padding: 15,
-              borderRadius: 0,
-            }}
-          >
-            <Typography style={{ marginLeft: 30 }}>
-              <span>Email: sales@eshieldafrica.com</span>
-              <span>Tel: 0803 937 3978; 0802 469 7155</span>
-            </Typography>
-            
-          </Box> */}
-          <Grid container direction="row" className={classes.topHeader}>
-            <Grid item style={{ width: 250 }}>
-              <Typography>
-                {" "}
-                <span>Email: sales@eshieldafrica.com</span>
-              </Typography>
-            </Grid>
-            <Grid item style={{ width: 250 }}>
-              <Typography>
-                <span>Tel: 0803 937 3978; 0802 469 7155</span>
-              </Typography>
-            </Grid>
+          {matchesMDUp ? (
+            <Grid container direction="row" className={classes.topHeader}>
+              <Grid item style={{ width: 250 }}>
+                <Typography>
+                  {" "}
+                  <span>Email: sales@eshieldafrica.com</span>
+                </Typography>
+              </Grid>
+              <Grid item style={{ width: 250 }}>
+                <Typography>
+                  <span>Tel: 0803 937 3978; 0802 469 7155</span>
+                </Typography>
+              </Grid>
 
-            <Grid
+              <Grid
+                item
+                component={"a"}
+                href="https://www.facebook.com/eshieldafricab2b/"
+                rel="noopener noreferrer"
+                target="_blank"
+                className={classes.socialPos}
+              >
+                <img
+                  alt="facebok logo"
+                  src={facebook}
+                  className={classes.icon}
+                />
+              </Grid>
+              <Grid
+                item
+                component={"a"}
+                href="https://www.linkedin.com/company/e-shield-africa"
+                rel="noopener noreferrer"
+                target="_blank"
+                style={{ marginLeft: 30 }}
+              >
+                <img
+                  alt="twitter logo"
+                  src={linkedIn}
+                  className={classes.icon}
+                />
+              </Grid>
+              <Grid
+                item
+                component={"a"}
+                href="https://www.instagram.com/e_shieldafrica/"
+                rel="noopener noreferrer"
+                target="_blank"
+                style={{ marginLeft: 30 }}
+              >
+                <img
+                  alt="instagram logo"
+                  src={instagram}
+                  className={classes.icon}
+                />
+              </Grid>
+            </Grid>
+          ) : (
+            <Grid container direction="row" className={classes.topHeader}>
+              <Grid item style={{ width: 180 }}>
+                <Typography>
+                  {" "}
+                  <span style={{ fontSize: 11 }}>
+                    Email: sales@eshieldafrica.com
+                  </span>
+                </Typography>
+              </Grid>
+              <Grid item style={{ width: 230 }}>
+                <Typography>
+                  <span style={{ fontSize: 11 }}>
+                    Tel: 0803 937 3978; 0802 469 7155
+                  </span>
+                </Typography>
+              </Grid>
+
+              {/* <Grid
               item
               component={"a"}
               href="https://www.facebook.com/eshieldafricab2b/"
@@ -847,52 +914,194 @@ const Header = (props) => {
                 src={instagram}
                 className={classes.icon}
               />
+            </Grid> */}
             </Grid>
-          </Grid>
+          )}
+          {matchesMDUp ? (
+            // <Toolbar disableGutters>
+            //   <Button
+            //     onClick={() => props.setValue(0)}
+            //     disableRipple
+            //     component={Link}
+            //     to="/"
+            //     className={classes.logoContainer}
+            //   >
+            //     <img alt="company logo" src={logo} className={classes.logo} />
+            //   </Button>
+            //   <Box
+            //     sx={{
+            //       backgroundColor: "white",
+            //       padding: 10,
+            //       borderRadius: 20,
+            //     }}
+            //   >
+            //     {renderCategoryField()}
+            //     <TextField
+            //       variant="outlined"
+            //       className={classes.root}
+            //       style={{ width: 220, marginLeft: 8 }}
+            //       onChange={onChangeSearchText}
+            //       defaultValue={searchText}
+            //       InputProps={{
+            //         style: {
+            //           height: 38,
+            //         },
+            //       }}
+            //     />
+            //     <Button
+            //       onClick={() => <SearchPage />}
+            //       disableRipple
+            //       component={Link}
+            //       to={`/${category}/products/${searchText}`}
+            //       className={classes.search}
+            //     >
+            //       Search
+            //     </Button>
+            //   </Box>
 
-          <Toolbar disableGutters>
-            <Button
-              onClick={() => props.setValue(0)}
-              disableRipple
-              component={Link}
-              to="/"
-              className={classes.logoContainer}
-            >
-              <img alt="company logo" src={logo} className={classes.logo} />
-            </Button>
-            <Box
-              sx={{
-                backgroundColor: "white",
-                padding: 10,
-                borderRadius: 20,
-              }}
-            >
-              {renderCategoryField()}
-              <TextField
-                variant="outlined"
-                className={classes.root}
-                style={{ width: 220, marginLeft: 8 }}
-                onChange={onChangeSearchText}
-                defaultValue={searchText}
-                InputProps={{
-                  style: {
-                    height: 38,
-                  },
-                }}
-              />
+            //   {matches ? drawer : tabs}
+            // </Toolbar>
+            <></>
+          ) : (
+            <Toolbar disableGutters>
               <Button
-                onClick={() => <SearchPage />}
+                onClick={() => props.setValue(0)}
                 disableRipple
                 component={Link}
-                to={`/${category}/products/${searchText}`}
-                className={classes.search}
+                to="/"
+                className={classes.logoContainerMobile}
               >
-                Search
+                <img
+                  alt="company logo"
+                  src={logo}
+                  className={classes.logoMobile}
+                />
               </Button>
-            </Box>
+              {/* <Box
+                sx={{
+                  backgroundColor: "white",
+                  padding: 10,
+                  borderRadius: 20,
+                }}
+              >
+                {renderCategoryField()}
+                <TextField
+                  variant="outlined"
+                  className={classes.root}
+                  style={{ width: 150, marginLeft: 8 }}
+                  onChange={onChangeSearchText}
+                  defaultValue={searchText}
+                  InputProps={{
+                    style: {
+                      height: 38,
+                    },
+                  }}
+                />
+                <Button
+                  onClick={() => <SearchPage />}
+                  disableRipple
+                  component={Link}
+                  to={`/${category}/products/${searchText}`}
+                  className={classes.search}
+                >
+                  Search
+                </Button>
+              </Box> */}
 
-            {matches ? drawer : tabs}
-          </Toolbar>
+              {matches ? drawer : tabs}
+            </Toolbar>
+          )}
+
+          {matchesMDUp ? (
+            <Toolbar disableGutters>
+              <Button
+                onClick={() => props.setValue(0)}
+                disableRipple
+                component={Link}
+                to="/"
+                className={classes.logoContainer}
+              >
+                <img alt="company logo" src={logo} className={classes.logo} />
+              </Button>
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  padding: 10,
+                  borderRadius: 20,
+                }}
+              >
+                {renderCategoryField()}
+                <TextField
+                  variant="outlined"
+                  className={classes.root}
+                  style={{ width: 220, marginLeft: 8 }}
+                  onChange={onChangeSearchText}
+                  defaultValue={searchText}
+                  InputProps={{
+                    style: {
+                      height: 38,
+                    },
+                  }}
+                />
+                <Button
+                  onClick={() => <SearchPage />}
+                  disableRipple
+                  component={Link}
+                  to={`/${category}/products/${searchText}`}
+                  className={classes.search}
+                >
+                  Search
+                </Button>
+              </Box>
+
+              {matches ? drawer : tabs}
+            </Toolbar>
+          ) : (
+            <Toolbar disableGutters>
+              {/* <Button
+                onClick={() => props.setValue(0)}
+                disableRipple
+                component={Link}
+                to="/"
+                className={classes.logoContainer}
+              >
+                <img alt="company logo" src={logo} className={classes.logo} />
+              </Button> */}
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  padding: 10,
+                  borderRadius: 20,
+                }}
+              >
+                {renderCategoryField()}
+                <TextField
+                  variant="outlined"
+                  className={classes.root}
+                  style={{ width: 150, marginLeft: 8 }}
+                  onChange={onChangeSearchText}
+                  defaultValue={searchText}
+                  InputProps={{
+                    style: {
+                      height: 38,
+                    },
+                  }}
+                />
+                <Button
+                  onClick={() => <SearchPage />}
+                  disableRipple
+                  component={Link}
+                  to={`/${category}/products/${searchText}`}
+                  className={classes.search}
+                >
+                  Search
+                </Button>
+              </Box>
+
+              {/* {matches ? drawer : tabs} */}
+            </Toolbar>
+          )}
+
           {renderLoginForm()}
           {renderSignUpForm()}
           {renderForgotPasswordForm()}

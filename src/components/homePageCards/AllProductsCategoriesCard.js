@@ -26,6 +26,7 @@ import ProductsForCategory from "./../products/ProductsForCategory";
 import ProductDetails from "./../products/ProductDetails";
 import Categories from "../Categories";
 import CoverImage from "./../../assets/images/home/cover17.png";
+import CoverMobileImage1 from "./../../assets/images/home/mobile/cover1.png";
 import api from "./../../apis/local";
 
 import { baseURL } from "./../../apis/util";
@@ -54,12 +55,31 @@ const useStyles = makeStyles((theme) => ({
       //borderColor: theme.palette.common.grey,
     },
   },
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    height: 500,
+    width: 400,
+
+    marginLeft: "10px",
+    //borderRadius: 30,
+    marginTop: "15em",
+    marginBottom: "3em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+
+    "&:hover": {
+      //border: "solid",
+      //borderColor: theme.palette.common.grey,
+    },
+  },
   imageContainer: {
     padding: 0,
     "&:hover": {
       backgroundColor: "transparent",
     },
   },
+
   image: {
     height: 550,
     width: 650,
@@ -70,6 +90,20 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("xs")]: {
       height: "6.5em",
+    },
+  },
+
+  imageMobile: {
+    height: 550,
+    width: 650,
+    marginLeft: -15,
+    padding: 0,
+    [theme.breakpoints.down("md")]: {
+      height: "7em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "28.5em",
+      width: "22.5em",
     },
   },
   media: {
@@ -99,6 +133,21 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     marginTop: 80,
     marginLeft: 160,
+    fontWeight: 500,
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+      color: "white",
+    },
+  },
+  homeMobileButton: {
+    ...theme.typography.estimate,
+    backgroundColor: theme.palette.common.orange,
+    borderRadius: 50,
+    height: 45,
+    width: 220,
+    marginRight: 10,
+    marginTop: 80,
+    marginLeft: 40,
     fontWeight: 500,
     "&:hover": {
       backgroundColor: theme.palette.common.green,
@@ -155,6 +204,7 @@ export default function AllProductsCategoriesCard(props) {
   const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const imageUrl = CoverImage;
+  const imageMobile1Url = CoverMobileImage1;
 
   const Str = require("@supercharge/strings");
 
@@ -372,57 +422,115 @@ export default function AllProductsCategoriesCard(props) {
   }
 
   return (
-    <Grid container direction="row" className={classes.root}>
-      <Grid item style={{ width: 650 }}>
-        <Button
-          onClick={() => props.setValue(0)}
-          disableRipple
-          component={Link}
-          to="/"
-          className={classes.imageContainer}
-        >
-          <img
-            alt="general product image"
-            src={imageUrl}
-            className={classes.image}
-          />
-        </Button>
-      </Grid>
-      <Grid item style={{ width: 630, marginLeft: 30 }}>
-        <Box
-          sx={{
-            marginTop: 150,
-            marginLeft: 100,
-            //border: "1px dotted grey",
-            padding: 15,
-            //borderRadius: 50,
-            //height: 450,
-          }}
-        >
-          <Typography>
-            As a Business, Distributor or Retailer of Fast Moving Goods &
-            Commodities, do you want to Stock up or re-stock with ease and on
-            Schedule? Let's do it for you
-          </Typography>
-          {/* <Button
+    <>
+      {matchesMDUp ? (
+        <Grid container direction="row" className={classes.root}>
+          <Grid item style={{ width: 650 }}>
+            <Button
+              onClick={() => props.setValue(0)}
+              disableRipple
+              component={Link}
+              to="/"
+              className={classes.imageContainer}
+            >
+              <img
+                alt="general product image"
+                src={imageUrl}
+                className={classes.image}
+              />
+            </Button>
+          </Grid>
+          <Grid item style={{ width: 630, marginLeft: 30 }}>
+            <Box
+              sx={{
+                marginTop: 150,
+                marginLeft: 50,
+                //border: "1px dotted grey",
+                padding: 15,
+                //borderRadius: 50,
+                //height: 450,
+              }}
+            >
+              <Typography>
+                As a Business, Distributor or Retailer of Fast Moving Goods &
+                Commodities, do you want to Stock up or re-stock with ease and
+                on Schedule? Let's do it for you
+              </Typography>
+              {/* <Button
             className={classes.homeButton}
             variant="outlined"
             // style={{ marginTop: 50 }}
           >
             Click here to Start Ordering
           </Button> */}
-          <Button
-            component={Link}
-            // to="/mobileapps"
-            to={`/categories`}
-            varaint="outlined"
+              <Button
+                component={Link}
+                // to="/mobileapps"
+                to={`/categories`}
+                varaint="outlined"
+                className={classes.homeButton}
+                onClick={() => <Categories token={props.token} />}
+              >
+                Click here to Start Ordering
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid container direction="row" className={classes.rootMobile}>
+          <Grid item style={{ width: 500 }}>
+            <Button
+              onClick={() => props.setValue(0)}
+              disableRipple
+              component={Link}
+              to="/"
+              className={classes.imageContainer}
+            >
+              <img
+                alt="general product image"
+                src={imageMobile1Url}
+                className={classes.imageMobile}
+              />
+            </Button>
+          </Grid>
+          <Grid item style={{ width: 400, marginLeft: 0 }}>
+            <Box
+              sx={{
+                marginTop: 50,
+                marginLeft: 10,
+                //border: "1px dotted grey",
+                padding: 5,
+                //borderRadius: 50,
+                //height: 450,
+              }}
+            >
+              <Typography>
+                As a Business, Distributor or Retailer of Fast
+                <br /> Moving Goods & Commodities, do you want to <br />
+                Stock up or re-stock with ease and on Schedule? <br />
+                Let's do it for you
+              </Typography>
+              {/* <Button
             className={classes.homeButton}
-            onClick={() => <Categories token={props.token} />}
+            variant="outlined"
+            // style={{ marginTop: 50 }}
           >
             Click here to Start Ordering
-          </Button>
-        </Box>
-      </Grid>
-    </Grid>
+          </Button> */}
+              <Button
+                component={Link}
+                // to="/mobileapps"
+                to={`/categories`}
+                varaint="outlined"
+                className={classes.homeMobileButton}
+                onClick={() => <Categories token={props.token} />}
+              >
+                Click here to Start Ordering
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }

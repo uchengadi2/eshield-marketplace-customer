@@ -491,7 +491,17 @@ export default function FeatureProductsCard(props) {
               </CardActionArea>
             </Card>
           ) : (
-            <></>
+            <Card className={classes.dialog}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  alt={props.alt}
+                  image={imageUrl}
+                  crossOrigin="anonymous"
+                />
+              </CardActionArea>
+            </Card>
           )}
 
           <Bookings

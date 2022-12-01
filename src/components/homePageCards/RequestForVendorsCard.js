@@ -26,6 +26,8 @@ import ProductsForCategory from "./../products/ProductsForCategory";
 import ProductDetails from "./../products/ProductDetails";
 import api from "./../../apis/local";
 import CoverImage from "./../../assets/images/home/cover16.png";
+//import MobileCoverImage from "/../../assets/images/home/mobile/cover2.png";
+import MobileCoverImage from "./../../assets/images/home/mobile/cover2.png";
 
 import { baseURL } from "./../../apis/util";
 
@@ -51,6 +53,23 @@ const useStyles = makeStyles((theme) => ({
     //   //borderColor: theme.palette.common.grey,
     // },
   },
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    height: 800,
+    width: 400,
+
+    marginLeft: "10px",
+    //borderRadius: 30,
+    marginTop: "220em",
+    marginBottom: "3em",
+    padding: 0,
+
+    // "&:hover": {
+    //   //border: "solid",
+    //   //borderColor: theme.palette.common.grey,
+    // },
+  },
   imageContainer: {
     padding: 0,
     "&:hover": {
@@ -69,9 +88,27 @@ const useStyles = makeStyles((theme) => ({
       height: "6.5em",
     },
   },
+  imageMobile: {
+    height: 650,
+    width: 500,
+    marginLeft: 10,
+    padding: 0,
+    [theme.breakpoints.down("md")]: {
+      height: "7.5em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "28.5em",
+      width: "22.5em",
+    },
+  },
+  // media: {
+  //   height: 550,
+  //   width: 650,
+  // },
+
   media: {
-    height: 550,
-    width: 650,
+    height: 250,
+    width: 450,
   },
 
   learnButton: {
@@ -97,6 +134,21 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 160,
     fontWeight: 500,
     color: "white",
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+      color: "white",
+    },
+  },
+  homeMobileButton: {
+    ...theme.typography.estimate,
+    backgroundColor: theme.palette.common.orange,
+    borderRadius: 50,
+    height: 45,
+    width: 220,
+    marginRight: 10,
+    marginTop: 80,
+    marginLeft: 40,
+    fontWeight: 500,
     "&:hover": {
       backgroundColor: theme.palette.common.green,
       color: "white",
@@ -152,6 +204,7 @@ export default function RequestForVendorsCard(props) {
   const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const imageUrl = CoverImage;
+  const imageMobileUrl = MobileCoverImage;
 
   const Str = require("@supercharge/strings");
 
@@ -369,57 +422,117 @@ export default function RequestForVendorsCard(props) {
   }
 
   return (
-    <Grid container direction="row" className={classes.root}>
-      <Grid item style={{ width: 670 }}>
-        <Box
-          sx={{
-            marginTop: 150,
-            marginLeft: 100,
-            //border: "1px dotted grey",
-            padding: 15,
-            //borderRadius: 50,
-            //height: 450,
-          }}
-        >
-          <Typography>
-            As a Manufacturer or a Dealer of Fast Moving Goods & Commodities, do
-            you want to deepen your reach within the existing markets as well as
-            reach new markets and opportunities? We can help with that.
-          </Typography>
-          {/* <Button
+    <>
+      {matchesMDUp ? (
+        <Grid container direction="row" className={classes.root}>
+          <Grid item style={{ width: 670 }}>
+            <Box
+              sx={{
+                marginTop: 150,
+                marginLeft: 100,
+                //border: "1px dotted grey",
+                padding: 15,
+                //borderRadius: 50,
+                //height: 450,
+              }}
+            >
+              <Typography>
+                As a Manufacturer or a Dealer of Fast Moving Goods &
+                Commodities, do you want to deepen your reach within the
+                existing markets as well as reach new markets and opportunities?
+                We can help with that.
+              </Typography>
+              {/* <Button
             className={classes.homeButton}
             variant="outlined"
             // style={{ marginTop: 50 }}
           >
             Click here to Enroll
           </Button> */}
-          <Button
-            component={Link}
-            // to="/mobileapps"
-            to={`/vendors`}
-            variant="outlined"
+              <Button
+                component={Link}
+                // to="/mobileapps"
+                to={`/vendors`}
+                variant="outlined"
+                className={classes.homeButton}
+                onClick={() => <VendorPartner token={props.token} />}
+              >
+                Click here to Register
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item style={{ width: 650 }}>
+            <Button
+              onClick={() => props.setValue(0)}
+              disableRipple
+              component={Link}
+              to="/"
+              className={classes.imageContainer}
+            >
+              <img
+                alt="general product image"
+                src={imageUrl}
+                className={classes.image}
+              />
+            </Button>
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid container direction="row" className={classes.rootMobile}>
+          <Grid item style={{ width: 500 }}>
+            <Button
+              onClick={() => props.setValue(0)}
+              disableRipple
+              component={Link}
+              to="/"
+              className={classes.imageContainer}
+            >
+              <img
+                alt="general product image"
+                src={imageMobileUrl}
+                className={classes.imageMobile}
+              />
+            </Button>
+          </Grid>
+          <Grid item style={{ width: 400, marginTop: 10 }}>
+            <Box
+              sx={{
+                marginTop: 30,
+                marginLeft: 10,
+                //border: "1px dotted grey",
+                padding: 15,
+                //borderRadius: 50,
+                //height: 450,
+              }}
+            >
+              <Typography>
+                As a Manufacturer or a Dealer of Fast Moving <br /> Goods &
+                Commodities, do you want to deepen <br />
+                your reach within the existing markets as well <br /> as reach
+                new markets and opportunities? <br />
+                We can help with that.
+              </Typography>
+              {/* <Button
             className={classes.homeButton}
-            onClick={() => <VendorPartner token={props.token} />}
+            variant="outlined"
+            // style={{ marginTop: 50 }}
           >
-            Click here to Register
-          </Button>
-        </Box>
-      </Grid>
-      <Grid item style={{ width: 650 }}>
-        <Button
-          onClick={() => props.setValue(0)}
-          disableRipple
-          component={Link}
-          to="/"
-          className={classes.imageContainer}
-        >
-          <img
-            alt="general product image"
-            src={imageUrl}
-            className={classes.image}
-          />
-        </Button>
-      </Grid>
-    </Grid>
+            Click here to Enroll
+          </Button> */}
+              <Button
+                component={Link}
+                // to="/mobileapps"
+                to={`/vendors`}
+                variant="outlined"
+                className={classes.homeMobileButton}
+                onClick={() => <VendorPartner token={props.token} />}
+              >
+                Click here to Register
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }

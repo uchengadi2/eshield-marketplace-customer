@@ -100,9 +100,27 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
+  estimateButtonMobile: {
+    ...theme.typography.estimate,
+    backgroundColor: theme.palette.common.orange,
+    borderRadius: 50,
+    height: 45,
+    width: 220,
+    marginRight: 10,
+    marginLeft: 20,
+    fontWeight: 500,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+      color: "white",
+    },
+  },
   buttonContainer: {
     marginTop: "3.9em",
     marginLeft: "6.9em",
+  },
+  buttonContainerMobile: {
+    marginTop: "4.2em",
+    marginLeft: "3.5em",
   },
   learnButtonHero: {
     ...theme.typography.learnButton,
@@ -500,31 +518,39 @@ const Marketplace = (props) => {
                     <Typography
                       variant={matchesSM ? "subtitle2" : "h2"}
                       align="left"
-                      style={{ marginTop: "16rem" }}
+                      style={{ marginTop: "16rem", fontSize: "1.2rem" }}
+                      justifyContent="center"
+                      alignItems="center"
                     >
-                      <span style={{ marginLeft: matchesSM ? 20 : 5 }}>
+                      <span
+                        style={{
+                          marginLeft: matchesSM ? 20 : 5,
+                        }}
+                      >
                         {" "}
-                        E-Shield Africa is an online/e-commerce Marketplace
-                        (B2B).
+                        E-Shield Africa is an online/e-commerce <br />
                       </span>{" "}
-                      <br />
                       <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
-                        Our business is to provide a trusted and unified online
-                        portal
+                        Marketplace(B2B). Our business is to provide
                       </span>
                       <br />
                       <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
-                        for multiple manufacturers, distributors and vendors.
+                        a trusted and unified online portal for multiple
                       </span>
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 50 : 130 }}>
+                      <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
+                        manufacturers, distributors and vendors.
+                      </span>
+                      <br />
+                      <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
                         We connect them to retailers for
                       </span>
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 50 : 230 }}>
+                      <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
                         trade and services.
                       </span>
                     </Typography>
+
                     {matchesMD ? (
                       <Grid
                         container
@@ -533,19 +559,6 @@ const Marketplace = (props) => {
                         className={classes.buttonContainer}
                       >
                         <Grid item>
-                          {/* <Button
-                            // component={Link}
-                            // to="/estimate"
-                            className={classes.estimateButton}
-                            variant="contained"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              //  history.push(`/orders/completed`);
-                              window.open(
-                                "https://partners.eshieldafrica.com/"
-                              );
-                            }}
-                          > */}
                           <Button
                             component={Link}
                             // to="/mobileapps"
@@ -557,39 +570,27 @@ const Marketplace = (props) => {
                             See Our Product Categories
                           </Button>
                         </Grid>
-                        {/* <Grid item>
-                          <Button
-                            // component={Link}
-                            // to="/revolution"
-                            variant="outlined"
-                            className={classes.visitPartnerButtonsite}
-                            onClick={(event) => {
-                              event.preventDefault();
-                              //  history.push(`/orders/completed`);
-                              window.open(
-                                "https://partners.eshieldafrica.com/"
-                              );
-                            }}
-                          >
-                            <span
-                              style={{
-                                marginRight: 10,
-                              }}
-                            >
-                              {matchesSM
-                                ? "Courier Partner"
-                                : "Become a Courier Partner"}
-                            </span>
-                            <ButtonArrow
-                              width={15}
-                              height={15}
-                              fill={theme.palette.common.orange}
-                            />
-                          </Button>
-                        </Grid> */}
                       </Grid>
                     ) : (
-                      <></>
+                      <Grid
+                        container
+                        justifyContent="flex-start"
+                        direction={matchesSM ? "column" : "row"}
+                        className={classes.buttonContainerMobile}
+                      >
+                        <Grid item>
+                          <Button
+                            component={Link}
+                            // to="/mobileapps"
+                            to={`/categories`}
+                            varaint="outlined"
+                            className={classes.estimateButtonMobile}
+                            onClick={() => <Categories token={props.token} />}
+                          >
+                            See Our Product Categories
+                          </Button>
+                        </Grid>
+                      </Grid>
                     )}
                   </Grid>
                 </Box>
