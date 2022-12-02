@@ -424,7 +424,7 @@ const Categories = (props) => {
     <>
       {/* <Grid container direction="row" className={classes.mainContainer}> */}
       <Grid container direction="row" className={classes.root}>
-        <Typography variant="h4" style={{ marginLeft: 550 }}>
+        <Typography variant="h4" style={{ marginLeft: matchesMD ? 550 : 80 }}>
           Shop By Categories
         </Typography>
         {/* <section className={classes.root}> */}

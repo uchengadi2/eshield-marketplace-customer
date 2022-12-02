@@ -50,6 +50,9 @@ import instagram from "./../../assets/instagram.svg";
 import Categories from "../Categories";
 import { padding } from "@mui/system";
 import api from "./../../apis/local";
+import { FaLaptopHouse } from "react-icons/fa";
+import OrderPage from "../orders/OrderPage";
+import ProfileLayout from "../ProfileLayout";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -329,8 +332,6 @@ const Header = (props) => {
     setSearchText(event.target.value);
   };
 
-  console.log("the search text:", searchText);
-
   const handleLoginDialogOpenStatus = () => {
     // history.push("/categories/new");
     setOpenLoginForm(false);
@@ -342,12 +343,14 @@ const Header = (props) => {
 
   const handleSuccessfulLoginDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
-    setOpenLoginForm(false);
+
     setAlert({
       open: true,
       message: message,
       backgroundColor: "#4BB543",
     });
+    setOpenLoginForm(false);
+    setOpenDrawer(false);
   };
 
   const handleFailedLoginDialogOpenStatusWithSnackbar = (message) => {
@@ -363,12 +366,14 @@ const Header = (props) => {
 
   const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
-    setOpenSignUpForm(false);
+
     setAlert({
       open: true,
       message: message,
       backgroundColor: "#4BB543",
     });
+    setOpenSignUpForm(false);
+    setOpenDrawer(false);
   };
 
   const handleFailedSignUpDialogOpenStatusWithSnackbar = (message) => {
@@ -411,6 +416,7 @@ const Header = (props) => {
   const handleLogOutDialogOpenStatus = () => {
     // history.push("/categories/new");
     setOpenLogOut(false);
+    setOpenDrawer(false);
   };
 
   const handleMenuItemClick = (e, i) => {
@@ -489,7 +495,7 @@ const Header = (props) => {
             Checkout
           </Button>
           <Button
-            onClick={() => <CheckoutPage />}
+            onClick={() => <ProfileLayout />}
             disableRipple
             component={Link}
             to={`/profile/${props.userId}`}
@@ -763,34 +769,153 @@ const Header = (props) => {
             </ListItem>
           ))}
 
-          <ListItem
-            className={classes.drawerItemEstimate}
-            // onClick={() => {
-            //   setOpenDrawer(false);
-            //   props.setValue(5);
-            // }}
-            //onClick={() => [setOpenLoginForm(true), history.push("/")]}
-            onClick={() => [setOpenLoginForm(true)]}
-            divider
-            button
-            component={Link}
-            to="/"
-            classes={{
-              root: classes.drawerItemEstimate,
-              selected: classes.drawerItemSelected,
-            }}
-            selected={props.value === 5}
-          >
-            {props.token === undefined ? (
+          {props.token === undefined ? (
+            <ListItem
+              className={classes.drawerItemEstimate}
+              // onClick={() => {
+              //   setOpenDrawer(false);
+              //   props.setValue(5);
+              // }}
+              //onClick={() => [setOpenLoginForm(true), history.push("/")]}
+              onClick={() => [setOpenLoginForm(true)]}
+              divider
+              button
+              // component={Link}
+              // to="/"
+              classes={{
+                root: classes.drawerItemEstimate,
+                selected: classes.drawerItemSelected,
+              }}
+              selected={props.value === 5}
+            >
               <ListItemText className={classes.drawerItem} disableTypography>
                 Sign In
               </ListItemText>
-            ) : (
-              <ListItemText className={classes.drawerItem} disableTypography>
-                Sign Out
-              </ListItemText>
-            )}
-          </ListItem>
+            </ListItem>
+          ) : (
+            <>
+              <ListItem
+                className={classes.drawerItem}
+                onClick={() => [
+                  setOpenDrawer(false),
+                  props.setValue(5),
+                  <OrderPage />,
+                ]}
+                // onClick={() => [
+                //   setOpenLoginForm(false),
+                //   history.push(`/orders/${props.userId}`),
+                // ]}
+                //onClick={() => [setOpenLoginForm(true)]}
+                divider
+                button
+                component={Link}
+                to={`/orders/${props.userId}`}
+                classes={{
+                  root: classes.drawerItem,
+                  selected: classes.drawerItemSelected,
+                }}
+                selected={props.value === 5}
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  Orders
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                className={classes.drawerItem}
+                onClick={() => [
+                  setOpenDrawer(false),
+                  props.setValue(5),
+                  <ShowCustomerCart />,
+                ]}
+                //onClick={() => [setOpenLoginForm(true), history.push("/")]}
+                // onClick={() => [
+                //   setOpenMenu(true),
+                //   history.push("/"),
+                //   <ShowCustomerCart />,
+                // ]}
+                divider
+                button
+                component={Link}
+                to={`/carts/${props.userId}`}
+                classes={{
+                  root: classes.drawerItem,
+                  selected: classes.drawerItemSelected,
+                }}
+                selected={props.value === 5}
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  Cart
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                className={classes.drawerItem}
+                onClick={() => [
+                  setOpenDrawer(false),
+                  props.setValue(6),
+                  <CheckoutPage />,
+                ]}
+                //onClick={() => [setOpenLoginForm(true), history.push("/")]}
+                //onClick={() => <CheckoutPage />}
+                divider
+                button
+                component={Link}
+                to={`/checkouts/${props.userId}`}
+                classes={{
+                  root: classes.drawerItem,
+                  selected: classes.drawerItemSelected,
+                }}
+                selected={props.value === 5}
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  Checkout
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                className={classes.drawerItem}
+                onClick={() => [
+                  setOpenDrawer(false),
+                  props.setValue(5),
+                  <ProfileLayout />,
+                ]}
+                divider
+                button
+                component={Link}
+                to={`/profile/${props.userId}`}
+                classes={{
+                  root: classes.drawerItem,
+                  selected: classes.drawerItemSelected,
+                }}
+                selected={props.value === 5}
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  Profile
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                className={classes.drawerItemEstimate}
+                // onClick={() => {
+                //   setOpenDrawer(false);
+                //   props.setValue(5);
+                // }}
+                //onClick={() => [setOpenLoginForm(true), history.push("/")]}
+                //onClick={() => [setOpenLoginForm(true)]}
+                divider
+                button
+                // component={Link}
+                // to="/"
+                onClick={() => [setOpenLogOut(true), history.push("/")]}
+                classes={{
+                  root: classes.drawerItemEstimate,
+                  selected: classes.drawerItemSelected,
+                }}
+                selected={props.value === 5}
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  Sign Out
+                </ListItemText>
+              </ListItem>
+            </>
+          )}
         </List>
       </SwipeableDrawer>
       <IconButton
@@ -1101,24 +1226,23 @@ const Header = (props) => {
               {/* {matches ? drawer : tabs} */}
             </Toolbar>
           )}
-
-          {renderLoginForm()}
-          {renderSignUpForm()}
-          {renderForgotPasswordForm()}
-          {renderLogOutForm()}
-          <Snackbar
-            open={alert.open}
-            message={alert.message}
-            ContentProps={{
-              style: { backgroundColor: alert.backgroundColor },
-            }}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            onClose={() => setAlert({ ...alert, open: false })}
-            autoHideDuration={4000}
-          />
         </AppBar>
       </ElevationScroll>
       <Box className={classes.toolbarMargin}></Box>
+      {renderLoginForm()}
+      {renderSignUpForm()}
+      {renderForgotPasswordForm()}
+      {renderLogOutForm()}
+      <Snackbar
+        open={alert.open}
+        message={alert.message}
+        ContentProps={{
+          style: { backgroundColor: alert.backgroundColor },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => setAlert({ ...alert, open: false })}
+        autoHideDuration={4000}
+      />
     </React.Fragment>
   );
 };

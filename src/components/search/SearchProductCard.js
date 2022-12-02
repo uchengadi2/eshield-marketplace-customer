@@ -47,6 +47,28 @@ const useStyles = makeStyles((theme) => ({
     //   //borderColor: theme.palette.common.grey,
     // },
   },
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    height: 900,
+    width: 400,
+
+    marginLeft: "10px",
+    //borderRadius: 30,
+    marginTop: "5em",
+    marginBottom: "3em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+
+    "&:hover": {
+      //border: "solid",
+      //borderColor: theme.palette.common.grey,
+    },
+  },
+  mediaMobile: {
+    height: 200,
+    width: 350,
+  },
   media: {
     height: 350,
     width: 350,
@@ -520,142 +542,294 @@ export default function SearchProductCard(props) {
   }
 
   return (
-    <Card className={classes.root} disableRipple>
-      <CardActionArea disableRipple>
-        <Grid container direction="row">
-          <Grid item style={{ width: 350 }}>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt={product.name}
-              image={imageUrl}
-              //title={product.name}
-              crossOrigin="anonymous"
-            />
-          </Grid>
-          <Grid item style={{ width: 600, border: "1px dotted grey" }}>
-            <CardContent disableRipple>
-              <Typography variant="h4" color="textSecondary" component="p">
-                {product.name}
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                component="p"
-              >
-                {Str(product.shortDescription).limit(200, "...").get()}
-              </Typography>
-              <Typography
-                variant="h4"
-                color="textSecondary"
-                component="p"
-                style={{ marginTop: 5, marginBottom: 15 }}
-              >
-                <span style={{ marginLeft: 130 }}>
-                  <strong>
-                    {getCurrencyCode()}
-                    {product.pricePerUnit
-                      ? product.pricePerUnit
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : 0}
-                    /unit
-                  </strong>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}>
-                  <strong>Sku:</strong> &nbsp;
-                  <span>{product.sku}</span>
-                </span>
-              </Typography>
+    <>
+      {matchesMDUp ? (
+        <Card className={classes.root} disableRipple>
+          <CardActionArea disableRipple>
+            <Grid container direction="row">
+              <Grid item style={{ width: 350 }}>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  alt={product.name}
+                  image={imageUrl}
+                  //title={product.name}
+                  crossOrigin="anonymous"
+                />
+              </Grid>
+              <Grid item style={{ width: 600, border: "1px dotted grey" }}>
+                <CardContent disableRipple>
+                  <Typography variant="h4" color="textSecondary" component="p">
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {Str(product.shortDescription).limit(200, "...").get()}
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                    <span style={{ marginLeft: 130 }}>
+                      <strong>
+                        {getCurrencyCode()}
+                        {product.pricePerUnit
+                          ? product.pricePerUnit
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                        /unit
+                      </strong>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span
+                      style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
+                    >
+                      <strong>Sku:</strong> &nbsp;
+                      <span>{product.sku}</span>
+                    </span>
+                  </Typography>
 
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Product Location:</strong>
-                  <span>
-                    {stateName}/{countryName}
-                  </span>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong>
-                    Delivery Period within {stateName}/{countryName}:
-                  </strong>
-                  <span>
-                    {product.estimatedDeliveryPeriodInDays}&nbsp;day(s)/
-                    {product.estimatedDeliveryPeriodInHours}&nbsp;hour(s)/
-                    {product.estimatedDeliveryPeriodInMinutes}&nbsp;minutes
-                  </span>
-                </span>
-              </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Product Location:</strong>
+                      <span>
+                        {stateName}/{countryName}
+                      </span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong>
+                        Delivery Period within {stateName}/{countryName}:
+                      </strong>
+                      <span>
+                        {product.estimatedDeliveryPeriodInDays}&nbsp;day(s)/
+                        {product.estimatedDeliveryPeriodInHours}&nbsp;hour(s)/
+                        {product.estimatedDeliveryPeriodInMinutes}&nbsp;minutes
+                      </span>
+                    </span>
+                  </Typography>
 
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong>
-                    Delivery Cost within &nbsp; {stateName}/{countryName} for
-                    the initial first{" "}
-                    {product.maxmumQuantityForBaselineDelivery} unit:
-                  </strong>
-                  <span>
-                    {getCurrencyCode()}
-                    {product.baselineDeliveryCostWithinProductLocation
-                      ? product.baselineDeliveryCostWithinProductLocation
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : 0}
-                  </span>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong>
-                    Subsequent Delivery Cost per Unit within &nbsp; {stateName}/
-                    {countryName}:
-                  </strong>
-                  <span>
-                    {getCurrencyCode()}
-                    {product.deliveryCostPerUnitWithinProductLocation
-                      ? product.deliveryCostPerUnitWithinProductLocation
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : 0}
-                  </span>
-                </span>
-              </Typography>
-              <Typography style={{ marginTop: 10 }}>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Vendor:</strong>
-                  <span>{vendorName}</span>
-                </span>
-              </Typography>
-            </CardContent>
-          </Grid>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong>
+                        Delivery Cost within &nbsp; {stateName}/{countryName}{" "}
+                        for the initial first{" "}
+                        {product.maxmumQuantityForBaselineDelivery} unit:
+                      </strong>
+                      <span>
+                        {getCurrencyCode()}
+                        {product.baselineDeliveryCostWithinProductLocation
+                          ? product.baselineDeliveryCostWithinProductLocation
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                      </span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong>
+                        Subsequent Delivery Cost per Unit within &nbsp;{" "}
+                        {stateName}/{countryName}:
+                      </strong>
+                      <span>
+                        {getCurrencyCode()}
+                        {product.deliveryCostPerUnitWithinProductLocation
+                          ? product.deliveryCostPerUnitWithinProductLocation
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                      </span>
+                    </span>
+                  </Typography>
+                  <Typography style={{ marginTop: 10 }}>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Vendor:</strong>
+                      <span>{vendorName}</span>
+                    </span>
+                  </Typography>
+                </CardContent>
+              </Grid>
 
-          <Grid item style={{ width: 349, border: "1px dotted grey" }}>
-            <SearchPageAction
-              price={product.pricePerUnit}
-              minimumQuantity={product.minimumQuantity}
-              remainingTotalUnits={product.remainingTotalUnits}
-              weight={product.weightPerUnit}
-              productId={product.id}
-              categoryId={product.category}
-              token={props.token}
-              userId={props.userId}
-              currency={product.currency}
-              handleMakeOpenLoginFormDialogStatus={
-                handleMakeOpenLoginFormDialogStatus
-              }
-              handleFailedSnackbar={handleFailedSnackbar}
-              handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
-              getCurrencyCode={getCurrencyCode}
-              handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
-            />
-          </Grid>
-        </Grid>
-      </CardActionArea>
+              <Grid item style={{ width: 349, border: "1px dotted grey" }}>
+                <SearchPageAction
+                  price={product.pricePerUnit}
+                  minimumQuantity={product.minimumQuantity}
+                  remainingTotalUnits={product.remainingTotalUnits}
+                  weight={product.weightPerUnit}
+                  productId={product.id}
+                  categoryId={product.category}
+                  token={props.token}
+                  userId={props.userId}
+                  currency={product.currency}
+                  handleMakeOpenLoginFormDialogStatus={
+                    handleMakeOpenLoginFormDialogStatus
+                  }
+                  handleFailedSnackbar={handleFailedSnackbar}
+                  handleSuccessfulCreateSnackbar={
+                    handleSuccessfulCreateSnackbar
+                  }
+                  getCurrencyCode={getCurrencyCode}
+                  handleCartItemForCheckoutBox={
+                    props.handleCartItemForCheckoutBox
+                  }
+                />
+              </Grid>
+            </Grid>
+          </CardActionArea>
+        </Card>
+      ) : (
+        <Card className={classes.rootMobile} disableRipple>
+          <CardActionArea disableRipple>
+            <Grid container direction="row">
+              <Grid item style={{ width: 350 }}>
+                <CardMedia
+                  className={classes.mediaMobile}
+                  component="img"
+                  alt={product.name}
+                  image={imageUrl}
+                  //title={product.name}
+                  crossOrigin="anonymous"
+                />
+              </Grid>
+              <Grid item style={{ width: 380, border: "1px dotted grey" }}>
+                <CardContent disableRipple>
+                  <Typography variant="h4" color="textSecondary" component="p">
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {Str(product.shortDescription).limit(200, "...").get()}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                    <span style={{ marginLeft: 130 }}>
+                      <strong>
+                        {getCurrencyCode()}
+                        {product.pricePerUnit
+                          ? product.pricePerUnit
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                        /unit
+                      </strong>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span
+                      style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
+                    >
+                      <strong>Sku:</strong> &nbsp;
+                      <span>{product.sku}</span>
+                    </span>
+                  </Typography>
 
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Product Location:</strong>
+                      <span>
+                        {stateName}/{countryName}
+                      </span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong>
+                        Delivery Period within {stateName}/{countryName}:
+                      </strong>
+                      <span>
+                        {product.estimatedDeliveryPeriodInDays}&nbsp;day(s)/
+                        {product.estimatedDeliveryPeriodInHours}&nbsp;hour(s)/
+                        {product.estimatedDeliveryPeriodInMinutes}&nbsp;minutes
+                      </span>
+                    </span>
+                  </Typography>
+
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong>
+                        Delivery Cost within &nbsp; {stateName}/{countryName}{" "}
+                        for the initial first{" "}
+                        {product.maxmumQuantityForBaselineDelivery} unit:
+                      </strong>
+                      <span>
+                        {getCurrencyCode()}
+                        {product.baselineDeliveryCostWithinProductLocation
+                          ? product.baselineDeliveryCostWithinProductLocation
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                      </span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong>
+                        Subsequent Delivery Cost per Unit within &nbsp;{" "}
+                        {stateName}/{countryName}:
+                      </strong>
+                      <span>
+                        {getCurrencyCode()}
+                        {product.deliveryCostPerUnitWithinProductLocation
+                          ? product.deliveryCostPerUnitWithinProductLocation
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                      </span>
+                    </span>
+                  </Typography>
+                  <Typography style={{ marginTop: 10 }}>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Vendor:</strong>
+                      <span>{vendorName}</span>
+                    </span>
+                  </Typography>
+                </CardContent>
+              </Grid>
+
+              <Grid item style={{ width: 360, border: "1px dotted grey" }}>
+                <SearchPageAction
+                  price={product.pricePerUnit}
+                  minimumQuantity={product.minimumQuantity}
+                  remainingTotalUnits={product.remainingTotalUnits}
+                  weight={product.weightPerUnit}
+                  productId={product.id}
+                  categoryId={product.category}
+                  token={props.token}
+                  userId={props.userId}
+                  currency={product.currency}
+                  handleMakeOpenLoginFormDialogStatus={
+                    handleMakeOpenLoginFormDialogStatus
+                  }
+                  handleFailedSnackbar={handleFailedSnackbar}
+                  handleSuccessfulCreateSnackbar={
+                    handleSuccessfulCreateSnackbar
+                  }
+                  getCurrencyCode={getCurrencyCode}
+                  handleCartItemForCheckoutBox={
+                    props.handleCartItemForCheckoutBox
+                  }
+                />
+              </Grid>
+            </Grid>
+          </CardActionArea>
+        </Card>
+      )}
       <Dialog
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
@@ -685,21 +859,17 @@ export default function SearchProductCard(props) {
         }}
       >
         <DialogContent>
-          {matchesMDUp ? (
-            <Card className={classes.dialog}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  component="img"
-                  alt={product.name}
-                  image={imageUrl}
-                  crossOrigin="anonymous"
-                />
-              </CardActionArea>
-            </Card>
-          ) : (
-            <></>
-          )}
+          <Card className={classes.dialog}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                component="img"
+                alt={product.name}
+                image={imageUrl}
+                crossOrigin="anonymous"
+              />
+            </CardActionArea>
+          </Card>
 
           <Bookings
             token={props.token}
@@ -722,6 +892,6 @@ export default function SearchProductCard(props) {
         onClose={() => setAlert({ ...alert, open: false })}
         autoHideDuration={4000}
       />
-    </Card>
+    </>
   );
 }

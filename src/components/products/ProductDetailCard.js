@@ -48,6 +48,28 @@ const useStyles = makeStyles((theme) => ({
     //   borderColor: theme.palette.common.grey,
     // },
   },
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    //height: 800,
+    width: 400,
+
+    marginLeft: "10px",
+    //borderRadius: 30,
+    marginTop: "10em",
+    marginBottom: "3em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+
+    "&:hover": {
+      //border: "solid",
+      //borderColor: theme.palette.common.grey,
+    },
+  },
+  mediaMobile: {
+    height: 250,
+    width: 380,
+  },
   media: {
     height: 500,
     width: 400,
@@ -86,10 +108,17 @@ const useStyles = makeStyles((theme) => ({
     transform: "rotate(180deg)",
   },
   secondRow: {
-    marginLeft: 20,
-    width: 550,
+    marginLeft: 10,
+    width: 400,
     border: "1px dotted",
     padding: 20,
+  },
+  secondRowMobile: {
+    marginLeft: 0,
+    marginTop: 30,
+    width: 380,
+    border: "1px dotted",
+    padding: 10,
   },
   footer: {
     width: "100%",
@@ -101,6 +130,13 @@ const useStyles = makeStyles((theme) => ({
     border: "1px dotted",
     padding: 20,
   },
+  thirdRowMobile: {
+    marginLeft: 10,
+    marginTop: 30,
+    width: 380,
+    border: "1px dotted",
+    padding: 20,
+  },
 
   secondColumn: {
     marginTop: 50,
@@ -108,6 +144,13 @@ const useStyles = makeStyles((theme) => ({
     border: "1px dotted",
     padding: 20,
     width: 1330,
+  },
+  secondColumnMobile: {
+    marginTop: 50,
+    marginBottom: 50,
+    border: "1px dotted",
+    padding: 20,
+    width: 400,
   },
 }));
 
@@ -443,295 +486,720 @@ export default function ProductDetailCard(props) {
   console.log("make is:", props.product.make);
 
   return (
-    <Grid container direction="column" className={classes.root}>
-      <Grid item container direction="row">
-        <Grid item>
-          <Card>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt={props.name}
-              image={imageUrl}
-              //   title={props.name}
-              crossOrigin="anonymous"
-            />
-          </Card>
-        </Grid>
-        <Grid item className={classes.secondRow}>
-          <Box>
-            <Typography variant="h4" style={{ fontSize: "2.5em" }}>
-              {props.product.name}
-            </Typography>
-            <Typography variant="h4">
-              {getCurrencyCode()}
-              {price ? price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0}
-              <span style={{ fontSize: 12, marginLeft: 0 }}>per Unit</span>
-            </Typography>
-            <Typography
-              variant="h5"
-              style={{
-                color: "black",
-                marginTop: 20,
-                marginBottom: 20,
-                justifyContent: "center",
-              }}
-            >
-              {props.product.shortDescription}
-            </Typography>
-            {props.product.sku !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  <strong>Sku:</strong>
-                </span>
-                {props.product.sku}
-              </Typography>
-            )}
-            {props.product.refNumber !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Reference Number:</strong>
-                </span>
-                {props.product.refNumber}
-              </Typography>
-            )}
-            {props.product.weightPerUnit !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Weight per Unit:</strong>
-                </span>
-                {props.product.weightPerUnit
-                  ? props.product.weightPerUnit
-                      .toFixed(2)
-                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                  : 0}
-                <span style={{ fontSize: 12, marginLeft: 0 }}>kg</span>
-              </Typography>
-            )}
-            {props.product.remainingTotalUnits !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Number of Units in Stock:</strong>
-                </span>
-                {props.product.remainingTotalUnits}
-              </Typography>
-            )}
+    <>
+      {matchesMDUp ? (
+        <Grid container direction="column" className={classes.root}>
+          <Grid item container direction="row">
+            <Grid item>
+              <Card>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  alt={props.name}
+                  image={imageUrl}
+                  //   title={props.name}
+                  crossOrigin="anonymous"
+                />
+              </Card>
+            </Grid>
+            <Grid item className={classes.secondRow}>
+              <Box>
+                <Typography variant="h4" style={{ fontSize: "2.5em" }}>
+                  {props.product.name}
+                </Typography>
+                <Typography variant="h4">
+                  {getCurrencyCode()}
+                  {price
+                    ? price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                    : 0}
+                  <span style={{ fontSize: 12, marginLeft: 0 }}>per Unit</span>
+                </Typography>
+                <Typography
+                  variant="h5"
+                  style={{
+                    color: "black",
+                    marginTop: 20,
+                    marginBottom: 20,
+                    justifyContent: "center",
+                  }}
+                >
+                  {props.product.shortDescription}
+                </Typography>
+                {props.product.sku !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      <strong>Sku:</strong>
+                    </span>
+                    {props.product.sku}
+                  </Typography>
+                )}
+                {props.product.refNumber !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Reference Number:</strong>
+                    </span>
+                    {props.product.refNumber}
+                  </Typography>
+                )}
+                {props.product.weightPerUnit !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Weight per Unit:</strong>
+                    </span>
+                    {props.product.weightPerUnit
+                      ? props.product.weightPerUnit
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                      : 0}
+                    <span style={{ fontSize: 12, marginLeft: 0 }}>kg</span>
+                  </Typography>
+                )}
+                {props.product.remainingTotalUnits !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Number of Units in Stock:</strong>
+                    </span>
+                    {props.product.remainingTotalUnits}
+                  </Typography>
+                )}
 
-            {props.product.make !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Make:</strong>
-                </span>
+                {props.product.make !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Make:</strong>
+                    </span>
 
-                {props.product.make}
-              </Typography>
-            )}
+                    {props.product.make}
+                  </Typography>
+                )}
 
-            {props.product.model !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Model:</strong>
-                </span>
-                {props.product.model}
-              </Typography>
-            )}
-            {props.product.color !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Colour:</strong>
-                </span>
-                {props.product.color}
-              </Typography>
-            )}
-            {props.product.size !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Size:</strong>
-                </span>
-                {props.product.size}
-              </Typography>
-            )}
-            {props.product.design !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Design:</strong>
-                </span>
-                {props.product.design}
-              </Typography>
-            )}
+                {props.product.model !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Model:</strong>
+                    </span>
+                    {props.product.model}
+                  </Typography>
+                )}
+                {props.product.color !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Colour:</strong>
+                    </span>
+                    {props.product.color}
+                  </Typography>
+                )}
+                {props.product.size !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Size:</strong>
+                    </span>
+                    {props.product.size}
+                  </Typography>
+                )}
+                {props.product.design !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Design:</strong>
+                    </span>
+                    {props.product.design}
+                  </Typography>
+                )}
 
-            {props.product.content !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Content:</strong>
-                </span>
-                {props.product.content}
-              </Typography>
-            )}
-            {props.product.smell !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Smell:</strong>
-                </span>
-                {props.product.smell}
-              </Typography>
-            )}
-            {props.product.taste !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Taste:</strong>
-                </span>
-                {props.product.taste}
-              </Typography>
-            )}
-            {props.product.feel !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Feel:</strong>
-                </span>
-                {props.product.feel}
-              </Typography>
-            )}
-            {props.product.ingredients !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Ingredients:</strong>
-                </span>
-                {props.product.ingredients}
-              </Typography>
-            )}
-            {props.product.reliability !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Reliability:</strong>
-                </span>
-                {props.product.reliability}
-              </Typography>
-            )}
-            {props.product.safety !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Safety:</strong>
-                </span>
-                {props.product.safety}
-              </Typography>
-            )}
-            {props.product.packaging !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Packaging:</strong>
-                </span>
-                {props.product.packaging}
-              </Typography>
-            )}
-            {props.product.durability !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Durability:</strong>
-                </span>
-                {props.product.durability}
-              </Typography>
-            )}
-            {props.product.marketingClaims !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>MarketingClaims:</strong>
-                </span>
-                {props.product.marketingClaims}
-              </Typography>
-            )}
-            {stateName !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Target Delivery Location:</strong>
-                </span>
-                {stateName}/{countryName}
-              </Typography>
-            )}
-            {/* <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+                {props.product.content !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Content:</strong>
+                    </span>
+                    {props.product.content}
+                  </Typography>
+                )}
+                {props.product.smell !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Smell:</strong>
+                    </span>
+                    {props.product.smell}
+                  </Typography>
+                )}
+                {props.product.taste !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Taste:</strong>
+                    </span>
+                    {props.product.taste}
+                  </Typography>
+                )}
+                {props.product.feel !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Feel:</strong>
+                    </span>
+                    {props.product.feel}
+                  </Typography>
+                )}
+                {props.product.ingredients !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Ingredients:</strong>
+                    </span>
+                    {props.product.ingredients}
+                  </Typography>
+                )}
+                {props.product.reliability !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Reliability:</strong>
+                    </span>
+                    {props.product.reliability}
+                  </Typography>
+                )}
+                {props.product.safety !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Safety:</strong>
+                    </span>
+                    {props.product.safety}
+                  </Typography>
+                )}
+                {props.product.packaging !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Packaging:</strong>
+                    </span>
+                    {props.product.packaging}
+                  </Typography>
+                )}
+                {props.product.durability !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Durability:</strong>
+                    </span>
+                    {props.product.durability}
+                  </Typography>
+                )}
+                {props.product.marketingClaims !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>MarketingClaims:</strong>
+                    </span>
+                    {props.product.marketingClaims}
+                  </Typography>
+                )}
+                {stateName !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Target Delivery Location:</strong>
+                    </span>
+                    {stateName}/{countryName}
+                  </Typography>
+                )}
+                {/* <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
               <span style={{ marginRight: 20 }}>
                 {" "}
                 <strong>Supports delivery beyond Target Location:</strong>
               </span>
               No
             </Typography> */}
-            {props.product.minimumQuantity !== "undefined" && (
-              <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
-                <span style={{ marginRight: 20 }}>
-                  {" "}
-                  <strong>Minimum Quantity Required:</strong>
-                </span>
-                {minQuantity} unit(s)
+                {props.product.minimumQuantity !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 20 }}>
+                      {" "}
+                      <strong>Minimum Quantity Required:</strong>
+                    </span>
+                    {minQuantity} unit(s)
+                  </Typography>
+                )}
+              </Box>
+            </Grid>
+            <Grid item className={classes.thirdRow}>
+              <Box>
+                <SendProductToCartForm
+                  price={price}
+                  minimumQuantity={minQuantity}
+                  productId={props.product.id}
+                  token={props.token}
+                  userId={props.userId}
+                  location={props.product.location}
+                  locationCountry={props.product.locationCountry}
+                  handleMakeOpenSignUpDialogStatus={
+                    handleMakeOpenSignUpDialogStatus
+                  }
+                  handleMakeCloseSignUpDialogStatus={
+                    handleMakeCloseSignUpDialogStatus
+                  }
+                  handleMakeOpenLoginFormDialogStatus={
+                    handleMakeOpenLoginFormDialogStatus
+                  }
+                  handleMakeCloseForgotPasswordFormDialogStatus={
+                    handleMakeCloseForgotPasswordFormDialogStatus
+                  }
+                  handleSuccessfulCreateSnackbar={
+                    props.handleSuccessfulCreateSnackbar
+                  }
+                  handleFailedSnackbar={props.handleFailedSnackbar}
+                  handleFailedSignUpDialogOpenStatusWithSnackbar={
+                    handleFailedSignUpDialogOpenStatusWithSnackbar
+                  }
+                />
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid item className={classes.secondColumn}>
+            <Box>
+              <Typography
+                variant="h5"
+                style={{
+                  color: "black",
+                  marginTop: 20,
+                  marginBottom: 20,
+                  justifyContent: "center",
+                }}
+              >
+                {props.product.fullDescription}{" "}
               </Typography>
-            )}
-          </Box>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item className={classes.thirdRow}>
-          <Box>
-            <SendProductToCartForm
-              price={price}
-              minimumQuantity={minQuantity}
-              productId={props.product.id}
-              token={props.token}
-              userId={props.userId}
-              location={props.product.location}
-              locationCountry={props.product.locationCountry}
-              handleMakeOpenSignUpDialogStatus={
-                handleMakeOpenSignUpDialogStatus
-              }
-              handleMakeCloseSignUpDialogStatus={
-                handleMakeCloseSignUpDialogStatus
-              }
-              handleMakeOpenLoginFormDialogStatus={
-                handleMakeOpenLoginFormDialogStatus
-              }
-              handleMakeCloseForgotPasswordFormDialogStatus={
-                handleMakeCloseForgotPasswordFormDialogStatus
-              }
-              handleSuccessfulCreateSnackbar={
-                props.handleSuccessfulCreateSnackbar
-              }
-              handleFailedSnackbar={props.handleFailedSnackbar}
-              handleFailedSignUpDialogOpenStatusWithSnackbar={
-                handleFailedSignUpDialogOpenStatusWithSnackbar
-              }
-            />
-          </Box>
+      ) : (
+        <Grid container direction="column" className={classes.rootMobile}>
+          <Grid item container direction="column">
+            <Grid item>
+              <Card>
+                <CardMedia
+                  className={classes.mediaMobile}
+                  component="img"
+                  alt={props.name}
+                  image={imageUrl}
+                  //   title={props.name}
+                  crossOrigin="anonymous"
+                />
+              </Card>
+            </Grid>
+            <Grid item className={classes.secondRowMobile}>
+              <Box>
+                <Typography variant="h5" style={{ fontSize: "2.0em" }}>
+                  {props.product.name}
+                </Typography>
+                <Typography variant="h5">
+                  {getCurrencyCode()}
+                  {price
+                    ? price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                    : 0}
+                  <span style={{ fontSize: 12, marginLeft: 0 }}>per Unit</span>
+                </Typography>
+                <Typography
+                  variant="h5"
+                  style={{
+                    color: "black",
+                    marginTop: 20,
+                    marginBottom: 20,
+                    justifyContent: "center",
+                  }}
+                >
+                  {props.product.shortDescription}
+                </Typography>
+                {props.product.sku !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      <strong>Sku:</strong>
+                    </span>
+                    {props.product.sku}
+                  </Typography>
+                )}
+                {props.product.refNumber !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Reference Number:</strong>
+                    </span>
+                    {props.product.refNumber}
+                  </Typography>
+                )}
+                {props.product.weightPerUnit !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Weight per Unit:</strong>
+                    </span>
+                    {props.product.weightPerUnit
+                      ? props.product.weightPerUnit
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                      : 0}
+                    <span style={{ fontSize: 12, marginLeft: 0 }}>kg</span>
+                  </Typography>
+                )}
+                {props.product.remainingTotalUnits !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Number of Units in Stock:</strong>
+                    </span>
+                    {props.product.remainingTotalUnits}
+                  </Typography>
+                )}
+
+                {props.product.make !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Make:</strong>
+                    </span>
+
+                    {props.product.make}
+                  </Typography>
+                )}
+
+                {props.product.model !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Model:</strong>
+                    </span>
+                    {props.product.model}
+                  </Typography>
+                )}
+                {props.product.color !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Colour:</strong>
+                    </span>
+                    {props.product.color}
+                  </Typography>
+                )}
+                {props.product.size !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Size:</strong>
+                    </span>
+                    {props.product.size}
+                  </Typography>
+                )}
+                {props.product.design !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Design:</strong>
+                    </span>
+                    {props.product.design}
+                  </Typography>
+                )}
+
+                {props.product.content !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Content:</strong>
+                    </span>
+                    {props.product.content}
+                  </Typography>
+                )}
+                {props.product.smell !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Smell:</strong>
+                    </span>
+                    {props.product.smell}
+                  </Typography>
+                )}
+                {props.product.taste !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Taste:</strong>
+                    </span>
+                    {props.product.taste}
+                  </Typography>
+                )}
+                {props.product.feel !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Feel:</strong>
+                    </span>
+                    {props.product.feel}
+                  </Typography>
+                )}
+                {props.product.ingredients !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Ingredients:</strong>
+                    </span>
+                    {props.product.ingredients}
+                  </Typography>
+                )}
+                {props.product.reliability !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Reliability:</strong>
+                    </span>
+                    {props.product.reliability}
+                  </Typography>
+                )}
+                {props.product.safety !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Safety:</strong>
+                    </span>
+                    {props.product.safety}
+                  </Typography>
+                )}
+                {props.product.packaging !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Packaging:</strong>
+                    </span>
+                    {props.product.packaging}
+                  </Typography>
+                )}
+                {props.product.durability !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Durability:</strong>
+                    </span>
+                    {props.product.durability}
+                  </Typography>
+                )}
+                {props.product.marketingClaims !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>MarketingClaims:</strong>
+                    </span>
+                    {props.product.marketingClaims}
+                  </Typography>
+                )}
+                {stateName !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Target Delivery Location:</strong>
+                    </span>
+                    {stateName}/{countryName}
+                  </Typography>
+                )}
+                {/* <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
+              <span style={{ marginRight: 20 }}>
+                {" "}
+                <strong>Supports delivery beyond Target Location:</strong>
+              </span>
+              No
+            </Typography> */}
+                {props.product.minimumQuantity !== "undefined" && (
+                  <Typography
+                    variant="h5"
+                    style={{ color: "black", fontSize: 15 }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      {" "}
+                      <strong>Minimum Quantity Required:</strong>
+                    </span>
+                    {minQuantity} unit(s)
+                  </Typography>
+                )}
+              </Box>
+            </Grid>
+            <Grid item className={classes.thirdRowMobile}>
+              <Box>
+                <SendProductToCartForm
+                  price={price}
+                  minimumQuantity={minQuantity}
+                  productId={props.product.id}
+                  token={props.token}
+                  userId={props.userId}
+                  location={props.product.location}
+                  locationCountry={props.product.locationCountry}
+                  handleMakeOpenSignUpDialogStatus={
+                    handleMakeOpenSignUpDialogStatus
+                  }
+                  handleMakeCloseSignUpDialogStatus={
+                    handleMakeCloseSignUpDialogStatus
+                  }
+                  handleMakeOpenLoginFormDialogStatus={
+                    handleMakeOpenLoginFormDialogStatus
+                  }
+                  handleMakeCloseForgotPasswordFormDialogStatus={
+                    handleMakeCloseForgotPasswordFormDialogStatus
+                  }
+                  handleSuccessfulCreateSnackbar={
+                    props.handleSuccessfulCreateSnackbar
+                  }
+                  handleFailedSnackbar={props.handleFailedSnackbar}
+                  handleFailedSignUpDialogOpenStatusWithSnackbar={
+                    handleFailedSignUpDialogOpenStatusWithSnackbar
+                  }
+                />
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid item className={classes.secondColumnMobile}>
+            <Box>
+              <Typography
+                variant="h5"
+                style={{
+                  color: "black",
+                  marginTop: 20,
+                  marginBottom: 20,
+                  justifyContent: "center",
+                }}
+              >
+                {props.product.fullDescription}{" "}
+              </Typography>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid item className={classes.secondColumn}>
-        <Box>
-          <Typography
-            variant="h5"
-            style={{
-              color: "black",
-              marginTop: 20,
-              marginBottom: 20,
-              justifyContent: "center",
-            }}
-          >
-            {props.product.fullDescription}{" "}
-          </Typography>
-        </Box>
-      </Grid>
+      )}
       {renderLoginForm()}
       {renderSignUpForm()}
       {renderForgotPasswordForm()}
@@ -745,6 +1213,6 @@ export default function ProductDetailCard(props) {
         onClose={() => setAlert({ ...alert, open: false })}
         autoHideDuration={4000}
       />
-    </Grid>
+    </>
   );
 }

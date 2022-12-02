@@ -13,6 +13,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
@@ -28,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     //width: 600,
     marginLeft: 15,
+  },
+  rootMobile: {
+    //width: 600,
+    marginLeft: 10,
   },
   formStyles: {
     width: 600,
@@ -174,6 +179,12 @@ function OrderPageAction(props) {
   const user = params.userId;
 
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
+
   const [total, setTotal] = useState(
     price
       ? (+props.quantity * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
@@ -647,49 +658,51 @@ function OrderPageAction(props) {
   };
 
   return (
-    <form id="checkoutActionPage">
-      <Box
-        sx={{
-          width: 200,
-          //height: 450,
-        }}
-        noValidate
-        autoComplete="off"
-        className={classes.root}
-      >
-        <Grid
-          item
-          container
-          style={{ marginTop: 10, marginBottom: 10 }}
-          justifyContent="center"
-        ></Grid>
+    <>
+      {matchesMDUp ? (
+        <form id="checkoutActionPage">
+          <Box
+            sx={{
+              width: 200,
+              //height: 450,
+            }}
+            noValidate
+            autoComplete="off"
+            className={classes.root}
+          >
+            <Grid
+              item
+              container
+              style={{ marginTop: 10, marginBottom: 10 }}
+              justifyContent="center"
+            ></Grid>
 
-        <Typography style={{ width: 300, marginTop: 15 }}>
-          Unit Quantity Ordered:&nbsp;{quantity}
-        </Typography>
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Unit Quantity Ordered:&nbsp;{quantity}
+            </Typography>
 
-        <Typography style={{ width: 300, marginTop: 15 }}>
-          Total Product Cost:&nbsp;{props.getCurrencyCode()}
-          {total}
-        </Typography>
-        <Typography style={{ width: 300, marginTop: 15 }}>
-          Total Delivery Cost:&nbsp;{props.getCurrencyCode()}
-          {totalDeliveryCostForDisplay}
-        </Typography>
-        <Typography style={{ width: 300, fontSize: 20, marginTop: 15 }}>
-          Total Cost:&nbsp;{props.getCurrencyCode()}
-          {totalProductCostForDisplay}
-        </Typography>
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Total Product Cost:&nbsp;{props.getCurrencyCode()}
+              {total}
+            </Typography>
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Total Delivery Cost:&nbsp;{props.getCurrencyCode()}
+              {totalDeliveryCostForDisplay}
+            </Typography>
+            <Typography style={{ width: 300, fontSize: 20, marginTop: 15 }}>
+              Total Cost:&nbsp;{props.getCurrencyCode()}
+              {totalProductCostForDisplay}
+            </Typography>
 
-        <Typography style={{ width: 300, marginTop: 15 }}>
-          Payment Method:&nbsp;{props.paymentMethod}
-        </Typography>
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Payment Method:&nbsp;{props.paymentMethod}
+            </Typography>
 
-        <Typography style={{ width: 300, marginTop: 15 }}>
-          Payment Status:&nbsp;{props.paymentStatus}
-        </Typography>
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Payment Status:&nbsp;{props.paymentStatus}
+            </Typography>
 
-        {/* <Field
+            {/* <Field
           label=""
           id="rate"
           name="rate"
@@ -720,8 +733,86 @@ function OrderPageAction(props) {
             buttonContent()
           )}
         </Button> */}
-      </Box>
-    </form>
+          </Box>
+        </form>
+      ) : (
+        <form id="checkoutActionPage">
+          <Box
+            sx={{
+              width: 200,
+              //height: 450,
+            }}
+            noValidate
+            autoComplete="off"
+            className={classes.rootMobile}
+          >
+            <Grid
+              item
+              container
+              style={{ marginTop: 10, marginBottom: 10 }}
+              justifyContent="center"
+            ></Grid>
+
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Unit Quantity Ordered:&nbsp;{quantity}
+            </Typography>
+
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Total Product Cost:&nbsp;{props.getCurrencyCode()}
+              {total}
+            </Typography>
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Total Delivery Cost:&nbsp;{props.getCurrencyCode()}
+              {totalDeliveryCostForDisplay}
+            </Typography>
+            <Typography style={{ width: 300, fontSize: 20, marginTop: 15 }}>
+              Total Cost:&nbsp;{props.getCurrencyCode()}
+              {totalProductCostForDisplay}
+            </Typography>
+
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Payment Method:&nbsp;{props.paymentMethod}
+            </Typography>
+
+            <Typography style={{ width: 300, marginTop: 15 }}>
+              Payment Status:&nbsp;{props.paymentStatus}
+            </Typography>
+
+            {/* <Field
+          label=""
+          id="rate"
+          name="rate"
+          type="number"
+          onChange={onChange}
+          component={renderProductRateField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+        <Field
+          label=""
+          id="rateComment"
+          name="rateComment"
+          //defaultValue={rateComment}
+          type="text"
+          //onChange={onRateCommentChange}
+          component={renderProductRateCommentField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+
+        <Button
+          variant="contained"
+          className={classes.submitButton}
+          onClick={props.handleSubmit(onSubmit)}
+        >
+          {loading ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            buttonContent()
+          )}
+        </Button> */}
+          </Box>
+        </form>
+      )}
+    </>
   );
 }
 

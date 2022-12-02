@@ -43,9 +43,28 @@ const useStyles = makeStyles((theme) => ({
     //   borderColor: theme.palette.common.grey,
     // },
   },
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    height: 550,
+    width: 350,
+
+    marginLeft: "0px",
+    borderRadius: 30,
+    marginTop: "15em",
+    padding: 0,
+    // "&:hover": {
+    //   border: "solid",
+    //   borderColor: theme.palette.common.grey,
+    // },
+  },
   media: {
     height: 220,
     width: 500,
+  },
+  mediaMobile: {
+    height: 220,
+    width: 350,
   },
 
   learnButton: {
@@ -373,58 +392,60 @@ export default function CategoryProductsCard(props) {
   };
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          component="img"
-          alt={props.name}
-          image={imageUrl}
-          title={props.name}
-          crossOrigin="anonymous"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.shortDescription}
-          </Typography>
-        </CardContent>
-        <Typography
-          variant="h5"
-          color="textSecondary"
-          component="p"
-          style={{ marginTop: 5 }}
-        >
-          <span style={{ marginLeft: 130 }}>
-            <strong>
-              {getCurrencyCode()}
-              {props.price
-                ? props.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                : 0}
-              /unit
-            </strong>
-          </span>
-          <br />
-          <span style={{ fontSize: 12, marginLeft: 10 }}>
-            Minimum Quantity Required(MQR):
-            <span>{props.minimumQuantity} unit(s)</span>
-          </span>
-          <br />
-          <span style={{ fontSize: 11, marginLeft: 10 }}>
-            Delivery cost/Unit within&nbsp;
-            {stateName}/{countryName}
-            {" :"} &nbsp;
-            {getCurrencyCode()}
-            {props.deliveryCostPerUnitWithinProductLocation
-              ? props.deliveryCostPerUnitWithinProductLocation
-                  .toFixed(2)
-                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-              : ""}
-          </span>
+    <>
+      {matchesMDUp ? (
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              component="img"
+              alt={props.name}
+              image={imageUrl}
+              title={props.name}
+              crossOrigin="anonymous"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {props.name}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {props.shortDescription}
+              </Typography>
+            </CardContent>
+            <Typography
+              variant="h5"
+              color="textSecondary"
+              component="p"
+              style={{ marginTop: 5 }}
+            >
+              <span style={{ marginLeft: 130 }}>
+                <strong>
+                  {getCurrencyCode()}
+                  {props.price
+                    ? props.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                    : 0}
+                  /unit
+                </strong>
+              </span>
+              <br />
+              <span style={{ fontSize: 12, marginLeft: 10 }}>
+                Minimum Quantity Required(MQR):
+                <span>{props.minimumQuantity} unit(s)</span>
+              </span>
+              <br />
+              <span style={{ fontSize: 11, marginLeft: 10 }}>
+                Delivery cost/Unit within&nbsp;
+                {stateName}/{countryName}
+                {" :"} &nbsp;
+                {getCurrencyCode()}
+                {props.deliveryCostPerUnitWithinProductLocation
+                  ? props.deliveryCostPerUnitWithinProductLocation
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                  : ""}
+              </span>
 
-          {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
+              {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
             {" "}
             {getCurrencyCode()}
             {props.deliveryCostPerUnitWithinProductLocation
@@ -433,43 +454,150 @@ export default function CategoryProductsCard(props) {
                   .replace(/\d(?=(\d{3})+\.)/g, "$&,")
               : ""}
           </span> */}
-          {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
+              {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
             Supports delivery beyond Target Location: &nbsp; No
           </span> */}
-        </Typography>
-      </CardActionArea>
-      <CardActions>
-        <Button
-          component={Link}
-          // to="/mobileapps"
-          to={`/categories/${props.categoryId}/${props.productId}`}
-          varaint="outlined"
-          className={classes.learnButton}
-          // onClick={() =>
-          //   props.token === undefined ? setOpenLoginForm(true) : setOpen(true)
-          // }
-          // onClick={() => {
-          //   props.setValue(1);
-          //   props.setSelectedIndex(2);
+            </Typography>
+          </CardActionArea>
+          <CardActions>
+            <Button
+              component={Link}
+              // to="/mobileapps"
+              to={`/categories/${props.categoryId}/${props.productId}`}
+              varaint="outlined"
+              className={classes.learnButton}
+              // onClick={() =>
+              //   props.token === undefined ? setOpenLoginForm(true) : setOpen(true)
+              // }
+              // onClick={() => {
+              //   props.setValue(1);
+              //   props.setSelectedIndex(2);
 
-          // }}
-          // onClick={() => {
-          //   // setSelectedCategory(props.categoryId);
-          //   //renderSelectedCategoryProducts(props.categoryId);
-          //   return <ProductsForCategory />;
-          // }}
-          onClick={() => (
-            <ProductDetails productId={props.productId} token={props.token} />
-          )}
-        >
-          <span style={{ marginRight: 10 }}>Show Details </span>
-          <ButtonArrow
-            height={10}
-            width={10}
-            fill={theme.palette.common.blue}
-          />
-        </Button>
-      </CardActions>
+              // }}
+              // onClick={() => {
+              //   // setSelectedCategory(props.categoryId);
+              //   //renderSelectedCategoryProducts(props.categoryId);
+              //   return <ProductsForCategory />;
+              // }}
+              onClick={() => (
+                <ProductDetails
+                  productId={props.productId}
+                  token={props.token}
+                />
+              )}
+            >
+              <span style={{ marginRight: 10 }}>Show Details </span>
+              <ButtonArrow
+                height={10}
+                width={10}
+                fill={theme.palette.common.blue}
+              />
+            </Button>
+          </CardActions>
+        </Card>
+      ) : (
+        <Card className={classes.rootMobile}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.mediaMobile}
+              component="img"
+              alt={props.name}
+              image={imageUrl}
+              title={props.name}
+              crossOrigin="anonymous"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {props.name}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {props.shortDescription}
+              </Typography>
+            </CardContent>
+            <Typography
+              variant="h5"
+              color="textSecondary"
+              component="p"
+              style={{ marginTop: 5 }}
+            >
+              <span style={{ marginLeft: 130 }}>
+                <strong>
+                  {getCurrencyCode()}
+                  {props.price
+                    ? props.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                    : 0}
+                  /unit
+                </strong>
+              </span>
+              <br />
+              <span style={{ fontSize: 12, marginLeft: 10 }}>
+                Minimum Quantity Required(MQR):
+                <span>{props.minimumQuantity} unit(s)</span>
+              </span>
+              <br />
+              <span style={{ fontSize: 11, marginLeft: 10 }}>
+                Delivery cost/Unit within&nbsp;
+                {stateName}/{countryName}
+                {" :"} &nbsp;
+                {getCurrencyCode()}
+                {props.deliveryCostPerUnitWithinProductLocation
+                  ? props.deliveryCostPerUnitWithinProductLocation
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                  : ""}
+              </span>
+
+              {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
+            {" "}
+            {getCurrencyCode()}
+            {props.deliveryCostPerUnitWithinProductLocation
+              ? props.deliveryCostPerUnitWithinProductLocation
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+              : ""}
+          </span> */}
+              {/* <span style={{ fontSize: 11, marginLeft: 10 }}>
+            Supports delivery beyond Target Location: &nbsp; No
+          </span> */}
+            </Typography>
+          </CardActionArea>
+          <CardActions>
+            <Button
+              component={Link}
+              // to="/mobileapps"
+              to={`/categories/${props.categoryId}/${props.productId}`}
+              varaint="outlined"
+              className={classes.learnButton}
+              // onClick={() =>
+              //   props.token === undefined ? setOpenLoginForm(true) : setOpen(true)
+              // }
+              // onClick={() => {
+              //   props.setValue(1);
+              //   props.setSelectedIndex(2);
+
+              // }}
+              // onClick={() => {
+              //   // setSelectedCategory(props.categoryId);
+              //   //renderSelectedCategoryProducts(props.categoryId);
+              //   return <ProductsForCategory />;
+              // }}
+              onClick={() => (
+                <ProductDetails
+                  productId={props.productId}
+                  token={props.token}
+                />
+              )}
+            >
+              <span style={{ marginRight: 10 }}>Show Details </span>
+              <ButtonArrow
+                height={10}
+                width={10}
+                fill={theme.palette.common.blue}
+              />
+            </Button>
+          </CardActions>
+        </Card>
+      )}
       <Dialog
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
@@ -536,6 +664,6 @@ export default function CategoryProductsCard(props) {
         onClose={() => setAlert({ ...alert, open: false })}
         autoHideDuration={4000}
       />
-    </Card>
+    </>
   );
 }

@@ -540,11 +540,6 @@ function SearchPage(props) {
     </React.Fragment>
   );
 
-  console.log("isPaginationVisible:", isPaginationVisible);
-  console.log(" new numberOfPages is:", numberOfPages);
-  console.log("keyword1NumberOfPages:", keyword1NumberOfPages);
-  console.log("keyword2NumberOfPages:", keyword2NumberOfPages);
-  console.log("keyword3NumberOfPages:", keyword3NumberOfPages);
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "20px" }}>

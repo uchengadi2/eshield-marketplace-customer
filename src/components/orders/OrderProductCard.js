@@ -49,8 +49,30 @@ const useStyles = makeStyles((theme) => ({
     //   //borderColor: theme.palette.common.grey,
     // },
   },
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    height: 900,
+    width: 400,
+
+    marginLeft: "10px",
+    //borderRadius: 30,
+    marginTop: "2em",
+    marginBottom: "3em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+
+    "&:hover": {
+      //border: "solid",
+      //borderColor: theme.palette.common.grey,
+    },
+  },
   media: {
     height: 330,
+    width: 350,
+  },
+  mediaMobile: {
+    height: 200,
     width: 350,
   },
 
@@ -523,117 +545,244 @@ export default function OrderProductCard(props) {
   }
 
   return (
-    <Card className={classes.root} disableRipple>
-      <CardActionArea disableRipple>
-        <Grid container direction="row">
-          <Grid item style={{ width: 350 }}>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt={product.name}
-              image={imageUrl}
-              //title={product.name}
-              crossOrigin="anonymous"
-            />
-          </Grid>
-          <Grid item style={{ width: 600, border: "1px dotted grey" }}>
-            <CardContent disableRipple>
-              <Typography variant="h4" color="textSecondary" component="p">
-                {product.name}
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                component="p"
-              >
-                {Str(product.shortDescription).limit(200, "...").get()}
-              </Typography>
-              <Typography
-                variant="h4"
-                color="textSecondary"
-                component="p"
-                style={{ marginTop: 5, marginBottom: 15 }}
-              >
-                <span style={{ marginLeft: 130 }}>
-                  <strong>
-                    {getCurrencyCode()}
-                    {props.orderedPrice
-                      ? props.orderedPrice
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : 0}
-                    /unit
-                  </strong>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}>
-                  <strong>Recipient:</strong> &nbsp;
-                  <span>{props.recipientName}</span>
-                </span>
-              </Typography>
+    <>
+      {matchesMDUp ? (
+        <Card className={classes.root} disableRipple>
+          <CardActionArea disableRipple>
+            <Grid container direction="row">
+              <Grid item style={{ width: 350 }}>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  alt={product.name}
+                  image={imageUrl}
+                  //title={product.name}
+                  crossOrigin="anonymous"
+                />
+              </Grid>
+              <Grid item style={{ width: 600, border: "1px dotted grey" }}>
+                <CardContent disableRipple>
+                  <Typography variant="h4" color="textSecondary" component="p">
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {Str(product.shortDescription).limit(200, "...").get()}
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                    <span style={{ marginLeft: 130 }}>
+                      <strong>
+                        {getCurrencyCode()}
+                        {props.orderedPrice
+                          ? props.orderedPrice
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                        /unit
+                      </strong>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span
+                      style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
+                    >
+                      <strong>Recipient:</strong> &nbsp;
+                      <span>{props.recipientName}</span>
+                    </span>
+                  </Typography>
 
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient Phone Number:</strong>
-                  <span>{props.recipientPhoneNumber}</span>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient Address:</strong>
-                  <span>{props.recipientAddress}</span>
-                </span>
-              </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Phone Number:</strong>
+                      <span>{props.recipientPhoneNumber}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Address:</strong>
+                      <span>{props.recipientAddress}</span>
+                    </span>
+                  </Typography>
 
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient State:</strong>
-                  <span>{stateName}</span>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient Country:</strong>
-                  <span>{countryName}</span>
-                </span>
-              </Typography>
-            </CardContent>
-          </Grid>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient State:</strong>
+                      <span>{stateName}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Country:</strong>
+                      <span>{countryName}</span>
+                    </span>
+                  </Typography>
+                </CardContent>
+              </Grid>
 
-          <Grid item style={{ width: 349, border: "1px dotted grey" }}>
-            <OrderPageAction
-              price={props.orderedPrice}
-              productId={props.product}
-              token={props.token}
-              userId={props.userId}
-              location={props.productLocation}
-              locationCountry={props.locationCountry}
-              quantity={props.orderedQuantity}
-              cartId={props.cartId}
-              totalDeliveryCost={props.totalDeliveryCost}
-              totalProductCost={props.totalProductCost}
-              paymentStatus={props.paymentStatus}
-              paymentMethod={props.paymentMethod}
-              recipientName={props.recipientName}
-              recipientPhoneNumber={props.recipientPhoneNumber}
-              recipientAddress={props.recipientAddress}
-              recipientCountry={props.recipientCountry}
-              recipientState={props.recipientState}
-              currency={product.currency}
-              dateAddedToCart={props.dateAddedToCart}
-              handleMakeOpenLoginFormDialogStatus={
-                handleMakeOpenLoginFormDialogStatus
-              }
-              handleFailedSnackbar={handleFailedSnackbar}
-              handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
-              getCurrencyCode={getCurrencyCode}
-              handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
-            />
-          </Grid>
-        </Grid>
-      </CardActionArea>
+              <Grid item style={{ width: 349, border: "1px dotted grey" }}>
+                <OrderPageAction
+                  price={props.orderedPrice}
+                  productId={props.product}
+                  token={props.token}
+                  userId={props.userId}
+                  location={props.productLocation}
+                  locationCountry={props.locationCountry}
+                  quantity={props.orderedQuantity}
+                  cartId={props.cartId}
+                  totalDeliveryCost={props.totalDeliveryCost}
+                  totalProductCost={props.totalProductCost}
+                  paymentStatus={props.paymentStatus}
+                  paymentMethod={props.paymentMethod}
+                  recipientName={props.recipientName}
+                  recipientPhoneNumber={props.recipientPhoneNumber}
+                  recipientAddress={props.recipientAddress}
+                  recipientCountry={props.recipientCountry}
+                  recipientState={props.recipientState}
+                  currency={product.currency}
+                  dateAddedToCart={props.dateAddedToCart}
+                  handleMakeOpenLoginFormDialogStatus={
+                    handleMakeOpenLoginFormDialogStatus
+                  }
+                  handleFailedSnackbar={handleFailedSnackbar}
+                  handleSuccessfulCreateSnackbar={
+                    handleSuccessfulCreateSnackbar
+                  }
+                  getCurrencyCode={getCurrencyCode}
+                  handleCartItemForCheckoutBox={
+                    props.handleCartItemForCheckoutBox
+                  }
+                />
+              </Grid>
+            </Grid>
+          </CardActionArea>
+        </Card>
+      ) : (
+        <Card className={classes.rootMobile} disableRipple>
+          <CardActionArea disableRipple>
+            <Grid container direction="column">
+              <Grid item style={{ width: 350 }}>
+                <CardMedia
+                  className={classes.mediaMobile}
+                  component="img"
+                  alt={product.name}
+                  image={imageUrl}
+                  //title={product.name}
+                  crossOrigin="anonymous"
+                />
+              </Grid>
+              <Grid item style={{ width: 380, border: "1px dotted grey" }}>
+                <CardContent disableRipple>
+                  <Typography variant="h4" color="textSecondary" component="p">
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {Str(product.shortDescription).limit(200, "...").get()}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                    <span style={{ marginLeft: 130 }}>
+                      <strong>
+                        {getCurrencyCode()}
+                        {props.orderedPrice
+                          ? props.orderedPrice
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : 0}
+                        /unit
+                      </strong>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span
+                      style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
+                    >
+                      <strong>Recipient:</strong> &nbsp;
+                      <span>{props.recipientName}</span>
+                    </span>
+                  </Typography>
 
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Phone Number:</strong>
+                      <span>{props.recipientPhoneNumber}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Address:</strong>
+                      <span>{props.recipientAddress}</span>
+                    </span>
+                  </Typography>
+
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient State:</strong>
+                      <span>{stateName}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Country:</strong>
+                      <span>{countryName}</span>
+                    </span>
+                  </Typography>
+                </CardContent>
+              </Grid>
+
+              <Grid item style={{ width: 380, border: "1px dotted grey" }}>
+                <OrderPageAction
+                  price={props.orderedPrice}
+                  productId={props.product}
+                  token={props.token}
+                  userId={props.userId}
+                  location={props.productLocation}
+                  locationCountry={props.locationCountry}
+                  quantity={props.orderedQuantity}
+                  cartId={props.cartId}
+                  totalDeliveryCost={props.totalDeliveryCost}
+                  totalProductCost={props.totalProductCost}
+                  paymentStatus={props.paymentStatus}
+                  paymentMethod={props.paymentMethod}
+                  recipientName={props.recipientName}
+                  recipientPhoneNumber={props.recipientPhoneNumber}
+                  recipientAddress={props.recipientAddress}
+                  recipientCountry={props.recipientCountry}
+                  recipientState={props.recipientState}
+                  currency={product.currency}
+                  dateAddedToCart={props.dateAddedToCart}
+                  handleMakeOpenLoginFormDialogStatus={
+                    handleMakeOpenLoginFormDialogStatus
+                  }
+                  handleFailedSnackbar={handleFailedSnackbar}
+                  handleSuccessfulCreateSnackbar={
+                    handleSuccessfulCreateSnackbar
+                  }
+                  getCurrencyCode={getCurrencyCode}
+                  handleCartItemForCheckoutBox={
+                    props.handleCartItemForCheckoutBox
+                  }
+                />
+              </Grid>
+            </Grid>
+          </CardActionArea>
+        </Card>
+      )}
       <Dialog
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
@@ -663,21 +812,17 @@ export default function OrderProductCard(props) {
         }}
       >
         <DialogContent>
-          {matchesMDUp ? (
-            <Card className={classes.dialog}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  component="img"
-                  alt={product.name}
-                  image={imageUrl}
-                  crossOrigin="anonymous"
-                />
-              </CardActionArea>
-            </Card>
-          ) : (
-            <></>
-          )}
+          <Card className={classes.dialog}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                component="img"
+                alt={product.name}
+                image={imageUrl}
+                crossOrigin="anonymous"
+              />
+            </CardActionArea>
+          </Card>
 
           <Bookings
             token={props.token}
@@ -689,7 +834,6 @@ export default function OrderProductCard(props) {
       {renderLoginForm()}
       {renderSignUpForm()}
       {renderForgotPasswordForm()}
-
       <Snackbar
         open={alert.open}
         message={alert.message}
@@ -700,6 +844,6 @@ export default function OrderProductCard(props) {
         onClose={() => setAlert({ ...alert, open: false })}
         autoHideDuration={4000}
       />
-    </Card>
+    </>
   );
 }

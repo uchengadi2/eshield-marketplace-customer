@@ -49,8 +49,30 @@ const useStyles = makeStyles((theme) => ({
     //   //borderColor: theme.palette.common.grey,
     // },
   },
+  rootMobile: {
+    maxWidth: 600,
+    //height: 440,
+    height: 800,
+    width: 400,
+
+    marginLeft: "10px",
+    //borderRadius: 30,
+    marginTop: "5em",
+    marginBottom: "3em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+
+    "&:hover": {
+      //border: "solid",
+      //borderColor: theme.palette.common.grey,
+    },
+  },
+  mediaMobile: {
+    height: 200,
+    width: 350,
+  },
   media: {
-    height: 330,
+    height: 380,
     width: 350,
   },
 
@@ -157,10 +179,6 @@ export default function CheckoutCard(props) {
 
     fetchData().catch(console.error);
   }, [props]);
-
-  console.log("isOnPromo:", isOnPromo);
-  console.log("promoPrice:", promoPrice);
-  console.log("promoMinimumQuantity:", promoMinQuantity);
 
   //get the product details
   useEffect(() => {
@@ -571,74 +589,78 @@ export default function CheckoutCard(props) {
   }
 
   return (
-    <Card className={classes.root} disableRipple>
-      <CardActionArea disableRipple>
-        <Grid container direction="row">
-          <Grid item style={{ width: 350 }}>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt={product.name}
-              image={imageUrl}
-              //title={product.name}
-              crossOrigin="anonymous"
-            />
-          </Grid>
-          <Grid item style={{ width: 600, border: "1px dotted grey" }}>
-            <CardContent disableRipple>
-              <Typography variant="h4" color="textSecondary" component="p">
-                {`${product.name} (${product.configuration})`}
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                component="p"
-              >
-                {Str(product.shortDescription).limit(200, "...").get()}
-              </Typography>
-              <Typography
-                variant="h4"
-                color="textSecondary"
-                component="p"
-                style={{ marginTop: 5, marginBottom: 15 }}
-              >
-                <span style={{ marginLeft: 130 }}>
-                  <strong>
-                    {getCurrencyCode()}
-                    {isOnPromo
-                      ? promoPrice
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : product.pricePerUnit
-                      ? product.pricePerUnit
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : ""}
-                    <span style={{ fontSize: 12 }}>per unit</span>
-                  </strong>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}>
-                  <strong>Recipient:</strong> &nbsp;
-                  <span>{props.recipientName}</span>
-                </span>
-              </Typography>
+    <>
+      {matchesMDUp ? (
+        <Card className={classes.root} disableRipple>
+          <CardActionArea disableRipple>
+            <Grid container direction="row">
+              <Grid item style={{ width: 350 }}>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  alt={product.name}
+                  image={imageUrl}
+                  //title={product.name}
+                  crossOrigin="anonymous"
+                />
+              </Grid>
+              <Grid item style={{ width: 600, border: "1px dotted grey" }}>
+                <CardContent disableRipple>
+                  <Typography variant="h4" color="textSecondary" component="p">
+                    {`${product.name} (${product.configuration})`}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {Str(product.shortDescription).limit(200, "...").get()}
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                    <span style={{ marginLeft: 130 }}>
+                      <strong>
+                        {getCurrencyCode()}
+                        {isOnPromo
+                          ? promoPrice
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : product.pricePerUnit
+                          ? product.pricePerUnit
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : ""}
+                        <span style={{ fontSize: 12 }}>per unit</span>
+                      </strong>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span
+                      style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
+                    >
+                      <strong>Recipient:</strong> &nbsp;
+                      <span>{props.recipientName}</span>
+                    </span>
+                  </Typography>
 
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient Phone Number:</strong>
-                  <span>{props.recipientPhoneNumber}</span>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient Address:</strong>
-                  <span>{props.recipientAddress}</span>
-                </span>
-              </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Phone Number:</strong>
+                      <span>{props.recipientPhoneNumber}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Address:</strong>
+                      <span>{props.recipientAddress}</span>
+                    </span>
+                  </Typography>
 
-              {/* <Typography>
+                  {/* <Typography>
                 <span style={{ fontSize: 12, marginLeft: 10 }}>
                   <strong>
                     Additional Delivery Cost per Unit within&nbsp; {stateName}/
@@ -653,69 +675,218 @@ export default function CheckoutCard(props) {
                     : ""}
                 </span>
               </Typography> */}
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient State:</strong>
-                  <span>{stateName}</span>
-                </span>
-              </Typography>
-              <Typography>
-                <span style={{ fontSize: 15, marginLeft: 10 }}>
-                  <strong> Recipient Country:</strong>
-                  <span>{countryName}</span>
-                </span>
-              </Typography>
-            </CardContent>
-          </Grid>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient State:</strong>
+                      <span>{stateName}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Country:</strong>
+                      <span>{countryName}</span>
+                    </span>
+                  </Typography>
+                </CardContent>
+              </Grid>
 
-          <Grid item style={{ width: 349, border: "1px dotted grey" }}>
-            {product.pricePerUnit && (
-              <CheckoutActionPage
-                price={isOnPromo ? promoPrice : product.pricePerUnit}
-                minimumQuantity={
-                  isOnPromo ? promoMinQuantity : product.minimumQuantity
-                }
-                productId={product.id}
-                token={props.token}
-                userId={props.userId}
-                location={product.location}
-                locationCountry={product.locationCountry}
-                baselineDeliveryCostWithinProductLocation={
-                  product.baselineDeliveryCostWithinProductLocation
-                }
-                deliveryCostPerUnitWithinProductLocation={
-                  product.deliveryCostPerUnitWithinProductLocation
-                }
-                maxmumQuantityForBaselineDelivery={
-                  product.maxmumQuantityForBaselineDelivery
-                }
-                quantity={props.quantity}
-                cartId={props.cartId}
-                recipientName={props.recipientName}
-                recipientPhoneNumber={props.recipientPhoneNumber}
-                recipientAddress={props.recipientAddress}
-                recipientCountry={props.recipientCountry}
-                recipientState={props.recipientState}
-                currency={product.currency}
-                productVendor={product.vendor}
-                dateAddedToCart={props.dateAddedToCart}
-                handleMakeOpenLoginFormDialogStatus={
-                  handleMakeOpenLoginFormDialogStatus
-                }
-                getCurrencyCode={getCurrencyCode}
-                handleCartItemForCheckoutBox={
-                  props.handleCartItemForCheckoutBox
-                }
-                handleSuccessfulCreateSnackbar={
-                  props.handleSuccessfulCreateSnackbar
-                }
-                handleFailedSnackbar={props.handleFailedSnack}
-              />
-            )}
-          </Grid>
-        </Grid>
-      </CardActionArea>
+              <Grid item style={{ width: 349, border: "1px dotted grey" }}>
+                {product.pricePerUnit && (
+                  <CheckoutActionPage
+                    price={isOnPromo ? promoPrice : product.pricePerUnit}
+                    minimumQuantity={
+                      isOnPromo ? promoMinQuantity : product.minimumQuantity
+                    }
+                    productId={product.id}
+                    token={props.token}
+                    userId={props.userId}
+                    location={product.location}
+                    locationCountry={product.locationCountry}
+                    baselineDeliveryCostWithinProductLocation={
+                      product.baselineDeliveryCostWithinProductLocation
+                    }
+                    deliveryCostPerUnitWithinProductLocation={
+                      product.deliveryCostPerUnitWithinProductLocation
+                    }
+                    maxmumQuantityForBaselineDelivery={
+                      product.maxmumQuantityForBaselineDelivery
+                    }
+                    quantity={props.quantity}
+                    cartId={props.cartId}
+                    recipientName={props.recipientName}
+                    recipientPhoneNumber={props.recipientPhoneNumber}
+                    recipientAddress={props.recipientAddress}
+                    recipientCountry={props.recipientCountry}
+                    recipientState={props.recipientState}
+                    currency={product.currency}
+                    productVendor={product.vendor}
+                    dateAddedToCart={props.dateAddedToCart}
+                    handleMakeOpenLoginFormDialogStatus={
+                      handleMakeOpenLoginFormDialogStatus
+                    }
+                    getCurrencyCode={getCurrencyCode}
+                    handleCartItemForCheckoutBox={
+                      props.handleCartItemForCheckoutBox
+                    }
+                    handleSuccessfulCreateSnackbar={
+                      props.handleSuccessfulCreateSnackbar
+                    }
+                    handleFailedSnackbar={props.handleFailedSnack}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </CardActionArea>
+        </Card>
+      ) : (
+        <Card className={classes.rootMobile} disableRipple>
+          <CardActionArea disableRipple>
+            <Grid container direction="column">
+              <Grid item style={{ width: 350 }}>
+                <CardMedia
+                  className={classes.mediaMobile}
+                  component="img"
+                  alt={product.name}
+                  image={imageUrl}
+                  //title={product.name}
+                  crossOrigin="anonymous"
+                />
+              </Grid>
+              <Grid item style={{ width: 400, border: "1px dotted grey" }}>
+                <CardContent disableRipple>
+                  <Typography variant="h5" color="textSecondary" component="p">
+                    {`${product.name} (${product.configuration})`}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {Str(product.shortDescription).limit(200, "...").get()}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                    <span style={{ marginLeft: 130 }}>
+                      <strong>
+                        {getCurrencyCode()}
+                        {isOnPromo
+                          ? promoPrice
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : product.pricePerUnit
+                          ? product.pricePerUnit
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                          : ""}
+                        <span style={{ fontSize: 12 }}>per unit</span>
+                      </strong>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span
+                      style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
+                    >
+                      <strong>Recipient:</strong> &nbsp;
+                      <span>{props.recipientName}</span>
+                    </span>
+                  </Typography>
 
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Phone Number:</strong>
+                      <span>{props.recipientPhoneNumber}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Address:</strong>
+                      <span>{props.recipientAddress}</span>
+                    </span>
+                  </Typography>
+
+                  {/* <Typography>
+                <span style={{ fontSize: 12, marginLeft: 10 }}>
+                  <strong>
+                    Additional Delivery Cost per Unit within&nbsp; {stateName}/
+                    {countryName} &nbsp; for orders above{" "}
+                    {product.maxmumQuantityForBaselineDelivery}&nbsp;Unit(s):
+                  </strong>
+                  {getCurrencyCode()}
+                  {product.deliveryCostPerUnitWithinProductLocation
+                    ? product.deliveryCostPerUnitWithinProductLocation
+                        .toFixed(2)
+                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                    : ""}
+                </span>
+              </Typography> */}
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient State:</strong>
+                      <span>{stateName}</span>
+                    </span>
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontSize: 15, marginLeft: 10 }}>
+                      <strong> Recipient Country:</strong>
+                      <span>{countryName}</span>
+                    </span>
+                  </Typography>
+                </CardContent>
+              </Grid>
+
+              <Grid item style={{ width: 400, border: "1px dotted grey" }}>
+                {product.pricePerUnit && (
+                  <CheckoutActionPage
+                    price={isOnPromo ? promoPrice : product.pricePerUnit}
+                    minimumQuantity={
+                      isOnPromo ? promoMinQuantity : product.minimumQuantity
+                    }
+                    productId={product.id}
+                    token={props.token}
+                    userId={props.userId}
+                    location={product.location}
+                    locationCountry={product.locationCountry}
+                    baselineDeliveryCostWithinProductLocation={
+                      product.baselineDeliveryCostWithinProductLocation
+                    }
+                    deliveryCostPerUnitWithinProductLocation={
+                      product.deliveryCostPerUnitWithinProductLocation
+                    }
+                    maxmumQuantityForBaselineDelivery={
+                      product.maxmumQuantityForBaselineDelivery
+                    }
+                    quantity={props.quantity}
+                    cartId={props.cartId}
+                    recipientName={props.recipientName}
+                    recipientPhoneNumber={props.recipientPhoneNumber}
+                    recipientAddress={props.recipientAddress}
+                    recipientCountry={props.recipientCountry}
+                    recipientState={props.recipientState}
+                    currency={product.currency}
+                    productVendor={product.vendor}
+                    dateAddedToCart={props.dateAddedToCart}
+                    handleMakeOpenLoginFormDialogStatus={
+                      handleMakeOpenLoginFormDialogStatus
+                    }
+                    getCurrencyCode={getCurrencyCode}
+                    handleCartItemForCheckoutBox={
+                      props.handleCartItemForCheckoutBox
+                    }
+                    handleSuccessfulCreateSnackbar={
+                      props.handleSuccessfulCreateSnackbar
+                    }
+                    handleFailedSnackbar={props.handleFailedSnack}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </CardActionArea>
+        </Card>
+      )}
       <Dialog
         //style={{ zIndex: 1302 }}
         fullScreen={matchesXS}
@@ -745,21 +916,17 @@ export default function CheckoutCard(props) {
         }}
       >
         <DialogContent>
-          {matchesMDUp ? (
-            <Card className={classes.dialog}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  component="img"
-                  alt={product.name}
-                  image={imageUrl}
-                  crossOrigin="anonymous"
-                />
-              </CardActionArea>
-            </Card>
-          ) : (
-            <></>
-          )}
+          <Card className={classes.dialog}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                component="img"
+                alt={product.name}
+                image={imageUrl}
+                crossOrigin="anonymous"
+              />
+            </CardActionArea>
+          </Card>
 
           <Bookings
             token={props.token}
@@ -771,7 +938,6 @@ export default function CheckoutCard(props) {
       {renderLoginForm()}
       {renderSignUpForm()}
       {renderForgotPasswordForm()}
-
       <Snackbar
         open={alert.open}
         message={alert.message}
@@ -782,6 +948,6 @@ export default function CheckoutCard(props) {
         onClose={() => setAlert({ ...alert, open: false })}
         autoHideDuration={4000}
       />
-    </Card>
+    </>
   );
 }
