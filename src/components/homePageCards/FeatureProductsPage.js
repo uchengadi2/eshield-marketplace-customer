@@ -352,7 +352,7 @@ function FeatureProductsPage(props) {
         >
           {productList.map((product, index) => (
             <FeatureProductsCard
-              id={product.id}
+              productId={product.id}
               name={product.name}
               image={product.imageCover}
               shortDescription={product.shortDescription}
