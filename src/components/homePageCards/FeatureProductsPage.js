@@ -32,8 +32,8 @@ import api from "./../../apis/local";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
-    height: "80vh",
+    // width: "100%",
+    // height: "80vh",
     // height: "100%",
     position: "relative",
     "& video": {

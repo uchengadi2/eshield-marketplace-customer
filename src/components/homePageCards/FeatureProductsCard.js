@@ -23,6 +23,8 @@ import history from "../../history";
 import ProductsForCategory from "./../products/ProductsForCategory";
 import api from "./../../apis/local";
 import ProductDetails from "../products/ProductDetails";
+import logo from "./../../assets/logo/eshield.png";
+import image1 from "./../../assets/images/home/sample/milk.jpg";
 
 import { baseURL } from "./../../apis/util";
 
@@ -33,25 +35,23 @@ const useStyles = makeStyles((theme) => ({
     // maxWidth: 325,
     // //height: 440,
     // height: 500,
-    maxWidth: 325,
-    //height: 440,
-    height: 370,
-    width: 325,
+    maxWidth: 340,
+    height: 400,
+    //height: 370,
+    // width: 325,
+    //width: 500,
 
     marginLeft: "10px",
     borderRadius: 30,
-    marginTop: "5em",
+    marginTop: "3em",
+    marginBottom: "3em",
     padding: 0,
-    // "&:hover": {
-    //   border: "solid",
-    //   borderColor: theme.palette.common.grey,
-    // },
   },
   media: {
-    // height: 300,
-    // width: 500,
-    height: 150,
-    width: 325,
+    height: 100,
+    width: 100,
+    padding: 10,
+    marginLeft: "100px",
   },
 
   learnButton: {
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.7rem",
     height: 35,
     padding: 5,
-    marginTop: "2px",
+    marginTop: "0px",
     marginLeft: "160px",
     border: `2px solid ${theme.palette.common.blue}`,
     [theme.breakpoints.down("sm")]: {
@@ -376,60 +376,45 @@ export default function FeatureProductsCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          component="img"
-          alt={props.name}
-          image={imageUrl}
-          title={props.name}
-          crossOrigin="anonymous"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.name}
-            <span>({props.configuration})</span>
-          </Typography>
+      <CardMedia
+        className={classes.media}
+        component="img"
+        alt={props.name}
+        image={imageUrl}
+        // image={image1}
+        title={props.name}
+        crossOrigin="anonymous"
+        //sx={{ objectFit: "contain" }}
+      />
 
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p"
-            style={{ marginLeft: 70, fontSize: "1.1rem" }}
-          >
-            <strong>
-              {getCurrencyCode()}
-              {props.pricePerUnit
-                ? props.pricePerUnit
-                    .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                : 0}{" "}
-              /unit
-            </strong>
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Minimum Quantity Required: {props.minimumQuantity} unit(s)
-          </Typography>
-          {/* <Typography variant="body2" color="textSecondary" component="p">
-            Product Location: {stateName}/{countryName}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Delivery within Location in:{" "}
-            {props.estimatedDeliveryPeriodInDays
-              ? props.estimatedDeliveryPeriodInDays
-              : ""}
-            {props.estimatedDeliveryPeriodInDays ? "days" : ""}&nbsp;
-            {props.estimatedDeliveryPeriodInHours
-              ? props.estimatedDeliveryPeriodInHours
-              : ""}
-            {props.estimatedDeliveryPeriodInHours ? " hrs" : ""}&nbsp;
-            {props.estimatedDeliveryPeriodInMinutes
-              ? props.estimatedDeliveryPeriodInMinutes
-              : ""}
-            {props.estimatedDeliveryPeriodInMinutes ? " mins" : ""}
-          </Typography> */}
-        </CardContent>
-      </CardActionArea>
+      {/* <CardActionArea> */}
+      <CardContent style={{ padding: 10, height: 200, marginTop: 30 }}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {props.name}
+          <span>({props.configuration})</span>
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p"
+          style={{ marginLeft: 70, fontSize: "1.1rem" }}
+        >
+          <strong>
+            {getCurrencyCode()}
+            {props.pricePerUnit
+              ? props.pricePerUnit
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+              : 0}{" "}
+            /unit
+          </strong>
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          Minimum Quantity Required: {props.minimumQuantity} unit(s)
+        </Typography>
+      </CardContent>
+      {/* </CardActionArea> */}
       <CardActions>
         <Button
           component={Link}

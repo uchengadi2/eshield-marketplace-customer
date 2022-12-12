@@ -35,25 +35,23 @@ const useStyles = makeStyles((theme) => ({
     // maxWidth: 325,
     // //height: 440,
     // height: 500,
-    maxWidth: 325,
-    //height: 440,
-    height: 370,
-    width: 325,
+    maxWidth: 340,
+    height: 400,
+    //height: 370,
+    // width: 325,
+    //width: 500,
 
     marginLeft: "10px",
     borderRadius: 30,
-    marginTop: "5em",
+    marginTop: "3em",
+    marginBottom: "3em",
     padding: 0,
-    // "&:hover": {
-    //   border: "solid",
-    //   borderColor: theme.palette.common.grey,
-    // },
   },
   media: {
-    // height: 300,
-    // width: 500,
-    height: 150,
-    width: 325,
+    height: 100,
+    width: 100,
+    padding: 10,
+    marginLeft: "100px",
   },
 
   learnButton: {
@@ -524,9 +522,7 @@ export default function PromotionalProductsCard(props) {
   if (!product) {
     return <></>;
   }
-  console.log("this is the props:", props);
-  console.log("imageUrl: ", imageUrl);
-  console.log("product is:", product);
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -538,6 +534,7 @@ export default function PromotionalProductsCard(props) {
           title={product.name}
           crossOrigin="anonymous"
         />
+
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {product.name}
@@ -636,6 +633,7 @@ export default function PromotionalProductsCard(props) {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
+                  // height="250"
                   component="img"
                   alt={props.alt}
                   image={imageUrl}

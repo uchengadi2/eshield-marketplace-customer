@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
   },
   secondRow: {
     marginLeft: 10,
-    width: 400,
+    width: 550,
     border: "1px dotted",
     padding: 20,
   },
@@ -483,7 +483,6 @@ export default function ProductDetailCard(props) {
       }
     }
   };
-  console.log("make is:", props.product.make);
 
   return (
     <>

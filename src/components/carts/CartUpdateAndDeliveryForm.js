@@ -216,10 +216,6 @@ function CartUpdateAndDeliveryForm(props) {
     setTotal(sum.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
   }, [price, quantity]);
 
-  console.log("quantity issss:", props.quantity);
-  console.log("price isss :", price);
-  console.log("total isss:", total);
-
   //get the currency name
   useEffect(() => {
     const fetchData = async () => {

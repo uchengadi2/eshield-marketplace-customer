@@ -30,18 +30,20 @@ import theme from "./ui/Theme";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 325,
-    //height: 440,
-    height: 550,
+    // maxWidth: 325,
+    // //height: 440,
+    // height: 500,
+    maxWidth: 350,
+    height: 400,
+    //height: 370,
+    width: 325,
+    //width: 500,
 
     marginLeft: "10px",
     borderRadius: 30,
-    marginTop: "15em",
+    marginTop: "10em",
+    marginBottom: "3em",
     padding: 0,
-    // "&:hover": {
-    //   border: "solid",
-    //   borderColor: theme.palette.common.grey,
-    // },
   },
   rootMobile: {
     maxWidth: 600,
@@ -59,8 +61,9 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
   media: {
-    height: 220,
-    width: 500,
+    height: 100,
+    width: 100,
+    marginLeft: "100px",
   },
   mediaMobile: {
     height: 220,
