@@ -655,7 +655,7 @@ export default function CartProductCard(props) {
                       </span>
                     </span>
                   </Typography>
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>Unit Weight:</strong>
                       <span>{product.weightPerUnit}kg</span>
@@ -672,7 +672,7 @@ export default function CartProductCard(props) {
                       <strong> Unit Size Dimension:</strong>
                       <span>{product.size}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                   <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>Minimum Quantity Required(MQR):</strong>
@@ -750,12 +750,12 @@ export default function CartProductCard(props) {
                     </span>
                   </Typography>
 
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong> Product Vendor:</strong>
                       <span>{vendorName}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </Grid>
 
