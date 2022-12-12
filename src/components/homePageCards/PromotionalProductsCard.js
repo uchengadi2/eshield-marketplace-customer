@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.7rem",
     height: 35,
     padding: 5,
-    marginTop: "2px",
+    marginTop: "0px",
     marginLeft: "160px",
     border: `2px solid ${theme.palette.common.blue}`,
     [theme.breakpoints.down("sm")]: {
@@ -535,7 +535,7 @@ export default function PromotionalProductsCard(props) {
           crossOrigin="anonymous"
         />
 
-        <CardContent>
+        <CardContent style={{ padding: 10, height: 200, marginTop: 30 }}>
           <Typography gutterBottom variant="h5" component="h2">
             {product.name}
             <span>({product.configuration})</span>
