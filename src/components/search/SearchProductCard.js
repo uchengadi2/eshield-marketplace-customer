@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   rootMobile: {
     maxWidth: 600,
     //height: 440,
-    height: 900,
+    height: 800,
     width: 400,
 
     marginLeft: "10px",
@@ -66,12 +66,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mediaMobile: {
-    height: 200,
-    width: 350,
+    height: 150,
+    width: 150,
+    marginLeft: "80px",
   },
   media: {
-    height: 350,
-    width: 350,
+    height: 250,
+    width: 250,
   },
 
   learnButton: {
@@ -650,12 +651,12 @@ export default function SearchProductCard(props) {
                       </span>
                     </span>
                   </Typography>
-                  <Typography style={{ marginTop: 10 }}>
+                  {/* <Typography style={{ marginTop: 10 }}>
                     <span style={{ fontSize: 15, marginLeft: 10 }}>
                       <strong> Vendor:</strong>
                       <span>{vendorName}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </Grid>
 
@@ -793,12 +794,12 @@ export default function SearchProductCard(props) {
                       </span>
                     </span>
                   </Typography>
-                  <Typography style={{ marginTop: 10 }}>
+                  {/* <Typography style={{ marginTop: 10 }}>
                     <span style={{ fontSize: 15, marginLeft: 10 }}>
                       <strong> Vendor:</strong>
                       <span>{vendorName}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </Grid>
 

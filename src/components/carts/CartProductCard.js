@@ -48,7 +48,9 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
   media: {
-    height: 700,
+    // height: 700,
+    // width: 350,
+    height: 350,
     width: 350,
   },
   rootMobile: {

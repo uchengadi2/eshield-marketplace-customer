@@ -73,8 +73,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "80px",
   },
   media: {
-    height: 380,
-    width: 350,
+    height: 250,
+    width: 250,
   },
 
   learnButton: {
