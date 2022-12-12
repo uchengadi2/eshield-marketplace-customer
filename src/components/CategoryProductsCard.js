@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
   rootMobile: {
     maxWidth: 600,
     //height: 440,
-    height: 550,
-    width: 350,
+    height: 400,
+    width: 325,
 
     marginLeft: "0px",
     borderRadius: 30,
@@ -66,8 +66,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "100px",
   },
   mediaMobile: {
-    height: 220,
-    width: 350,
+    height: 100,
+    width: 100,
+    marginLeft: "100px",
   },
 
   learnButton: {

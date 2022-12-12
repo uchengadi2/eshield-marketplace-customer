@@ -71,7 +71,8 @@ const useStyles = makeStyles((theme) => ({
   },
   mediaMobile: {
     height: 200,
-    width: 350,
+    width: 200,
+    marginLeft: "80px",
   },
 
   learnButton: {

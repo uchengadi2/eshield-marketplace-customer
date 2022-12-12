@@ -67,8 +67,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mediaMobile: {
-    height: 250,
-    width: 380,
+    height: 200,
+    width: 200,
+    marginLeft: "100px",
   },
   media: {
     height: 500,
