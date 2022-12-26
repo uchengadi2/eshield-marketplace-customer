@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "100px",
   },
   media: {
-    height: 500,
+    height: 400,
     width: 400,
   },
 
@@ -505,9 +505,9 @@ export default function ProductDetailCard(props) {
             <Grid item className={classes.secondRow}>
               <Box>
                 <Typography variant="h4" style={{ fontSize: "2.5em" }}>
-                  {props.product.name}
+                  {props.product.name}({props.product.configuration})
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h4" style={{ marginTop: 10 }}>
                   {getCurrencyCode()}
                   {price
                     ? price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
@@ -548,7 +548,7 @@ export default function ProductDetailCard(props) {
                     {props.product.refNumber}
                   </Typography>
                 )}
-                {props.product.weightPerUnit !== "undefined" && (
+                {/* {props.product.weightPerUnit !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -564,8 +564,8 @@ export default function ProductDetailCard(props) {
                       : 0}
                     <span style={{ fontSize: 12, marginLeft: 0 }}>kg</span>
                   </Typography>
-                )}
-                {props.product.remainingTotalUnits !== "undefined" && (
+                )} */}
+                {/* {props.product.remainingTotalUnits !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -576,9 +576,9 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.remainingTotalUnits}
                   </Typography>
-                )}
+                )} */}
 
-                {props.product.make !== "undefined" && (
+                {/* {props.product.make !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -590,9 +590,9 @@ export default function ProductDetailCard(props) {
 
                     {props.product.make}
                   </Typography>
-                )}
+                )} */}
 
-                {props.product.model !== "undefined" && (
+                {/* {props.product.model !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -603,8 +603,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.model}
                   </Typography>
-                )}
-                {props.product.color !== "undefined" && (
+                )} */}
+                {/* {props.product.color !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -615,8 +615,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.color}
                   </Typography>
-                )}
-                {props.product.size !== "undefined" && (
+                )} */}
+                {/* {props.product.size !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -627,8 +627,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.size}
                   </Typography>
-                )}
-                {props.product.design !== "undefined" && (
+                )} */}
+                {/* {props.product.design !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -639,9 +639,9 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.design}
                   </Typography>
-                )}
+                )} */}
 
-                {props.product.content !== "undefined" && (
+                {/* {props.product.content !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -652,8 +652,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.content}
                   </Typography>
-                )}
-                {props.product.smell !== "undefined" && (
+                )} */}
+                {/* {props.product.smell !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -664,8 +664,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.smell}
                   </Typography>
-                )}
-                {props.product.taste !== "undefined" && (
+                )} */}
+                {/* {props.product.taste !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -676,8 +676,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.taste}
                   </Typography>
-                )}
-                {props.product.feel !== "undefined" && (
+                )} */}
+                {/* {props.product.feel !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -688,8 +688,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.feel}
                   </Typography>
-                )}
-                {props.product.ingredients !== "undefined" && (
+                )} */}
+                {/* {props.product.ingredients !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -700,8 +700,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.ingredients}
                   </Typography>
-                )}
-                {props.product.reliability !== "undefined" && (
+                )} */}
+                {/* {props.product.reliability !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -712,8 +712,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.reliability}
                   </Typography>
-                )}
-                {props.product.safety !== "undefined" && (
+                )} */}
+                {/* {props.product.safety !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -724,8 +724,10 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.safety}
                   </Typography>
-                )}
-                {props.product.packaging !== "undefined" && (
+                )} */}
+                {/* {(props.product.packaging !== "undefined" ||
+                  props.product.packaging !== undefined ||
+                  props.product.packaging !== "") && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -736,8 +738,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.packaging}
                   </Typography>
-                )}
-                {props.product.durability !== "undefined" && (
+                )} */}
+                {/* {props.product.durability !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -748,8 +750,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.durability}
                   </Typography>
-                )}
-                {props.product.marketingClaims !== "undefined" && (
+                )} */}
+                {/* {props.product.marketingClaims !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -760,8 +762,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.marketingClaims}
                   </Typography>
-                )}
-                {stateName !== "undefined" && (
+                )} */}
+                {/* {stateName !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -772,7 +774,7 @@ export default function ProductDetailCard(props) {
                     </span>
                     {stateName}/{countryName}
                   </Typography>
-                )}
+                )} */}
                 {/* <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
               <span style={{ marginRight: 20 }}>
                 {" "}

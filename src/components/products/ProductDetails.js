@@ -450,7 +450,7 @@ function ProductDetails(props) {
       }
     </React.Fragment>
   );
-  console.log("the products details:", product);
+
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "10px" }}>

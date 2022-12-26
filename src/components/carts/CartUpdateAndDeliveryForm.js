@@ -594,8 +594,6 @@ function CartUpdateAndDeliveryForm(props) {
 
   //const amountForPayment = +totalProductCost.toFixed(2) * 100;
 
-  console.log("total product cost:", totalProductCost);
-
   const buttonContent = () => {
     return <React.Fragment>Include in Checkout</React.Fragment>;
   };

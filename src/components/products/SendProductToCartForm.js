@@ -57,7 +57,6 @@ function SendProductToCartForm(props) {
     useState(false);
 
   const dispatch = useDispatch();
-  console.log("first quantity", quantity);
 
   useEffect(() => {
     setQuantity(props.minimumQuantity);
