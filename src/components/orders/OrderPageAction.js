@@ -202,7 +202,6 @@ function OrderPageAction(props) {
       });
 
       const item = response.data.data.data;
-      console.log("rate response:", item);
 
       allData.push({
         id: item[0]._id,
@@ -582,8 +581,6 @@ function OrderPageAction(props) {
       product: props.productId,
       rateComment: formValues["rateComment"],
     };
-
-    console.log("rate data is:", data);
 
     if (!hasRate) {
       if (data) {

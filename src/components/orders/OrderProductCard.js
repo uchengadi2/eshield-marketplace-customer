@@ -146,7 +146,6 @@ export default function OrderProductCard(props) {
       const response = await api.get(`/products/${props.product}`);
       const product = response.data.data.data;
 
-      console.log("the products are:", product);
       allData.push({
         id: product._id,
         name: product.name,
