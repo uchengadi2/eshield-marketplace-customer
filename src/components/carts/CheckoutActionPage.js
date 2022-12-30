@@ -71,6 +71,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.common.green,
     },
   },
+  bankDetails: {
+    fontSize: 12,
+    marginBottom: 4,
+    padding: 10,
+  },
 }));
 
 const renderRecipientNameField = ({
@@ -670,7 +675,7 @@ function CheckoutActionPage(props) {
           history.push("/");
 
           props.handleSuccessfulCreateSnackbar(
-            `Thank you for the order. We appreciate your patronage!`
+            `Thank you for the order. Please make all payment to this bank details:   Bank: Ecobank; Name: E-Shield Africa Limited; Account number: 5140090808`
           );
 
           setLoading(false);
@@ -755,6 +760,12 @@ function CheckoutActionPage(props) {
       </Typography>
 
       {renderPaymentMethodField()}
+      {!isOnlinePayment && paymentMethod && (
+        <Typography className={classes.bankDetails}>
+          Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
+          5140090808
+        </Typography>
+      )}
 
       {!isOnlinePayment && (
         <Button
