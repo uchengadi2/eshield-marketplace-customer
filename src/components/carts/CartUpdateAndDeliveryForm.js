@@ -21,7 +21,7 @@ import Box from "@material-ui/core/Box";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
-import { EDIT_CART } from "../../actions/types";
+import { EDIT_CART, DELETE_CART } from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
 import history from "../../history";
 
@@ -64,11 +64,11 @@ const useStyles = makeStyles((theme) => ({
     width: 190,
     marginLeft: 80,
     marginTop: 30,
-    color: "white",
-    backgroundColor: theme.palette.common.green,
-    "&:hover": {
-      backgroundColor: theme.palette.common.green,
-    },
+    // color: "white",
+    // backgroundColor: theme.palette.common.green,
+    // "&:hover": {
+    //   backgroundColor: theme.palette.common.green,
+    // },
   },
 }));
 
@@ -204,6 +204,7 @@ function CartUpdateAndDeliveryForm(props) {
   //     : 0
   // );
   const [loading, setLoading] = useState();
+  const [loadingRemoval, setLoadingRemoval] = useState();
 
   useEffect(() => {
     if (!price) {
@@ -595,7 +596,7 @@ function CartUpdateAndDeliveryForm(props) {
   //const amountForPayment = +totalProductCost.toFixed(2) * 100;
 
   const buttonContent = () => {
-    return <React.Fragment>Include in Checkout</React.Fragment>;
+    return <React.Fragment>Update</React.Fragment>;
   };
 
   const offLocationButtonContent = () => {
@@ -603,7 +604,45 @@ function CartUpdateAndDeliveryForm(props) {
   };
 
   const checkoutButtonContent = () => {
-    return <React.Fragment>Checkout</React.Fragment>;
+    return <React.Fragment>Remove from Cart</React.Fragment>;
+  };
+
+  const onItemRemovalSubmit = () => {
+    const createForm = async () => {
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      await api.delete(`/carts/${props.cartId}`);
+
+      props.handleSuccessfulCreateSnackbar(
+        `This item is removed successfully!!!`
+      );
+
+      setLoadingRemoval(false);
+      props.renderCartUpdate(props.cartId);
+      //history.push("/");
+
+      // if (response.data.status === "success") {
+      //   dispatch({
+      //     type: DELETE_CART,
+      //     payload: response.data.data.data,
+      //   });
+      //   //history.push("/");
+      //   props.handleSuccessfulCreateSnackbar(
+      //     `This item is removed successfully!!!`
+      //   );
+      //   props.renderCartUpdate();
+
+      //   setLoadingRemoval(false);
+      //   //setIsCheckoutVisible(true);
+      // } else {
+      //   props.handleFailedSnackbar(
+      //     "Something went wrong, please try again22222!!!"
+      //   );
+      // }
+    };
+    createForm().catch((err) => {
+      props.handleFailedSnackbar();
+      console.log("err:", err.message);
+    });
   };
 
   const onSubmit = (formValues) => {
@@ -625,99 +664,43 @@ function CartUpdateAndDeliveryForm(props) {
 
     let data = {};
 
-    if (productLocation === location) {
-      data = {
-        quantity: quantity,
-        recipientName: recipientName,
-        recipientPhoneNumber: recipientPhoneNumber,
-        recipientAddress: recipientAddress,
-        recipientCountry: country,
-        recipientState: location,
-        status: "marked-for-checkout",
-        totalDeliveryCost: totalDeliveryCost,
-        contactMeForTheDeliveryCost: false,
+    data = {
+      quantity: quantity,
+      // totalDeliveryCost: totalDeliveryCost,
+      contactMeForTheDeliveryCost: false,
+    };
+
+    if (data) {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.patch(`/carts/${props.cartId}`, data);
+
+        if (response.data.status === "success") {
+          dispatch({
+            type: EDIT_CART,
+            payload: response.data.data.data,
+          });
+          //history.push("/");
+          props.handleSuccessfulCreateSnackbar(
+            `This item is updated successfully!!!`
+          );
+
+          setLoading(false);
+          props.renderCartUpdate(props.cartId);
+          //setIsCheckoutVisible(true);
+        } else {
+          props.handleFailedSnackbar(
+            "Something went wrong, please try again!!!"
+          );
+        }
       };
-
-      if (data) {
-        const createForm = async () => {
-          api.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${props.token}`;
-          const response = await api.patch(`/carts/${props.cartId}`, data);
-
-          if (response.data.status === "success") {
-            dispatch({
-              type: EDIT_CART,
-              payload: response.data.data.data,
-            });
-            history.push("/");
-            props.handleSuccessfulCreateSnackbar(
-              `This item is successfully included in checkout, Please visit the checkout page to effect payment!`
-            );
-            props.handleCartItemForCheckoutBox();
-
-            setLoading(false);
-            setIsCheckoutVisible(true);
-          } else {
-            props.handleFailedSnackbar(
-              "Something went wrong, please try again!!!"
-            );
-          }
-        };
-        createForm().catch((err) => {
-          props.handleFailedSnackbar();
-          console.log("err:", err.message);
-        });
-      } else {
-        props.handleFailedSnackbar("Something went wrong, please try again!!!");
-      }
+      createForm().catch((err) => {
+        props.handleFailedSnackbar();
+        console.log("err:", err.message);
+      });
     } else {
-      data = {
-        quantity: quantity,
-        recipientName: recipientName,
-        recipientPhoneNumber: recipientPhoneNumber,
-        recipientAddress: recipientAddress,
-        recipientCountry: country,
-        recipientState: location,
-        contactMeForTheDeliveryCost: true,
-        status: "confirm-for-checkout",
-      };
-      if (data) {
-        const createForm = async () => {
-          api.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${props.token}`;
-          const response = await api.patch(`/carts/${props.cartId}`, data);
-
-          if (response.data.status === "success") {
-            dispatch({
-              type: EDIT_CART,
-              payload: response.data.data.data,
-            });
-
-            history.push("/");
-
-            props.handleSuccessfulCreateSnackbar(
-              `Your request for the delivery cost have been recieved, we will get back to you shortly`
-            );
-
-            setLoading(false);
-          } else {
-            props.handleFailedSnackbar(
-              "Something went wrong, please try again!!!"
-            );
-          }
-        };
-        createForm().catch((err) => {
-          props.handleFailedSnackbar();
-          console.log("err:", err.message);
-        });
-      } else {
-        props.handleFailedSnackbar("Something went wrong, please try again!!!");
-      }
+      props.handleFailedSnackbar("Something went wrong, please try again!!!");
     }
-
-    //modifyt the cart
   };
 
   return (
@@ -772,7 +755,7 @@ function CartUpdateAndDeliveryForm(props) {
             />
           </Grid>
         </Grid>
-        <Grid item container style={{ marginTop: 20 }}>
+        {/* <Grid item container style={{ marginTop: 20 }}>
           <FormLabel style={{ color: "blue" }} component="legend">
             Delivery Details
           </FormLabel>
@@ -866,8 +849,35 @@ function CartUpdateAndDeliveryForm(props) {
               checkoutButtonContent()
             )}
           </Button>
-        )}
-        {provideDeliveryCost && (
+            )} */}
+        {/* {isVisible && !isCheckoutVisible && ( */}
+        <Button
+          variant="contained"
+          className={classes.submitButton}
+          onClick={onSubmit}
+        >
+          {loading ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            buttonContent()
+          )}
+        </Button>
+        <Button
+          variant="outlined"
+          //component={Link}
+          // to="/mobileapps"
+          // to={`/checkouts/${userId}`}
+          className={classes.checkout}
+          onClick={onItemRemovalSubmit}
+        >
+          {loadingRemoval ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            checkoutButtonContent()
+          )}
+        </Button>
+        {/* )} */}
+        {/* {provideDeliveryCost && (
           <Button
             variant="contained"
             className={classes.offDeliveryLocationButton}
@@ -879,7 +889,7 @@ function CartUpdateAndDeliveryForm(props) {
               offLocationButtonContent()
             )}
           </Button>
-        )}
+        )} */}
       </Box>
     </form>
   );

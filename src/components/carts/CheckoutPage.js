@@ -31,6 +31,7 @@ import BecomePartnerFormContainer from "./../partner/BecomePartnerFormContainer"
 import CategoryProductsCard from "../CategoryProductsCard";
 import CartProductCard from "./CartProductCard";
 import CheckoutCard from "./CheckoutCard";
+import CheckoutDeliveryAndPayment from "./CheckoutDeliveryAndPayment";
 
 import { baseURL } from "./../../apis/util";
 import api from "./../../apis/local";
@@ -38,7 +39,7 @@ import api from "./../../apis/local";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    height: "80vh",
+    height: "40vh",
     marginTop: "10em",
     // height: "100%",
     position: "relative",
@@ -212,6 +213,7 @@ function CheckoutPage(props) {
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
   const [cartProductList, setCartProductList] = useState([]);
+  const [updateCheckout, setUpdateCheckout] = useState();
 
   const [alert, setAlert] = useState({
     open: false,
@@ -225,6 +227,11 @@ function CheckoutPage(props) {
     rendererSettings: {
       preserveAspectRatio: "xMidyMid slice",
     },
+  };
+
+  const renderCheckoutUpdate = (value) => {
+    console.log("the value of this removed cart is:", value);
+    setUpdateCheckout(value);
   };
 
   const cartHolder = params.userId;
@@ -291,7 +298,7 @@ function CheckoutPage(props) {
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [updateCheckout]);
 
   const Str = require("@supercharge/strings");
 
@@ -326,6 +333,7 @@ function CheckoutPage(props) {
                 props.handleSuccessfulCreateSnackbar
               }
               handleFailedSnackbar={props.handleFailedSnackbar}
+              renderCheckoutUpdate={renderCheckoutUpdate}
             />
           ))}
         </Grid>
@@ -367,6 +375,7 @@ function CheckoutPage(props) {
                 props.handleSuccessfulCreateSnackbar
               }
               handleFailedSnackbar={props.handleFailedSnack}
+              renderCheckoutUpdate={renderCheckoutUpdate}
             />
           ))}
         </Grid>
@@ -379,6 +388,9 @@ function CheckoutPage(props) {
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
         <Grid item>{cartList}</Grid>
         {/*....INFORMATION BLOCK....*/}
+      </Grid>
+      <Grid>
+        <CheckoutDeliveryAndPayment productList={cartProductList} />
       </Grid>
       <Grid item className={classes.footer}>
         <UpperFooter />

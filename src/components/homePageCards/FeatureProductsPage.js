@@ -26,6 +26,7 @@ import { Category } from "@material-ui/icons";
 import history from "../../history";
 
 import FeatureProductsCard from "./FeatureProductsCard";
+import AppPagination from "../pagination/AppPagination";
 
 import { baseURL } from "./../../apis/util";
 import api from "./../../apis/local";
@@ -212,6 +213,11 @@ function FeatureProductsPage(props) {
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
   const [productList, setProductList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState();
+  const [limit, setLimit] = useState(32);
+  const [totalData, setTotalData] = useState();
+  const [isPaginationVisible, setIsPaginationVisible] = useState(false);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -255,9 +261,9 @@ function FeatureProductsPage(props) {
     const fetchData = async () => {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(`/products`, {
+      const response = await api.get(`/products?page=${page}&limit=${limit}`, {
         params: {
-          isFeaturedProduct: true,
+          // isFeaturedProduct: true,
         },
       });
       const items = response.data.data.data;
@@ -291,12 +297,37 @@ function FeatureProductsPage(props) {
       });
 
       setProductList(allData);
+      setNumberOfPages(response.data?.total);
     };
 
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [page]);
+
+  useEffect(() => {
+    if (!numberOfPages) {
+      setIsPaginationVisible(false);
+      return;
+    }
+
+    const totalPages = numberOfPages / limit;
+
+    let newTotalPages;
+
+    if (parseInt(numberOfPages) <= parseInt(limit)) {
+      newTotalPages = 1;
+      setIsPaginationVisible(false);
+    } else if (parseInt(numberOfPages) % parseInt(limit) === 0) {
+      newTotalPages = +totalPages;
+      setIsPaginationVisible(true);
+    } else {
+      newTotalPages = +totalPages + 1;
+      setIsPaginationVisible(true);
+    }
+
+    setTotalData(parseInt(newTotalPages));
+  }, [numberOfPages]);
 
   const Str = require("@supercharge/strings");
 
@@ -393,12 +424,21 @@ function FeatureProductsPage(props) {
     <>
       {matchesMD ? (
         <Grid container direction="row" className={classes.root}>
-          <Typography variant="h4" style={{ marginLeft: 650 }}>
+          {/* <Typography variant="h4" style={{ marginLeft: 650 }}>
             Hot Sales
-          </Typography>
+          </Typography> */}
           <Grid item style={{ width: "100%", marginTop: "20px" }}>
             <Grid item>{cartList}</Grid>
           </Grid>
+          {isPaginationVisible && (
+            <Grid item style={{ marginTop: 80 }}>
+              <AppPagination
+                setPage={setPage}
+                page={page}
+                pageNumber={totalData}
+              />
+            </Grid>
+          )}
         </Grid>
       ) : (
         <Grid container direction="row" className={classes.rootMobile}>
@@ -410,6 +450,7 @@ function FeatureProductsPage(props) {
           </Grid>
         </Grid>
       )}
+
       <Snackbar
         open={alert.open}
         message={alert.message}

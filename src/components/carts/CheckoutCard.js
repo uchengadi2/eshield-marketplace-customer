@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1500,
     //height: 440,
-    height: 330,
+    height: 230,
     width: 1300,
 
     marginLeft: "10px",
@@ -639,7 +639,7 @@ export default function CheckoutCard(props) {
                       </strong>
                     </span>
                   </Typography>
-                  <Typography>
+                  {/* <Typography>
                     <span
                       style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
                     >
@@ -659,7 +659,7 @@ export default function CheckoutCard(props) {
                       <strong> Recipient Address:</strong>
                       <span>{props.recipientAddress}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
 
                   {/* <Typography>
                 <span style={{ fontSize: 12, marginLeft: 10 }}>
@@ -676,7 +676,7 @@ export default function CheckoutCard(props) {
                     : ""}
                 </span>
               </Typography> */}
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 15, marginLeft: 10 }}>
                       <strong> Recipient State:</strong>
                       <span>{stateName}</span>
@@ -687,7 +687,7 @@ export default function CheckoutCard(props) {
                       <strong> Recipient Country:</strong>
                       <span>{countryName}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </Grid>
 
@@ -733,6 +733,7 @@ export default function CheckoutCard(props) {
                       props.handleSuccessfulCreateSnackbar
                     }
                     handleFailedSnackbar={props.handleFailedSnack}
+                    renderCheckoutUpdate={props.renderCheckoutUpdate}
                   />
                 )}
               </Grid>
@@ -787,7 +788,7 @@ export default function CheckoutCard(props) {
                       </strong>
                     </span>
                   </Typography>
-                  <Typography>
+                  {/* <Typography>
                     <span
                       style={{ fontSize: 15, marginLeft: 10, marginTop: 20 }}
                     >
@@ -807,7 +808,7 @@ export default function CheckoutCard(props) {
                       <strong> Recipient Address:</strong>
                       <span>{props.recipientAddress}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
 
                   {/* <Typography>
                 <span style={{ fontSize: 12, marginLeft: 10 }}>
@@ -824,7 +825,7 @@ export default function CheckoutCard(props) {
                     : ""}
                 </span>
               </Typography> */}
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 15, marginLeft: 10 }}>
                       <strong> Recipient State:</strong>
                       <span>{stateName}</span>
@@ -835,7 +836,7 @@ export default function CheckoutCard(props) {
                       <strong> Recipient Country:</strong>
                       <span>{countryName}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </Grid>
 

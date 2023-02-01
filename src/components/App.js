@@ -34,6 +34,8 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [value, setValue] = useState(0);
   const [cartItemForCheckout, setCartItemForCheckout] = useState(false);
+  const [cartIsUpdatedAfterRemoval, setCartIsUpdatedAfterRemoval] =
+    useState(false);
   const [alert, setAlert] = useState({
     open: false,
     message: "",
@@ -61,6 +63,11 @@ function App() {
 
   const handleCartItemForCheckoutBox = () => {
     setCartItemForCheckout(true);
+  };
+
+  const renderCartUpdateAfterRemoval = () => {
+    setCartIsUpdatedAfterRemoval(true);
+    console.log("this was run");
   };
 
   return (
@@ -126,6 +133,7 @@ function App() {
                 handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
                 handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
                 handleFailedSnackbar={handleFailedSnackbar}
+                renderCartUpdateAfterRemoval={renderCartUpdateAfterRemoval}
               />
             </Route>
 

@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1500,
     //height: 440,
-    height: 700,
+    height: 360,
     width: 1300,
 
     marginLeft: "10px",
@@ -50,8 +50,9 @@ const useStyles = makeStyles((theme) => ({
   media: {
     // height: 700,
     // width: 350,
-    height: 350,
+    height: 300,
     width: 350,
+    padding: 20,
   },
   rootMobile: {
     maxWidth: 600,
@@ -689,13 +690,13 @@ export default function CartProductCard(props) {
                       </span>
                     </span>
                   </Typography>
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>Total Stock Quantity:</strong>
                       <span>{product.remainingTotalUnits} unit(s)</span>
                     </span>
-                  </Typography>
-                  <Typography>
+                  </Typography> */}
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>
                         {" "}
@@ -711,8 +712,8 @@ export default function CartProductCard(props) {
                             .replace(/\d(?=(\d{3})+\.)/g, "$&,")
                         : ""}
                     </span>
-                  </Typography>
-                  <Typography>
+                  </Typography> */}
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>
                         Additional Delivery Cost per Unit within&nbsp;{" "}
@@ -727,7 +728,7 @@ export default function CartProductCard(props) {
                             .replace(/\d(?=(\d{3})+\.)/g, "$&,")
                         : ""}
                     </span>
-                  </Typography>
+                  </Typography> */}
                   <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>
@@ -794,6 +795,10 @@ export default function CartProductCard(props) {
                     getCurrencyCode={getCurrencyCode}
                     handleCartItemForCheckoutBox={
                       props.handleCartItemForCheckoutBox
+                    }
+                    renderCartUpdate={props.renderCartUpdate}
+                    renderCartUpdateAfterRemoval={
+                      props.renderCartUpdateAfterRemoval
                     }
                   />
                 )}
@@ -1016,6 +1021,10 @@ export default function CartProductCard(props) {
                     getCurrencyCode={getCurrencyCode}
                     handleCartItemForCheckoutBox={
                       props.handleCartItemForCheckoutBox
+                    }
+                    renderCartUpdate={props.renderCartUpdate}
+                    renderCartUpdateAfterRemoval={
+                      props.renderCartUpdateAfterRemoval
                     }
                   />
                 )}

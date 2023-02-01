@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     // maxWidth: 325,
     // //height: 440,
     // height: 500,
-    maxWidth: 340,
+    maxWidth: 320,
     height: 400,
     //height: 370,
     // width: 325,

@@ -488,7 +488,7 @@ const Marketplace = (props) => {
               //alignItems="center"
               direction="row"
             >
-              <ReactPlayer
+              {/* <ReactPlayer
                 url={matchesSM ? heroVideoMobile : heroVideo}
                 playing
                 loop
@@ -497,104 +497,106 @@ const Marketplace = (props) => {
                 // height="100%"
                 width="99rem"
                 height="49rem"
-              />
-              <div className={classes.overlay}>
-                {/* <img
+              /> */}
+              {/* <div className={classes.overlay}> */}
+              {/* <img
                   src={logo}
                   alt="Udaraa Marketplace"
                   width={180}
                   height={150}
                 /> */}
-                <Box
-                  width="100%"
-                  height="100%"
-                  display="flex"
-                  flexDirection="column"
-                  //justifyContent="center"
-                  //alignItems="center"
-                  color="#fff"
-                >
-                  <Grid sm item className={classes.heroTextContainer}>
-                    {matchesMD ? (
-                      <Typography
-                        variant={matchesSM ? "subtitle2" : "h2"}
-                        align="left"
-                        style={{ marginTop: "16rem" }}
-                        //justifyContent="center"
-                        //alignItems="center"
-                      >
-                        <span
-                          style={{
-                            marginLeft: matchesSM ? 20 : 5,
-                          }}
-                        >
-                          {" "}
-                          E-Shield Africa is an online/e-commerce
-                          Marketplace(B2B). <br />
-                        </span>{" "}
-                        <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
-                          Our business is to provide a trusted and unified
-                          online
-                        </span>
-                        <br />
-                        <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
-                          portal for multiple manufacturers, distributors
-                        </span>
-                        <br />
-                        <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
-                          and vendors. We connect them to
-                        </span>
-                        <br />
-                        <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
-                          retailers for trade and services.
-                        </span>
-                      </Typography>
-                    ) : (
-                      <Typography
-                        variant={matchesSM ? "subtitle2" : "h2"}
-                        align="left"
-                        style={{ marginTop: "16rem", fontSize: "1.2rem" }}
-                        justifyContent="center"
-                        alignItems="center"
-                      >
-                        <span
-                          style={{
-                            marginLeft: matchesSM ? 20 : 5,
-                          }}
-                        >
-                          {" "}
-                          E-Shield Africa is an online/e-commerce <br />
-                        </span>{" "}
-                        <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
-                          Marketplace(B2B). Our business is to provide
-                        </span>
-                        <br />
-                        <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
-                          a trusted and unified online portal for multiple
-                        </span>
-                        <br />
-                        <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
-                          manufacturers, distributors and vendors.
-                        </span>
-                        <br />
-                        <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
-                          We connect them to retailers for
-                        </span>
-                        <br />
-                        <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
-                          trade and services.
-                        </span>
-                      </Typography>
-                    )}
+              <Box
+                width="100%"
+                height="100%"
+                display="flex"
+                flexDirection="column"
+                //justifyContent="center"
+                //alignItems="center"
+                color="#fff"
+              >
+                <Grid sm item className={classes.heroTextContainer}>
+                  {matchesMD ? (
+                    <Typography></Typography>
+                  ) : (
+                    // <Typography
+                    //   variant={matchesSM ? "subtitle2" : "h2"}
+                    //   align="left"
+                    //   style={{ marginTop: "16rem" }}
+                    //   //justifyContent="center"
+                    //   //alignItems="center"
+                    // >
+                    //   <span
+                    //     style={{
+                    //       marginLeft: matchesSM ? 20 : 5,
+                    //     }}
+                    //   >
+                    //     {" "}
+                    //     E-Shield Africa is an online/e-commerce
+                    //     Marketplace(B2B). <br />
+                    //   </span>{" "}
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
+                    //     Our business is to provide a trusted and unified
+                    //     online
+                    //   </span>
+                    //   <br />
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
+                    //     portal for multiple manufacturers, distributors
+                    //   </span>
+                    //   <br />
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
+                    //     and vendors. We connect them to
+                    //   </span>
+                    //   <br />
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
+                    //     retailers for trade and services.
+                    //   </span>
+                    // </Typography>
+                    <Typography></Typography>
+                    // <Typography
+                    //   variant={matchesSM ? "subtitle2" : "h2"}
+                    //   align="left"
+                    //   style={{ marginTop: "16rem", fontSize: "1.2rem" }}
+                    //   justifyContent="center"
+                    //   alignItems="center"
+                    // >
+                    //   <span
+                    //     style={{
+                    //       marginLeft: matchesSM ? 20 : 5,
+                    //     }}
+                    //   >
+                    //     {" "}
+                    //     E-Shield Africa is an online/e-commerce <br />
+                    //   </span>{" "}
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 20 }}>
+                    //     Marketplace(B2B). Our business is to provide
+                    //   </span>
+                    //   <br />
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 50 }}>
+                    //     a trusted and unified online portal for multiple
+                    //   </span>
+                    //   <br />
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 130 }}>
+                    //     manufacturers, distributors and vendors.
+                    //   </span>
+                    //   <br />
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
+                    //     We connect them to retailers for
+                    //   </span>
+                    //   <br />
+                    //   <span style={{ marginLeft: matchesSM ? 20 : 230 }}>
+                    //     trade and services.
+                    //   </span>
+                    // </Typography>
+                  )}
 
-                    {matchesMD ? (
-                      <Grid
-                        container
-                        justifyContent="flex-start"
-                        direction={matchesSM ? "column" : "row"}
-                        className={classes.buttonContainer}
-                      >
-                        <Grid item>
+                  {matchesMD ? (
+                    <Grid
+                      container
+                      justifyContent="flex-start"
+                      direction={matchesSM ? "column" : "row"}
+                      className={classes.buttonContainer}
+                    >
+                      {/* <Grid item>
                           <Button
                             component={Link}
                             // to="/mobileapps"
@@ -605,32 +607,33 @@ const Marketplace = (props) => {
                           >
                             See Our Product Categories
                           </Button>
-                        </Grid>
-                      </Grid>
-                    ) : (
-                      <Grid
-                        container
-                        justifyContent="flex-start"
-                        direction={matchesSM ? "column" : "row"}
-                        className={classes.buttonContainerMobile}
-                      >
-                        <Grid item>
-                          <Button
-                            component={Link}
-                            // to="/mobileapps"
-                            to={`/categories`}
-                            varaint="outlined"
-                            className={classes.estimateButtonMobile}
-                            onClick={() => <Categories token={props.token} />}
-                          >
-                            See Our Product Categories
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    )}
-                  </Grid>
-                </Box>
-              </div>
+                        </Grid> */}
+                    </Grid>
+                  ) : (
+                    <Typography></Typography>
+                    // <Grid
+                    //   container
+                    //   justifyContent="flex-start"
+                    //   direction={matchesSM ? "column" : "row"}
+                    //   className={classes.buttonContainerMobile}
+                    // >
+                    //   {/* <Grid item>
+                    //     <Button
+                    //       component={Link}
+                    //       // to="/mobileapps"
+                    //       to={`/categories`}
+                    //       varaint="outlined"
+                    //       className={classes.estimateButtonMobile}
+                    //       onClick={() => <Categories token={props.token} />}
+                    //     >
+                    //       See Our Product Categories
+                    //     </Button>
+                    //   </Grid> */}
+                    // </Grid>
+                  )}
+                </Grid>
+              </Box>
+              {/* </div> */}
               {/* <Grid sm item className={classes.animation}>
             <Lottie options={defaultOptions} height={"100%"} width={"100%"} />
           </Grid> */}
@@ -639,22 +642,22 @@ const Marketplace = (props) => {
         </Grid>
         {/* </section> */}
         {/* <Grid item>{categoriesList}</Grid> */}
-        <Grid item className={classes.category}>
+        {/* <Grid item className={classes.category}>
           <AllProductsCategoriesCard />
-        </Grid>
+        </Grid> */}
         <Grid item className={classes.features}>
           <FeatureProductsPage />
         </Grid>
 
-        <Grid item>
+        {/* <Grid item>
           <RequestForVendorsCard className={classes.vendor} />
-        </Grid>
-        <Grid item>
+        </Grid> */}
+        {/* <Grid item>
           <PromotionalProductsPage className={classes.promotion} />
-        </Grid>
-        <Grid item>
+        </Grid> */}
+        {/* <Grid item>
           <RequestForLogisticsCard className={classes.logistics} />
-        </Grid>
+        </Grid> */}
         <Grid item className={classes.footer}>
           <UpperFooter />
         </Grid>

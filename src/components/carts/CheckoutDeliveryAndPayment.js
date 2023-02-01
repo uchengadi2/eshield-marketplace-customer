@@ -173,7 +173,7 @@ const renderRecipientPhoneNumberField = ({
   );
 };
 
-function CheckoutActionPage(props) {
+function CheckoutDeliveryAndPayment(props) {
   const { price, productId, token, userId } = props;
   const [quantity, setQuantity] = useState(+props.quantity);
   const [productQuantityInCart, setProductQuantityInCart] = useState();
@@ -670,7 +670,7 @@ function CheckoutActionPage(props) {
         Ordered Quantity:&nbsp;&nbsp;{quantity}
       </Typography>
       <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        Total Product Cost:{props.getCurrencyCode()}
+        {/* Total Product Cost:{props.getCurrencyCode()} */}
         {total}
       </Typography>
       {/* <Typography
@@ -707,5 +707,5 @@ function CheckoutActionPage(props) {
 }
 
 export default reduxForm({
-  form: "checkoutActionPage",
-})(CheckoutActionPage);
+  form: "checkoutDeliveryAndPayment",
+})(CheckoutDeliveryAndPayment);
