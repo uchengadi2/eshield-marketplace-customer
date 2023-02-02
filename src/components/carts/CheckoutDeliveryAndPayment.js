@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
   submitButton: {
     borderRadius: 10,
     height: 40,
-    width: 100,
-    marginLeft: 230,
-    marginTop: 30,
-    // color: "white",
-    // backgroundColor: theme.palette.common.green,
-    // "&:hover": {
-    //   backgroundColor: theme.palette.common.green,
-    // },
+    width: 180,
+    marginLeft: 200,
+    marginTop: 10,
+    color: "white",
+    backgroundColor: theme.palette.common.green,
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+    },
   },
   offDeliveryLocationButton: {
     borderRadius: 10,
@@ -97,7 +97,7 @@ const renderRecipientNameField = ({
       name={input.name}
       fullWidth
       type={type}
-      style={{ marginTop: 10, width: 300 }}
+      //style={{ marginTop: 10, width: 600 }}
       onChange={input.onChange}
       InputProps={{
         inputProps: {
@@ -131,10 +131,10 @@ const renderRecipientAddressField = ({
       name={input.name}
       fullWidth
       type={type}
-      style={{ marginTop: 10, width: 300 }}
+      //style={{ marginTop: 10, width: 300 }}
       onChange={input.onChange}
       multiline
-      minRows={2}
+      minRows={4}
     />
   );
 };
@@ -158,7 +158,7 @@ const renderRecipientPhoneNumberField = ({
       name={input.name}
       fullWidth
       type={type}
-      style={{ marginTop: 10, width: 300 }}
+      //style={{ marginTop: 10, width: 300 }}
       onChange={input.onChange}
       InputProps={{
         inputProps: {
@@ -484,7 +484,7 @@ function CheckoutDeliveryAndPayment(props) {
             value={country}
             onChange={handleCountryChange}
             label="Country"
-            style={{ width: 140, marginTop: 0, height: 38 }}
+            style={{ width: 350, marginTop: 0, height: 38 }}
             //{...input}
           >
             {renderCountryList()}
@@ -513,7 +513,7 @@ function CheckoutDeliveryAndPayment(props) {
             value={location}
             onChange={handleLocationChange}
             label="Location"
-            style={{ width: 150, marginTop: 0, marginLeft: 30, height: 38 }}
+            style={{ width: 390, marginTop: 0, marginLeft: 30, height: 38 }}
             //{...input}
           >
             {renderLocationList()}
@@ -552,7 +552,7 @@ function CheckoutDeliveryAndPayment(props) {
             value={paymentMethod}
             onChange={handlePaymentMethodChange}
             label="Account Type"
-            style={{ height: 38, width: 300, marginTop: 10, marginLeft: 10 }}
+            style={{ height: 38, width: 300, marginTop: 0, marginLeft: 10 }}
           >
             <MenuItem value={"cheque"}>Cheque</MenuItem>
             <MenuItem value={"card"}>Credit/Debit Card</MenuItem>
@@ -596,7 +596,7 @@ function CheckoutDeliveryAndPayment(props) {
   const amountForPayment = +totalProductCost.toFixed(2) * 100;
 
   const buttonContent = () => {
-    return <React.Fragment>Remove</React.Fragment>;
+    return <React.Fragment>Make Payment</React.Fragment>;
   };
 
   console.log("tis is the props:", props);
@@ -661,48 +661,229 @@ function CheckoutDeliveryAndPayment(props) {
   };
 
   return (
-    <>
-      {/* <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        Total Delivery Cost:{props.getCurrencyCode()}
-        {totalDeliveryCostForDisplay}
-      </Typography> */}
-      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        Ordered Quantity:&nbsp;&nbsp;{quantity}
-      </Typography>
-      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        {/* Total Product Cost:{props.getCurrencyCode()} */}
-        {total}
-      </Typography>
-      {/* <Typography
-        style={{ width: 300, fontSize: 20, marginTop: 15, marginLeft: 10 }}
+    <form id="cartUpdateAndDeliveryForm">
+      <Box
+        sx={{
+          width: 1310,
+          //height: 450,
+        }}
+        noValidate
+        autoComplete="off"
+        className={classes.root}
       >
-        Total Cost:{props.getCurrencyCode()}
-        {totalProductCostForDisplay}
-      </Typography> */}
+        {/* <Grid
+          item
+          container
+          direction="column"
+          style={{ marginTop: 10, marginBottom: 10 }}
+          justifyContent="center"
+        >
+          <Grid item container style={{ marginTop: 20, width: 400 }}>
+            <FormLabel style={{ color: "blue" }} component="legend">
+              Delivery Details
+            </FormLabel>
+          </Grid>
+          <Field
+            label=""
+            id="recipient"
+            name="recipient"
+            onChange={onRecipientNameChange}
+            type="text"
+            component={renderRecipientNameField}
+            style={{ width: 300 }}
+          />
+          <Field
+            label=""
+            id="recipientPhoneNumber"
+            name="recipientPhoneNumber"
+            onChange={onRecipientPhoneNumberChange}
+            type="text"
+            component={renderRecipientPhoneNumberField}
+            style={{ width: 300 }}
+          />
 
-      {/* {renderPaymentMethodField()} */}
-      {!isOnlinePayment && paymentMethod && (
-        <Typography className={classes.bankDetails}>
-          Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
-          5140090808
-        </Typography>
-      )}
+          <Grid container direction="row" style={{ marginTop: 10 }}>
+            <Grid item style={{ width: "55%" }}>
+              <Field
+                label=""
+                id="locationCountry"
+                name="locationCountry"
+                type="text"
+                component={renderProductCountryField}
+              />
+            </Grid>
+            <Grid item style={{ width: "40%", marginLeft: 10 }}>
+              <Field
+                label=""
+                id="location"
+                name="location"
+                type="text"
+                component={renderProductLocationField}
+              />
+            </Grid>
+          </Grid>
+          <Field
+            label=""
+            id="recipientAddress"
+            name="recipientAddress"
+            onChange={onRecipientAddressChange}
+            type="text"
+            component={renderRecipientAddressField}
+            style={{ width: 300 }}
+          />
 
-      <Button
-        variant="outlined"
-        className={classes.submitButton}
-        onClick={onSubmit}
-      >
-        {loading ? (
-          <CircularProgress size={30} color="inherit" />
-        ) : (
-          buttonContent()
-        )}
-      </Button>
+         
+        </Grid> */}
 
-      {isOnlinePayment &&
-        renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
-    </>
+        {/* <Button
+          variant="contained"
+          className={classes.submitButton}
+          onClick={onSubmit}
+        >
+          {loading ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            buttonContent()
+          )}
+        </Button> */}
+
+        {/* {provideDeliveryCost && (
+          <Button
+            variant="contained"
+            className={classes.offDeliveryLocationButton}
+            onClick={onSubmit}
+          >
+            {loading ? (
+              <CircularProgress size={30} color="inherit" />
+            ) : (
+              offLocationButtonContent()
+            )}
+          </Button>
+        )} */}
+
+        <Grid container direction="row">
+          <Grid
+            item
+            container
+            style={{
+              width: "60%",
+              marginLeft: 15,
+              border: "1px dashed grey",
+              padding: 15,
+            }}
+          >
+            <Grid
+              item
+              container
+              direction="column"
+              style={{ marginTop: 10, marginBottom: 10 }}
+              justifyContent="center"
+            >
+              <Grid item container style={{ marginTop: 20, width: 600 }}>
+                <FormLabel
+                  style={{
+                    color: "blue",
+                    marginBottom: 30,
+                    marginLeft: 300,
+                    fontSize: 20,
+                  }}
+                  component="legend"
+                >
+                  Delivery Details
+                </FormLabel>
+              </Grid>
+              <Field
+                label=""
+                id="recipient"
+                name="recipient"
+                onChange={onRecipientNameChange}
+                type="text"
+                component={renderRecipientNameField}
+                style={{ width: 400, marginTop: 30 }}
+              />
+              <Field
+                label=""
+                id="recipientPhoneNumber"
+                name="recipientPhoneNumber"
+                onChange={onRecipientPhoneNumberChange}
+                type="text"
+                component={renderRecipientPhoneNumberField}
+                style={{ width: 400 }}
+              />
+
+              <Grid
+                container
+                direction="row"
+                style={{ marginTop: 10, width: 600 }}
+              >
+                <Grid item style={{ width: "55%" }}>
+                  <Field
+                    label=""
+                    id="locationCountry"
+                    name="locationCountry"
+                    type="text"
+                    component={renderProductCountryField}
+                  />
+                </Grid>
+                <Grid item style={{ width: "40%", marginLeft: 10 }}>
+                  <Field
+                    label=""
+                    id="location"
+                    name="location"
+                    type="text"
+                    component={renderProductLocationField}
+                  />
+                </Grid>
+              </Grid>
+              <Field
+                label=""
+                id="recipientAddress"
+                name="recipientAddress"
+                onChange={onRecipientAddressChange}
+                type="text"
+                component={renderRecipientAddressField}
+                style={{ width: 400 }}
+              />
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            style={{
+              width: "37%",
+              marginLeft: 15,
+              border: "1px dashed grey",
+              padding: 15,
+            }}
+          >
+            <Typography
+              style={{
+                width: 300,
+                fontSize: 20,
+                marginTop: 15,
+                marginLeft: 10,
+              }}
+            >
+              Total Cost:{}
+              {totalProductCostForDisplay}
+            </Typography>
+
+            {renderPaymentMethodField()}
+            <Button
+              variant="contained"
+              className={classes.submitButton}
+              onClick={onSubmit}
+            >
+              {loading ? (
+                <CircularProgress size={30} color="inherit" />
+              ) : (
+                buttonContent()
+              )}
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </form>
   );
 }
 
