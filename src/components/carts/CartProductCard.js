@@ -770,6 +770,7 @@ export default function CartProductCard(props) {
                       isOnPromo ? promoMinQuantity : product.minimumQuantity
                     }
                     productId={product.id}
+                    currency={product.currency}
                     token={props.token}
                     userId={props.userId}
                     location={product.location}
@@ -996,6 +997,7 @@ export default function CartProductCard(props) {
                       isOnPromo ? promoMinQuantity : product.minimumQuantity
                     }
                     productId={product.id}
+                    currency={product.currency}
                     token={props.token}
                     userId={props.userId}
                     location={product.location}

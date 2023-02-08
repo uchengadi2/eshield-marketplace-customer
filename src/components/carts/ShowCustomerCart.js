@@ -228,6 +228,8 @@ function ShowCustomerCart(props) {
   const [cartProductList, setCartProductList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [updateCart, setUpdateCart] = useState();
+  const [count, setCount] = useState(0);
+  const [isProcessed, setIsProcessed] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -278,7 +280,11 @@ function ShowCustomerCart(props) {
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/carts`, {
-        params: { cartHolder: cartHolder, status: "unmarked-for-checkout" },
+        params: {
+          cartHolder: cartHolder,
+          status: "unmarked-for-checkout",
+          isDeleted: false,
+        },
       });
       const items = response.data.data.data;
 
@@ -316,6 +322,8 @@ function ShowCustomerCart(props) {
   }, []);
 
   const Str = require("@supercharge/strings");
+
+  console.log("list is:", cartProductList);
 
   const cartList = matchesMD ? (
     <React.Fragment>
@@ -390,8 +398,6 @@ function ShowCustomerCart(props) {
     return <React.Fragment>Proceed to Checkout</React.Fragment>;
   };
 
-  let count = 0;
-
   const onSubmit = () => {
     setLoading(true);
 
@@ -413,16 +419,15 @@ function ShowCustomerCart(props) {
       });
     });
 
-    for (let i = 0; i < allData.length; ++i) {
+    let count;
+
+    for (count = 0; count < allData.length; ++count) {
       if (data) {
         const createForm = async () => {
           api.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${props.token}`;
-          const response = await api.patch(`/carts/${allData[i].id}`, data);
-          console.log("this is the response:", response);
-
-          ++count;
+          const response = await api.patch(`/carts/${allData[count].id}`, data);
 
           if (response.data.status === "success") {
             dispatch({
@@ -447,7 +452,7 @@ function ShowCustomerCart(props) {
       }
     }
 
-    if (count > 0) {
+    if (+count > 0) {
       props.handleSuccessfulCreateSnackbar(
         `Please proceed to checkout page to effect payment!`
       );

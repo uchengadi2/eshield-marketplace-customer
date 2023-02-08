@@ -800,6 +800,7 @@ export default function ProductDetailCard(props) {
               <Box>
                 <SendProductToCartForm
                   price={price}
+                  currency={props.product.currency}
                   minimumQuantity={minQuantity}
                   productId={props.product.id}
                   token={props.token}
@@ -1156,6 +1157,7 @@ export default function ProductDetailCard(props) {
               <Box>
                 <SendProductToCartForm
                   price={price}
+                  currency={props.product.currency}
                   minimumQuantity={minQuantity}
                   productId={props.product.id}
                   token={props.token}

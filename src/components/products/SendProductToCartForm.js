@@ -249,6 +249,8 @@ function SendProductToCartForm(props) {
     return <React.Fragment> Add to Cart</React.Fragment>;
   };
 
+  console.log("this is the props:", props);
+
   const onSubmit = (formValues) => {
     setLoading(true);
 
@@ -276,6 +278,9 @@ function SendProductToCartForm(props) {
       cartHolder: props.userId,
       productLocation: location,
       locationCountry: locationCountry,
+      isDeleted: false,
+      price: price,
+      currency: props.currency,
     };
 
     if (sameProductAlreadyInCart === false) {
@@ -292,7 +297,7 @@ function SendProductToCartForm(props) {
               type: CREATE_CART,
               payload: response.data.data.data,
             });
-            history.push("/");
+
             props.handleSuccessfulCreateSnackbar(
               `item(s) successfully added to cart. Please visit the cart to continue to checkout and payment`
             );
@@ -323,6 +328,9 @@ function SendProductToCartForm(props) {
 
       const data = {
         quantity: totalProductQuantity,
+        price: price,
+        currency: props.currency,
+        isDeleted: false,
       };
 
       //update the exist
@@ -343,7 +351,7 @@ function SendProductToCartForm(props) {
             props.handleSuccessfulCreateSnackbar(
               `item(s) successfully added to cart!!!`
             );
-
+            history.push("/");
             setLoading(false);
           } else {
             props.handleFailedSnackbar(

@@ -214,6 +214,8 @@ function CheckoutPage(props) {
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
   const [cartProductList, setCartProductList] = useState([]);
   const [updateCheckout, setUpdateCheckout] = useState();
+  const [totalCost, setTotalCost] = useState();
+  const [currency, setCurrency] = useState();
 
   const [alert, setAlert] = useState({
     open: false,
@@ -282,6 +284,8 @@ function CheckoutPage(props) {
           productLocation: cart.productLocation,
           refNumber: cart.refNumber,
           quantity: cart.quantity,
+          price: cart.price,
+          currency: cart.currency,
           recipientName: cart.recipientName,
           recipientPhoneNumber: cart.recipientPhoneNumber,
           recipientAddress: cart.recipientAddress,
@@ -291,6 +295,14 @@ function CheckoutPage(props) {
           totalDeliveryCost: cart.totalDeliveryCost,
         });
       });
+
+      if (allData.lenght === 0) {
+        return;
+      }
+
+      if (!allData) {
+        return;
+      }
 
       setCartProductList(allData);
     };
@@ -317,6 +329,8 @@ function CheckoutPage(props) {
               productLocation={cart.productLocation}
               refNumber={cart.refNumber}
               quantity={cart.quantity}
+              price={cart.price}
+              currency={cart.currency}
               recipientName={cart.recipientName}
               recipientPhoneNumber={cart.recipientPhoneNumber}
               recipientAddress={cart.recipientAddress}
@@ -359,6 +373,8 @@ function CheckoutPage(props) {
               productLocation={cart.productLocation}
               refNumber={cart.refNumber}
               quantity={cart.quantity}
+              currency={cart.currency}
+              price={cart.price}
               recipientName={cart.recipientName}
               recipientPhoneNumber={cart.recipientPhoneNumber}
               recipientAddress={cart.recipientAddress}
@@ -374,7 +390,7 @@ function CheckoutPage(props) {
               handleSuccessfulCreateSnackbar={
                 props.handleSuccessfulCreateSnackbar
               }
-              handleFailedSnackbar={props.handleFailedSnack}
+              handleFailedSnackbar={props.handleFailedSnackbar}
               renderCheckoutUpdate={renderCheckoutUpdate}
             />
           ))}
@@ -383,6 +399,14 @@ function CheckoutPage(props) {
     </React.Fragment>
   );
 
+  let total = 0;
+  console.log();
+
+  cartProductList.map((cart, index) => {
+    total = total + parseFloat(cart.price) * parseFloat(cart.quantity);
+    //setCurrency(cart.currency);
+  });
+
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
@@ -390,7 +414,17 @@ function CheckoutPage(props) {
         {/*....INFORMATION BLOCK....*/}
       </Grid>
       <Grid>
-        <CheckoutDeliveryAndPayment productList={cartProductList} />
+        <CheckoutDeliveryAndPayment
+          productList={cartProductList}
+          totalCost={total}
+          currency={"63340c728daca74080536644"}
+          token={props.token}
+          userId={props.userId}
+          setToken={props.setToken}
+          setUserId={props.setUserId}
+          handleSuccessfulCreateSnackbar={props.handleSuccessfulCreateSnackbar}
+          handleFailedSnackbar={props.handleFailedSnackbar}
+        />
       </Grid>
       <Grid item className={classes.footer}>
         <UpperFooter />

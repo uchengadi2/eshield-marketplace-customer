@@ -535,12 +535,13 @@ function OrderPageAction(props) {
     );
   };
 
-  const totalDeliveryCost = props.totalDeliveryCost;
+  //const totalDeliveryCost = props.totalDeliveryCost;
+  let totalDeliveryCost = 0;
 
   const totalProductCost = props.totalProductCost;
   const totalProductCostForDisplay = totalProductCost
-    .toFixed(2)
-    .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    ? totalProductCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+    : 0;
   const totalDeliveryCostForDisplay = totalDeliveryCost
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");

@@ -599,8 +599,6 @@ function CheckoutActionPage(props) {
     return <React.Fragment>Remove</React.Fragment>;
   };
 
-  console.log("tis is the props:", props);
-
   const onSubmit = () => {
     const createForm = async () => {
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;

@@ -21,7 +21,7 @@ import Box from "@material-ui/core/Box";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
-import { CREATE_ORDER } from "../../actions/types";
+import { CREATE_ORDER, EDIT_CART } from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
 import Paystack from "../../Paystack";
 import history from "../../history";
@@ -174,7 +174,7 @@ const renderRecipientPhoneNumberField = ({
 };
 
 function CheckoutDeliveryAndPayment(props) {
-  const { price, productId, token, userId } = props;
+  const { totalCost, currency, token, userId } = props;
   const [quantity, setQuantity] = useState(+props.quantity);
   const [productQuantityInCart, setProductQuantityInCart] = useState();
   const [productLocation, setProductLocation] = useState();
@@ -198,6 +198,7 @@ function CheckoutDeliveryAndPayment(props) {
   const [isOnlinePayment, setIsOnlinePayment] = useState(false);
   const [customerEmail, setCustomerEmail] = useState();
   const [customerName, setCustomerName] = useState();
+  const [currencyName, setCurrencyName] = useState();
   const [total, setTotal] = useState();
   const [orderNumber, setOrderNumber] = useState(
     "OR-" + Math.floor(Math.random() * 10000000000000) + "-" + "ES"
@@ -213,16 +214,27 @@ function CheckoutDeliveryAndPayment(props) {
   // );
   const [loading, setLoading] = useState();
 
+  //get the currency name
   useEffect(() => {
-    if (!price) {
-      return;
-    }
-    if (!quantity) {
-      return;
-    }
-    const sum = price * quantity;
-    setTotal(sum.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
-  }, [price, quantity]);
+    const fetchData = async () => {
+      let allData = [];
+      if (!currency) {
+        return;
+      }
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/currencies/${currency}`);
+      const item = response.data.data.data;
+      allData.push({ id: item._id, name: item.name });
+
+      if (allData[0].name) {
+        setCurrencyName(allData[0].name);
+      }
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, [currency]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -283,12 +295,12 @@ function CheckoutDeliveryAndPayment(props) {
     fetchData().catch(console.error);
   }, []);
 
-  const onChange = (e) => {
-    const quantity = parseFloat(e.target.value);
-    setQuantity(quantity);
-    const newTotal = quantity * parseFloat(price);
-    setTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
-  };
+  //   const onChange = (e) => {
+  //     const quantity = parseFloat(e.target.value);
+  //     setQuantity(quantity);
+  //     const newTotal = quantity * parseFloat(price);
+  //     setTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
+  //   };
 
   const onRecipientNameChange = (e) => {
     setRecipientName(e.target.value);
@@ -348,122 +360,14 @@ function CheckoutDeliveryAndPayment(props) {
     });
   };
 
-  const renderTotalField = ({
-    input,
-    label,
-    meta: { touched, error, invalid },
-    type,
-    id,
-    ...custom
-  }) => {
-    return (
-      <TextField
-        error={touched && invalid}
-        //placeholder="category description"
-        variant="outlined"
-        helperText="Total Product Cost"
-        label={label}
-        id={input.name}
-        name={input.name}
-        value={total}
-        //defaultValue={total}
-        fullWidth
-        type={type}
-        disabled
-        style={{ marginTop: 10, width: 250 }}
-        onChange={input.onChange}
-        InputProps={{
-          inputProps: {
-            min: 1,
-            style: {
-              height: 1,
-              //fontSize: "2em",
-            },
-          },
-        }}
-      />
-    );
-  };
-
-  const renderMinimumQuantityField = ({
-    input,
-    label,
-    meta: { touched, error, invalid },
-    type,
-    id,
-    ...custom
-  }) => {
-    return (
-      <TextField
-        //error={touched && invalid}
-        helperText="Minimum Quantity Required(MQR)"
-        variant="outlined"
-        label={label}
-        id={input.name}
-        //value={input.value}
-        fullWidth
-        //required
-        type={type}
-        {...custom}
-        defaultValue={`${props.minimumQuantity} unit(s)`}
-        disabled
-        onChange={input.onChange}
-        //   inputProps={{
-        //     style: {
-        //       height: 1,
-        //     },
-
-        //   }}
-        InputProps={{
-          inputProps: {
-            min: 1,
-            style: {
-              height: 1,
-            },
-          },
-        }}
-      />
-    );
-  };
-
-  const renderRequestedQuantityField = ({
-    input,
-    label,
-    meta: { touched, error, invalid },
-    type,
-    id,
-    ...custom
-  }) => {
-    return (
-      <TextField
-        //error={touched && invalid}
-        helperText="Quantity Ordered"
-        variant="outlined"
-        label={label}
-        id={input.name}
-        //value={input.value}
-        fullWidth
-        //required
-        type={type}
-        {...custom}
-        defaultValue={quantity}
-        onChange={input.onChange}
-        //   inputProps={{
-        //     style: {
-        //       height: 1,
-        //     },
-
-        //   }}
-        InputProps={{
-          inputProps: {
-            min: 1,
-            style: {
-              height: 1,
-            },
-          },
-        }}
-      />
-    );
+  const getCurrencyCode = () => {
+    if (currencyName) {
+      if (currencyName.toLowerCase() === "naira") {
+        return <span>&#8358;</span>;
+      } else {
+        return;
+      }
+    }
   };
 
   const renderProductCountryField = ({
@@ -513,7 +417,7 @@ function CheckoutDeliveryAndPayment(props) {
             value={location}
             onChange={handleLocationChange}
             label="Location"
-            style={{ width: 390, marginTop: 0, marginLeft: 30, height: 38 }}
+            style={{ width: 385, marginTop: 0, marginLeft: 30, height: 38 }}
             //{...input}
           >
             {renderLocationList()}
@@ -523,21 +427,6 @@ function CheckoutDeliveryAndPayment(props) {
           </FormHelperText>
         </FormControl>
       </Box>
-    );
-  };
-
-  const renderCheckbox = ({ input, label }) => {
-    return (
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="SomeName"
-            value="SomeValue"
-            onChange={input.onChange}
-          />
-        }
-        label={label}
-      />
     );
   };
 
@@ -555,7 +444,7 @@ function CheckoutDeliveryAndPayment(props) {
             style={{ height: 38, width: 300, marginTop: 0, marginLeft: 10 }}
           >
             <MenuItem value={"cheque"}>Cheque</MenuItem>
-            <MenuItem value={"card"}>Credit/Debit Card</MenuItem>
+            {/* <MenuItem value={"card"}>Credit/Debit Card</MenuItem> */}
             <MenuItem value={"bank-transfer"}>Bank Transfer</MenuItem>
             <MenuItem value={"cash"}>Cash</MenuItem>
           </Select>
@@ -565,27 +454,27 @@ function CheckoutDeliveryAndPayment(props) {
     );
   };
 
-  let totalDeliveryCost;
+  let totalDeliveryCost = 0;
 
-  const diff = +quantity - +props.maxmumQuantityForBaselineDelivery;
+  //   const diff = +quantity - +props.maxmumQuantityForBaselineDelivery;
 
-  if (diff <= 0) {
-    totalDeliveryCost = 0;
-    // parseFloat(
-    //   props.baselineDeliveryCostWithinProductLocation
-    // );
-  } else {
-    const quantityUnitsForNonBaselineDelivery =
-      parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
-    const costforNonBaselineDelivery =
-      +quantityUnitsForNonBaselineDelivery *
-      parseFloat(props.deliveryCostPerUnitWithinProductLocation);
-    totalDeliveryCost = 0;
-    // +costforNonBaselineDelivery +
-    // parseFloat(props.baselineDeliveryCostWithinProductLocation);
-  }
+  //   if (diff <= 0) {
+  //     totalDeliveryCost = 0;
+  //     // parseFloat(
+  //     //   props.baselineDeliveryCostWithinProductLocation
+  //     // );
+  //   } else {
+  //     const quantityUnitsForNonBaselineDelivery =
+  //       parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
+  //     const costforNonBaselineDelivery =
+  //       +quantityUnitsForNonBaselineDelivery *
+  //       parseFloat(props.deliveryCostPerUnitWithinProductLocation);
+  //     totalDeliveryCost = 0;
+  //     // +costforNonBaselineDelivery +
+  //     // parseFloat(props.baselineDeliveryCostWithinProductLocation);
+  //   }
 
-  const totalProductCost = price * quantity + totalDeliveryCost;
+  const totalProductCost = parseFloat(totalCost) + totalDeliveryCost;
   const totalProductCostForDisplay = totalProductCost
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");
@@ -599,26 +488,112 @@ function CheckoutDeliveryAndPayment(props) {
     return <React.Fragment>Make Payment</React.Fragment>;
   };
 
-  console.log("tis is the props:", props);
-
-  const onSubmit = () => {
-    const createForm = async () => {
-      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      await api.delete(`/carts/${props.cartId}`);
-
-      props.handleSuccessfulCreateSnackbar(
-        `This item is removed successfully!!!`
+  const onSubmit = (formValues) => {
+    if (!formValues["recipient"]) {
+      props.handleFailedSnackbar("the recipient field cannot be empty");
+      return;
+    }
+    if (!formValues["recipientPhoneNumber"]) {
+      props.handleFailedSnackbar(
+        "the recipient Phone Number field cannot be empty"
       );
+      return;
+    }
+    if (!formValues["recipientAddress"]) {
+      props.handleFailedSnackbar("the recipient address field cannot be empty");
+      return;
+    }
+    if (!location) {
+      props.handleFailedSnackbar("the state field cannot be empty");
+      return;
+    }
+    if (!country) {
+      props.handleFailedSnackbar("the country field cannot be empty");
+      return;
+    }
+    if (!paymentMethod) {
+      props.handleFailedSnackbar("the payment method field cannot be empty");
+      return;
+    }
 
-      //history.push("/");
-      props.renderCheckoutUpdate(props.cartId);
+    props.productList.map((cart, index) => {
+      const data = {
+        orderNumber: orderNumber,
+        product: cart.product,
+        orderedPrice: cart.price,
+        recipientName: formValues["recipient"],
+        recipientPhoneNumber: formValues["recipientPhoneNumber"],
+        recipientAddress: formValues["recipientAddress"],
+        recipientCountry: country,
+        recipientState: location,
+        productLocation: cart.location,
+        locationCountry: cart.locationCountry,
+        totalDeliveryCost: totalDeliveryCost.toFixed(2),
+        //totalProductCost: totalProductCost.toFixed(2),
+        productVendor: cart.productVendor,
+        cartId: cart.id,
+        quantityAdddedToCart: cart.quantity,
+        orderedQuantity: cart.quantity,
+        dateAddedToCart: cart.dateAddedToCart,
+        productCurrency: cart.currency,
+        paymentMethod: paymentMethod,
+        paymentStatus: "to-be-confirmed",
+        orderedBy: cart.cartHolder,
+      };
 
-      setLoading(false);
-    };
-    createForm().catch((err) => {
-      props.handleFailedSnackbar();
-      console.log("err:", err.message);
+      if (data) {
+        const createForm = async () => {
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${props.token}`;
+          const response = await api.post(`/orders`, data);
+
+          if (response.data.status === "success") {
+            dispatch({
+              type: CREATE_ORDER,
+              payload: response.data.data.data,
+            });
+
+            setLoading(false);
+          } else {
+            props.handleFailedSnackbar(
+              "Something went wrong, please try again!!!"
+            );
+          }
+        };
+        createForm().catch((err) => {
+          //props.handleFailedSnackbar();
+          console.log("err:", err.message);
+        });
+      } else {
+        //props.handleFailedSnackbar("Something went wrong, please try again!!!");
+      }
     });
+
+    const cartData = {
+      status: "checkedout",
+    };
+
+    //change the status of this cart items
+    props.productList.map((cart, index) => {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response2 = await api.patch(`/carts/${cart.id}`, cartData);
+
+        dispatch({
+          type: EDIT_CART,
+          payload: response2.data.data.data,
+        });
+      };
+      createForm().catch((err) => {
+        props.handleFailedSnackbar();
+        console.log("err:", err.message);
+      });
+    });
+    props.handleSuccessfulCreateSnackbar(
+      `Thank you for your patronage, we will process your request as soon as possible`
+    );
+    history.push("/");
   };
 
   const renderOnlinePayment = (email, amount, orderNumber) => {
@@ -653,6 +628,7 @@ function CheckoutDeliveryAndPayment(props) {
         text={"Make Payment"}
         orderNumber={orderNumber}
         data={data}
+        productList={props.productList}
         token={props.token}
         handleSuccessfulCreateSnackbar={props.handleSuccessfulCreateSnackbar}
         handleFailedSnackbar={props.handleFailedSnack}
@@ -671,96 +647,6 @@ function CheckoutDeliveryAndPayment(props) {
         autoComplete="off"
         className={classes.root}
       >
-        {/* <Grid
-          item
-          container
-          direction="column"
-          style={{ marginTop: 10, marginBottom: 10 }}
-          justifyContent="center"
-        >
-          <Grid item container style={{ marginTop: 20, width: 400 }}>
-            <FormLabel style={{ color: "blue" }} component="legend">
-              Delivery Details
-            </FormLabel>
-          </Grid>
-          <Field
-            label=""
-            id="recipient"
-            name="recipient"
-            onChange={onRecipientNameChange}
-            type="text"
-            component={renderRecipientNameField}
-            style={{ width: 300 }}
-          />
-          <Field
-            label=""
-            id="recipientPhoneNumber"
-            name="recipientPhoneNumber"
-            onChange={onRecipientPhoneNumberChange}
-            type="text"
-            component={renderRecipientPhoneNumberField}
-            style={{ width: 300 }}
-          />
-
-          <Grid container direction="row" style={{ marginTop: 10 }}>
-            <Grid item style={{ width: "55%" }}>
-              <Field
-                label=""
-                id="locationCountry"
-                name="locationCountry"
-                type="text"
-                component={renderProductCountryField}
-              />
-            </Grid>
-            <Grid item style={{ width: "40%", marginLeft: 10 }}>
-              <Field
-                label=""
-                id="location"
-                name="location"
-                type="text"
-                component={renderProductLocationField}
-              />
-            </Grid>
-          </Grid>
-          <Field
-            label=""
-            id="recipientAddress"
-            name="recipientAddress"
-            onChange={onRecipientAddressChange}
-            type="text"
-            component={renderRecipientAddressField}
-            style={{ width: 300 }}
-          />
-
-         
-        </Grid> */}
-
-        {/* <Button
-          variant="contained"
-          className={classes.submitButton}
-          onClick={onSubmit}
-        >
-          {loading ? (
-            <CircularProgress size={30} color="inherit" />
-          ) : (
-            buttonContent()
-          )}
-        </Button> */}
-
-        {/* {provideDeliveryCost && (
-          <Button
-            variant="contained"
-            className={classes.offDeliveryLocationButton}
-            onClick={onSubmit}
-          >
-            {loading ? (
-              <CircularProgress size={30} color="inherit" />
-            ) : (
-              offLocationButtonContent()
-            )}
-          </Button>
-        )} */}
-
         <Grid container direction="row">
           <Grid
             item
@@ -864,22 +750,32 @@ function CheckoutDeliveryAndPayment(props) {
                 marginLeft: 10,
               }}
             >
-              Total Cost:{}
+              Total Cost:{getCurrencyCode()}
               {totalProductCostForDisplay}
             </Typography>
 
             {renderPaymentMethodField()}
-            <Button
-              variant="contained"
-              className={classes.submitButton}
-              onClick={onSubmit}
-            >
-              {loading ? (
-                <CircularProgress size={30} color="inherit" />
-              ) : (
-                buttonContent()
-              )}
-            </Button>
+            {!isOnlinePayment && paymentMethod && (
+              <Typography className={classes.bankDetails}>
+                Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
+                5140090808
+              </Typography>
+            )}
+            {!isOnlinePayment && (
+              <Button
+                variant="contained"
+                className={classes.submitButton}
+                onClick={props.handleSubmit(onSubmit)}
+              >
+                {loading ? (
+                  <CircularProgress size={30} color="inherit" />
+                ) : (
+                  buttonContent()
+                )}
+              </Button>
+            )}
+            {isOnlinePayment &&
+              renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
           </Grid>
         </Grid>
       </Box>

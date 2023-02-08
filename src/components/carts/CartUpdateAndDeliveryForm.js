@@ -227,6 +227,7 @@ function CartUpdateAndDeliveryForm(props) {
           cartHolder: userId,
           productLocation: location,
           product: productId,
+          isDeleted: false,
         },
       });
 
@@ -549,6 +550,8 @@ function CartUpdateAndDeliveryForm(props) {
     );
   };
 
+  console.log("the props at this component is:", props);
+
   // const quantityUnitsForNonBaselineDelivery =
   //   parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
   // const costforNonBaselineDelivery =
@@ -608,41 +611,44 @@ function CartUpdateAndDeliveryForm(props) {
   };
 
   const onItemRemovalSubmit = () => {
-    const createForm = async () => {
-      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      await api.delete(`/carts/${props.cartId}`);
+    setLoadingRemoval(true);
 
-      props.handleSuccessfulCreateSnackbar(
-        `This item is removed successfully!!!`
-      );
+    let data = {};
 
-      setLoadingRemoval(false);
-      props.renderCartUpdate(props.cartId);
-      //history.push("/");
-
-      // if (response.data.status === "success") {
-      //   dispatch({
-      //     type: DELETE_CART,
-      //     payload: response.data.data.data,
-      //   });
-      //   //history.push("/");
-      //   props.handleSuccessfulCreateSnackbar(
-      //     `This item is removed successfully!!!`
-      //   );
-      //   props.renderCartUpdate();
-
-      //   setLoadingRemoval(false);
-      //   //setIsCheckoutVisible(true);
-      // } else {
-      //   props.handleFailedSnackbar(
-      //     "Something went wrong, please try again22222!!!"
-      //   );
-      // }
+    data = {
+      isDeleted: true,
     };
-    createForm().catch((err) => {
-      props.handleFailedSnackbar();
-      console.log("err:", err.message);
-    });
+
+    if (data) {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.patch(`/carts/${props.cartId}`, data);
+
+        if (response.data.status === "success") {
+          dispatch({
+            type: EDIT_CART,
+            payload: response.data.data.data,
+          });
+
+          props.handleSuccessfulCreateSnackbar(
+            `This item is removed successfully!!!`
+          );
+
+          setLoadingRemoval(false);
+          props.renderCartUpdate(props.cartId);
+        } else {
+          props.handleFailedSnackbar(
+            "Something went wrong, please try again!!!"
+          );
+        }
+      };
+      createForm().catch((err) => {
+        props.handleFailedSnackbar();
+        console.log("err:", err.message);
+      });
+    } else {
+      props.handleFailedSnackbar("Something went wrong, please try again!!!");
+    }
   };
 
   const onSubmit = (formValues) => {
@@ -666,6 +672,8 @@ function CartUpdateAndDeliveryForm(props) {
 
     data = {
       quantity: quantity,
+      price: props.price,
+      currency: props.currency,
       // totalDeliveryCost: totalDeliveryCost,
       contactMeForTheDeliveryCost: false,
     };
