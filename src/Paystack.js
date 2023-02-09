@@ -3,7 +3,7 @@ import { PaystackButton } from "react-paystack";
 import { useDispatch } from "react-redux";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import api from "./apis/local";
-import { CREATE_ORDER } from "./actions/types";
+import { CREATE_ORDER, EDIT_CART } from "./actions/types";
 import history from "./history";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,8 +63,8 @@ function Paystack(props) {
     className: classes.checkout,
     email: props.email,
     amount: props.amount,
-    //publicKey: "pk_test_a05da864e0ce9986ad6cc3ff0bbaec0caf02dd9e",
-    publicKey: "pk_live_d97f9c616487f5e4e9b9f2be5ce8db274a0a4fb5",
+    publicKey: "pk_test_a05da864e0ce9986ad6cc3ff0bbaec0caf02dd9e",
+    //publicKey: "pk_live_d97f9c616487f5e4e9b9f2be5ce8db274a0a4fb5",
   };
 
   // you can call this function anything
@@ -76,6 +76,8 @@ function Paystack(props) {
       setIsSuccess(false);
     }
   };
+
+  console.log("the product list is:", props.productList);
 
   // you can call this function anything
   const handlePaystackCloseAction = () => {
@@ -91,40 +93,134 @@ function Paystack(props) {
   };
 
   const commitDataToDatabase = () => {
-    if (props.data) {
-      const createForm = async () => {
-        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-        const response = await api.post(`/orders`, props.data);
-
-        if (response.data.status === "success") {
-          dispatch({
-            type: CREATE_ORDER,
-            payload: response.data.data.data,
-          });
-
-          history.push("/");
-
-          props.handleSuccessfulCreateSnackbar(
-            `Thank you for the order. We appreciate your patronage!`
-          );
-
-          //delete the product from the cart
-          api.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${props.token}`;
-          await api.delete(`/carts/${props.data.cartId}`);
-          //props.handleCartItemForCheckoutBox();
-        } else {
-          // props.handleFailedSnackbar(
-          //   "Something went wrong, please try again!!!"
-          // );
-        }
-      };
-      createForm().catch((err) => {
-        //props.handleFailedSnackbar();
-        console.log("err:", err.message);
-      });
-    }
+    // if (props.data) {
+    //   const createForm = async () => {
+    //     api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+    //     const response = await api.post(`/orders`, props.data);
+    //     if (response.data.status === "success") {
+    //       dispatch({
+    //         type: CREATE_ORDER,
+    //         payload: response.data.data.data,
+    //       });
+    //       history.push("/");
+    //       props.handleSuccessfulCreateSnackbar(
+    //         `Thank you for the order. We appreciate your patronage!`
+    //       );
+    //       //delete the product from the cart
+    //       api.defaults.headers.common[
+    //         "Authorization"
+    //       ] = `Bearer ${props.token}`;
+    //       await api.delete(`/carts/${props.data.cartId}`);
+    //       //props.handleCartItemForCheckoutBox();
+    //     } else {
+    //       // props.handleFailedSnackbar(
+    //       //   "Something went wrong, please try again!!!"
+    //       // );
+    //     }
+    //   };
+    //   createForm().catch((err) => {
+    //     //props.handleFailedSnackbar();
+    //     console.log("err:", err.message);
+    //   });
+    // }
+    // if (!props.data.recipientName) {
+    //   props.handleFailedSnackbar("the recipient field cannot be empty");
+    //   return;
+    // }
+    // if (!props.data.recipientPhoneNumber) {
+    //   props.handleFailedSnackbar(
+    //     "the recipient Phone Number field cannot be empty"
+    //   );
+    //   return;
+    // }
+    // if (!props.data.recipientAddress) {
+    //   props.handleFailedSnackbar("the recipient address field cannot be empty");
+    //   return;
+    // }
+    // if (!props.data.recipientState) {
+    //   props.handleFailedSnackbar("the state field cannot be empty");
+    //   return;
+    // }
+    // if (!props.data.recipientCountry) {
+    //   props.handleFailedSnackbar("the country field cannot be empty");
+    //   return;
+    // }
+    // if (!props.data.paymentMethod) {
+    //   props.handleFailedSnackbar("the payment method field cannot be empty");
+    //   return;
+    // }
+    // props.productList.map((cart, index) => {
+    //   const data = {
+    //     orderNumber: props.data.orderNumber,
+    //     product: cart.product,
+    //     orderedPrice: cart.price,
+    //     recipientName: props.data.recipientName,
+    //     recipientPhoneNumber: props.data.recipientPhoneNumber,
+    //     recipientAddress: props.data.recipientAddress,
+    //     recipientCountry: props.data.recipientCountry,
+    //     recipientState: props.data.recipientState,
+    //     productLocation: cart.location,
+    //     locationCountry: cart.locationCountry,
+    //     totalDeliveryCost: props.data.totalDeliveryCost.toFixed(2),
+    //     //totalProductCost: totalProductCost.toFixed(2),
+    //     productVendor: cart.productVendor,
+    //     cartId: cart.id,
+    //     quantityAdddedToCart: cart.quantity,
+    //     orderedQuantity: cart.quantity,
+    //     dateAddedToCart: cart.dateAddedToCart,
+    //     productCurrency: cart.currency,
+    //     paymentMethod: props.data.paymentMethod,
+    //     paymentStatus: "paid",
+    //     orderedBy: cart.cartHolder,
+    //   };
+    //   if (data) {
+    //     const createForm = async () => {
+    //       api.defaults.headers.common[
+    //         "Authorization"
+    //       ] = `Bearer ${props.token}`;
+    //       const response = await api.post(`/orders`, data);
+    //       if (response.data.status === "success") {
+    //         dispatch({
+    //           type: CREATE_ORDER,
+    //           payload: response.data.data.data,
+    //         });
+    //         //setLoading(false);
+    //       } else {
+    //         props.handleFailedSnackbar(
+    //           "Something went wrong, please try again!!!"
+    //         );
+    //       }
+    //     };
+    //     createForm().catch((err) => {
+    //       //props.handleFailedSnackbar();
+    //       console.log("err:", err.message);
+    //     });
+    //   } else {
+    //     //props.handleFailedSnackbar("Something went wrong, please try again!!!");
+    //   }
+    // });
+    // const cartData = {
+    //   status: "checkedout",
+    // };
+    // //change the status of this cart items
+    // props.productList.map((cart, index) => {
+    //   const createForm = async () => {
+    //     api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+    //     const response2 = await api.patch(`/carts/${cart.id}`, cartData);
+    //     dispatch({
+    //       type: EDIT_CART,
+    //       payload: response2.data.data.data,
+    //     });
+    //   };
+    //   createForm().catch((err) => {
+    //     props.handleFailedSnackbar();
+    //     console.log("err:", err.message);
+    //   });
+    // });
+    // props.handleSuccessfulCreateSnackbar(
+    //   `Thank you for your patronage, we will process your request as soon as possible`
+    // );
+    // history.push("/");
   };
 
   return (

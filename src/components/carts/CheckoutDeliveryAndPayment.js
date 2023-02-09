@@ -444,7 +444,7 @@ function CheckoutDeliveryAndPayment(props) {
             style={{ height: 38, width: 300, marginTop: 0, marginLeft: 10 }}
           >
             <MenuItem value={"cheque"}>Cheque</MenuItem>
-            {/* <MenuItem value={"card"}>Credit/Debit Card</MenuItem> */}
+            <MenuItem value={"card"}>Credit/Debit Card</MenuItem>
             <MenuItem value={"bank-transfer"}>Bank Transfer</MenuItem>
             <MenuItem value={"cash"}>Cash</MenuItem>
           </Select>
@@ -599,23 +599,22 @@ function CheckoutDeliveryAndPayment(props) {
   const renderOnlinePayment = (email, amount, orderNumber) => {
     const data = {
       orderNumber: orderNumber,
-      product: props.productId,
-      orderedPrice: props.price,
-      recipientName: props.recipientName,
-      recipientPhoneNumber: props.recipientPhoneNumber,
-      recipientAddress: props.recipientAddress,
-      recipientCountry: props.recipientCountry,
-      recipientState: props.recipientState,
-      productLocation: props.location,
-      locationCountry: props.locationCountry,
-      totalDeliveryCost: totalDeliveryCost.toFixed(2),
-      totalProductCost: totalProductCost.toFixed(2),
-      productVendor: props.productVendor,
-      cartId: props.cartId,
-      quantityAdddedToCart: props.quantity,
-      orderedQuantity: quantity,
-      dateAddedToCart: props.dateAddedToCart,
-      productCurrency: props.currency,
+      //   product: props.productId,
+      //   orderedPrice: props.price,
+      recipientName: recipientName,
+      recipientPhoneNumber: recipientPhoneNumber,
+      recipientAddress: recipientAddress,
+      recipientCountry: country,
+      recipientState: location,
+
+      totalDeliveryCost: totalDeliveryCost ? totalDeliveryCost.toFixed(2) : 0,
+      totalProductCost: totalProductCost ? totalProductCost.toFixed(2) : 0,
+      //   productVendor: props.productVendor,
+      //   cartId: props.cartId,
+      //   quantityAdddedToCart: props.quantity,
+      //   orderedQuantity: quantity,
+      //   dateAddedToCart: props.dateAddedToCart,
+      //   productCurrency: props.currency,
       paymentMethod: paymentMethod,
       paymentStatus: "paid",
 
@@ -627,8 +626,8 @@ function CheckoutDeliveryAndPayment(props) {
         amount={parseInt(amount)}
         text={"Make Payment"}
         orderNumber={orderNumber}
-        data={data}
-        productList={props.productList}
+        //data={data}
+        //productList={props.productList}
         token={props.token}
         handleSuccessfulCreateSnackbar={props.handleSuccessfulCreateSnackbar}
         handleFailedSnackbar={props.handleFailedSnack}
