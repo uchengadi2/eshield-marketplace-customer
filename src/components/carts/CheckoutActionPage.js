@@ -600,6 +600,7 @@ function CheckoutActionPage(props) {
   };
 
   const onSubmit = () => {
+    setLoading(true);
     const createForm = async () => {
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       await api.delete(`/carts/${props.cartId}`);

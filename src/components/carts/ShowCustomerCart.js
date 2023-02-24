@@ -283,7 +283,7 @@ function ShowCustomerCart(props) {
         params: {
           cartHolder: cartHolder,
           status: "unmarked-for-checkout",
-          isDeleted: false,
+          //isDeleted: false,
         },
       });
       const items = response.data.data.data;

@@ -550,8 +550,6 @@ function CartUpdateAndDeliveryForm(props) {
     );
   };
 
-  console.log("the props at this component is:", props);
-
   // const quantityUnitsForNonBaselineDelivery =
   //   parseInt(quantity) - parseInt(props.maxmumQuantityForBaselineDelivery);
   // const costforNonBaselineDelivery =
@@ -622,25 +620,25 @@ function CartUpdateAndDeliveryForm(props) {
     if (data) {
       const createForm = async () => {
         api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-        const response = await api.patch(`/carts/${props.cartId}`, data);
+        await api.delete(`/carts/${props.cartId}`);
 
-        if (response.data.status === "success") {
-          dispatch({
-            type: EDIT_CART,
-            payload: response.data.data.data,
-          });
+        //if (response.data.status === "success") {
+        dispatch({
+          type: DELETE_CART,
+          //payload: response.data.data.data,
+        });
 
-          props.handleSuccessfulCreateSnackbar(
-            `This item is removed successfully!!!`
-          );
+        props.handleSuccessfulCreateSnackbar(
+          `This item is removed successfully!!!`
+        );
 
-          setLoadingRemoval(false);
-          props.renderCartUpdate(props.cartId);
-        } else {
-          props.handleFailedSnackbar(
-            "Something went wrong, please try again!!!"
-          );
-        }
+        setLoadingRemoval(false);
+        props.renderCartUpdate(props.cartId);
+        // } else {
+        //   props.handleFailedSnackbar(
+        //     "Something went wrong, please try again!!!"
+        //   );
+        // }
       };
       createForm().catch((err) => {
         props.handleFailedSnackbar();

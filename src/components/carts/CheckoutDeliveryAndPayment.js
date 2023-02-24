@@ -21,7 +21,7 @@ import Box from "@material-ui/core/Box";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
-import { CREATE_ORDER, EDIT_CART } from "../../actions/types";
+import { CREATE_ORDER, DELETE_CART } from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
 import Paystack from "../../Paystack";
 import history from "../../history";
@@ -444,7 +444,7 @@ function CheckoutDeliveryAndPayment(props) {
             style={{ height: 38, width: 300, marginTop: 0, marginLeft: 10 }}
           >
             <MenuItem value={"cheque"}>Cheque</MenuItem>
-            <MenuItem value={"card"}>Credit/Debit Card</MenuItem>
+            {/* <MenuItem value={"card"}>Credit/Debit Card</MenuItem> */}
             <MenuItem value={"bank-transfer"}>Bank Transfer</MenuItem>
             <MenuItem value={"cash"}>Cash</MenuItem>
           </Select>
@@ -489,6 +489,7 @@ function CheckoutDeliveryAndPayment(props) {
   };
 
   const onSubmit = (formValues) => {
+    setLoading(true);
     if (!formValues["recipient"]) {
       props.handleFailedSnackbar("the recipient field cannot be empty");
       return;
@@ -578,11 +579,11 @@ function CheckoutDeliveryAndPayment(props) {
     props.productList.map((cart, index) => {
       const createForm = async () => {
         api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-        const response2 = await api.patch(`/carts/${cart.id}`, cartData);
+        await api.delete(`/carts/${cart.id}`);
 
         dispatch({
-          type: EDIT_CART,
-          payload: response2.data.data.data,
+          type: DELETE_CART,
+          //payload: response2.data.data.data,
         });
       };
       createForm().catch((err) => {

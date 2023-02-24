@@ -683,13 +683,15 @@ function OrderPageAction(props) {
               Total Product Cost:&nbsp;{props.getCurrencyCode()}
               {total}
             </Typography>
-            <Typography style={{ width: 300, marginTop: 15 }}>
+            {/* <Typography style={{ width: 300, marginTop: 15 }}>
               Total Delivery Cost:&nbsp;{props.getCurrencyCode()}
               {totalDeliveryCostForDisplay}
-            </Typography>
+            </Typography> */}
             <Typography style={{ width: 300, fontSize: 20, marginTop: 15 }}>
+              {/* Total Cost:&nbsp;{props.getCurrencyCode()}
+              {totalProductCostForDisplay} */}
               Total Cost:&nbsp;{props.getCurrencyCode()}
-              {totalProductCostForDisplay}
+              {total}
             </Typography>
 
             <Typography style={{ width: 300, marginTop: 15 }}>

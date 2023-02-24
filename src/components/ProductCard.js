@@ -28,7 +28,7 @@ import theme from "./ui/Theme";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 325,
+    maxWidth: 525,
     //height: 440,
     height: 500,
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
   media: {
-    height: 300,
+    height: 500,
     width: 500,
   },
 
