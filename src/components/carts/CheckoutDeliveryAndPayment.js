@@ -76,6 +76,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 4,
     padding: 10,
   },
+  info: {
+    fontSize: 15,
+    marginBottom: 4,
+    padding: 10,
+  },
 }));
 
 const renderRecipientNameField = ({
@@ -630,7 +635,7 @@ function CheckoutDeliveryAndPayment(props) {
       <Paystack
         email={email}
         amount={parseInt(amount)}
-        text={"Make Payment33"}
+        text={"Make Payment"}
         orderNumber={orderNumber}
         data={data}
         productList={props.productList}
@@ -783,6 +788,23 @@ function CheckoutDeliveryAndPayment(props) {
           </Button>
         )}
         {isOnlinePayment &&
+          paymentMethod == "card" &&
+          !recipientName &&
+          !recipientPhoneNumber &&
+          !recipientAddress &&
+          !country &&
+          !location && (
+            <Typography className={classes.info}>
+              Please complete the recipient delivery detail form before making
+              payment
+            </Typography>
+          )}
+        {isOnlinePayment &&
+          recipientName &&
+          recipientPhoneNumber &&
+          recipientAddress &&
+          country &&
+          location &&
           renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
       </Grid>
     </Grid>
