@@ -227,7 +227,7 @@ function CartUpdateAndDeliveryForm(props) {
           cartHolder: userId,
           productLocation: location,
           product: productId,
-          isDeleted: false,
+          // isDeleted: false,
         },
       });
 

@@ -388,7 +388,7 @@ function CheckoutDeliveryAndPayment(props) {
             value={country}
             onChange={handleCountryChange}
             label="Country"
-            style={{ width: 350, marginTop: 0, height: 38 }}
+            style={{ width: 365, marginTop: 0, height: 38 }}
             //{...input}
           >
             {renderCountryList()}
@@ -417,7 +417,7 @@ function CheckoutDeliveryAndPayment(props) {
             value={location}
             onChange={handleLocationChange}
             label="Location"
-            style={{ width: 385, marginTop: 0, marginLeft: 30, height: 38 }}
+            style={{ width: 410, marginTop: 0, marginLeft: 30, height: 38 }}
             //{...input}
           >
             {renderLocationList()}
@@ -440,11 +440,11 @@ function CheckoutDeliveryAndPayment(props) {
             id="paymentMethod"
             value={paymentMethod}
             onChange={handlePaymentMethodChange}
-            label="Account Type"
+            label="Payment Method"
             style={{ height: 38, width: 300, marginTop: 0, marginLeft: 10 }}
           >
             <MenuItem value={"cheque"}>Cheque</MenuItem>
-            {/* <MenuItem value={"card"}>Credit/Debit Card</MenuItem> */}
+            <MenuItem value={"card"}>Credit/Debit Card</MenuItem>
             <MenuItem value={"bank-transfer"}>Bank Transfer</MenuItem>
             <MenuItem value={"cash"}>Cash</MenuItem>
           </Select>
@@ -488,32 +488,39 @@ function CheckoutDeliveryAndPayment(props) {
     return <React.Fragment>Make Payment</React.Fragment>;
   };
 
-  const onSubmit = (formValues) => {
+  const onSubmit = () => {
     setLoading(true);
-    if (!formValues["recipient"]) {
+
+    if (!recipientName) {
       props.handleFailedSnackbar("the recipient field cannot be empty");
+      setLoading(false);
       return;
     }
-    if (!formValues["recipientPhoneNumber"]) {
+    if (!recipientPhoneNumber) {
       props.handleFailedSnackbar(
         "the recipient Phone Number field cannot be empty"
       );
+      setLoading(false);
       return;
     }
-    if (!formValues["recipientAddress"]) {
+    if (!recipientAddress) {
       props.handleFailedSnackbar("the recipient address field cannot be empty");
+      setLoading(false);
       return;
     }
     if (!location) {
       props.handleFailedSnackbar("the state field cannot be empty");
+      setLoading(false);
       return;
     }
     if (!country) {
       props.handleFailedSnackbar("the country field cannot be empty");
+      setLoading(false);
       return;
     }
     if (!paymentMethod) {
       props.handleFailedSnackbar("the payment method field cannot be empty");
+      setLoading(false);
       return;
     }
 
@@ -522,9 +529,9 @@ function CheckoutDeliveryAndPayment(props) {
         orderNumber: orderNumber,
         product: cart.product,
         orderedPrice: cart.price,
-        recipientName: formValues["recipient"],
-        recipientPhoneNumber: formValues["recipientPhoneNumber"],
-        recipientAddress: formValues["recipientAddress"],
+        recipientName: recipientName,
+        recipientPhoneNumber: recipientPhoneNumber,
+        recipientAddress: recipientAddress,
         recipientCountry: country,
         recipientState: location,
         productLocation: cart.location,
@@ -607,7 +614,6 @@ function CheckoutDeliveryAndPayment(props) {
       recipientAddress: recipientAddress,
       recipientCountry: country,
       recipientState: location,
-
       totalDeliveryCost: totalDeliveryCost ? totalDeliveryCost.toFixed(2) : 0,
       totalProductCost: totalProductCost ? totalProductCost.toFixed(2) : 0,
       //   productVendor: props.productVendor,
@@ -618,66 +624,66 @@ function CheckoutDeliveryAndPayment(props) {
       //   productCurrency: props.currency,
       paymentMethod: paymentMethod,
       paymentStatus: "paid",
-
       orderedBy: props.userId,
     };
     return (
       <Paystack
         email={email}
         amount={parseInt(amount)}
-        text={"Make Payment"}
+        text={"Make Payment33"}
         orderNumber={orderNumber}
-        //data={data}
-        //productList={props.productList}
+        data={data}
+        productList={props.productList}
         token={props.token}
         handleSuccessfulCreateSnackbar={props.handleSuccessfulCreateSnackbar}
-        handleFailedSnackbar={props.handleFailedSnack}
+        handleFailedSnackbar={props.handleFailedSnackbar}
       />
     );
   };
 
   return (
-    <form id="cartUpdateAndDeliveryForm">
-      <Box
-        sx={{
-          width: 1310,
-          //height: 450,
+    <Grid container direction="row" className={classes.root}>
+      <Grid
+        item
+        container
+        style={{
+          width: "60%",
+          marginLeft: 15,
+          border: "1px dashed grey",
+          padding: 15,
         }}
-        noValidate
-        autoComplete="off"
-        className={classes.root}
       >
-        <Grid container direction="row">
-          <Grid
-            item
-            container
-            style={{
-              width: "60%",
-              marginLeft: 15,
-              border: "1px dashed grey",
-              padding: 15,
-            }}
-          >
-            <Grid
-              item
-              container
-              direction="column"
-              style={{ marginTop: 10, marginBottom: 10 }}
-              justifyContent="center"
+        <Grid
+          item
+          container
+          direction="column"
+          style={{ marginTop: 10, marginBottom: 10 }}
+          justifyContent="center"
+        >
+          <Grid item container style={{ marginTop: 20, width: 600 }}>
+            <FormLabel
+              style={{
+                color: "blue",
+                marginBottom: 30,
+                marginLeft: 300,
+                fontSize: 20,
+              }}
+              component="legend"
             >
-              <Grid item container style={{ marginTop: 20, width: 600 }}>
-                <FormLabel
-                  style={{
-                    color: "blue",
-                    marginBottom: 30,
-                    marginLeft: 300,
-                    fontSize: 20,
-                  }}
-                  component="legend"
-                >
-                  Delivery Details
-                </FormLabel>
-              </Grid>
+              Delivery Details
+            </FormLabel>
+          </Grid>
+          <Box
+            sx={
+              {
+                //width: 1310,
+                //height: 450,
+              }
+            }
+            noValidate
+            autoComplete="off"
+          >
+            <form id="cartUpdateAndDeliveryForm">
               <Field
                 label=""
                 id="recipient"
@@ -685,7 +691,7 @@ function CheckoutDeliveryAndPayment(props) {
                 onChange={onRecipientNameChange}
                 type="text"
                 component={renderRecipientNameField}
-                style={{ width: 400, marginTop: 30 }}
+                //style={{ width: 200, marginTop: 30 }}
               />
               <Field
                 label=""
@@ -694,7 +700,7 @@ function CheckoutDeliveryAndPayment(props) {
                 onChange={onRecipientPhoneNumberChange}
                 type="text"
                 component={renderRecipientPhoneNumberField}
-                style={{ width: 400 }}
+                // style={{ width: 400 }}
               />
 
               <Grid
@@ -730,56 +736,56 @@ function CheckoutDeliveryAndPayment(props) {
                 component={renderRecipientAddressField}
                 style={{ width: 400 }}
               />
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            container
-            style={{
-              width: "37%",
-              marginLeft: 15,
-              border: "1px dashed grey",
-              padding: 15,
-            }}
-          >
-            <Typography
-              style={{
-                width: 300,
-                fontSize: 20,
-                marginTop: 15,
-                marginLeft: 10,
-              }}
-            >
-              Total Cost:{getCurrencyCode()}
-              {totalProductCostForDisplay}
-            </Typography>
-
-            {renderPaymentMethodField()}
-            {!isOnlinePayment && paymentMethod && (
-              <Typography className={classes.bankDetails}>
-                Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
-                5140090808
-              </Typography>
-            )}
-            {!isOnlinePayment && (
-              <Button
-                variant="contained"
-                className={classes.submitButton}
-                onClick={props.handleSubmit(onSubmit)}
-              >
-                {loading ? (
-                  <CircularProgress size={30} color="inherit" />
-                ) : (
-                  buttonContent()
-                )}
-              </Button>
-            )}
-            {isOnlinePayment &&
-              renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
-          </Grid>
+            </form>
+          </Box>
         </Grid>
-      </Box>
-    </form>
+      </Grid>
+      <Grid
+        item
+        container
+        style={{
+          width: "34%",
+          marginLeft: 15,
+          border: "1px dashed grey",
+          padding: 15,
+        }}
+      >
+        <Typography
+          style={{
+            width: 300,
+            fontSize: 20,
+            marginTop: 15,
+            marginLeft: 10,
+          }}
+        >
+          Total Cost:{getCurrencyCode()}
+          {totalProductCostForDisplay}
+        </Typography>
+
+        {renderPaymentMethodField()}
+        {!isOnlinePayment && paymentMethod && (
+          <Typography className={classes.bankDetails}>
+            Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
+            5140090808
+          </Typography>
+        )}
+        {!isOnlinePayment && (
+          <Button
+            variant="contained"
+            className={classes.submitButton}
+            onClick={onSubmit}
+          >
+            {loading ? (
+              <CircularProgress size={30} color="inherit" />
+            ) : (
+              buttonContent()
+            )}
+          </Button>
+        )}
+        {isOnlinePayment &&
+          renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
+      </Grid>
+    </Grid>
   );
 }
 

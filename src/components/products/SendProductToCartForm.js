@@ -249,8 +249,6 @@ function SendProductToCartForm(props) {
     return <React.Fragment> Add to Cart</React.Fragment>;
   };
 
-  console.log("this is the props:", props);
-
   const onSubmit = (formValues) => {
     setLoading(true);
 
