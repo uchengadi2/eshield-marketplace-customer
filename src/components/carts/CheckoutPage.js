@@ -400,7 +400,6 @@ function CheckoutPage(props) {
   );
 
   let total = 0;
-  console.log();
 
   cartProductList.map((cart, index) => {
     total = total + parseFloat(cart.price) * parseFloat(cart.quantity);

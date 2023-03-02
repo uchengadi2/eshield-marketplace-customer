@@ -489,11 +489,11 @@ export default function FeatureProductsCard(props) {
             </Card>
           )}
 
-          <Bookings
+          {/* <Bookings
             token={props.token}
             userId={props.userId}
             handleBookingsOpenDialogStatus={handleBookingsOpenDialogStatus}
-          />
+          /> */}
         </DialogContent>
       </Dialog>
       {renderLoginForm()}

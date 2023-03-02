@@ -610,7 +610,7 @@ const Marketplace = (props) => {
                         </Grid> */}
                     </Grid>
                   ) : (
-                    <Typography></Typography>
+                    <Typography>Just to be suire</Typography>
                     // <Grid
                     //   container
                     //   justifyContent="flex-start"
@@ -658,9 +658,9 @@ const Marketplace = (props) => {
         {/* <Grid item>
           <RequestForLogisticsCard className={classes.logistics} />
         </Grid> */}
-        <Grid item className={classes.footer}>
+        {/* <Grid item className={classes.footer}>
           <UpperFooter />
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

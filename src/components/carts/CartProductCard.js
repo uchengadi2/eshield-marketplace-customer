@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   rootMobile: {
     maxWidth: 600,
     //height: 440,
-    height: 1400,
+    height: 780,
     width: 400,
 
     marginLeft: "10px",
@@ -729,7 +729,7 @@ export default function CartProductCard(props) {
                         : ""}
                     </span>
                   </Typography> */}
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>
                         Estimated Delivery Period within&nbsp; {stateName}/
@@ -751,7 +751,7 @@ export default function CartProductCard(props) {
                         minutes{" "}
                       </span>
                     </span>
-                  </Typography>
+                  </Typography> */}
 
                   {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
@@ -885,24 +885,24 @@ export default function CartProductCard(props) {
                       </span>
                     </span>
                   </Typography>
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>Unit Weight:</strong>
                       <span>{product.weightPerUnit}kg</span>
                     </span>
-                  </Typography>
-                  <Typography>
+                  </Typography> */}
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong> Packaging:</strong>
                       <span>{product.packaging}</span>
                     </span>
-                  </Typography>
-                  <Typography>
+                  </Typography> */}
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong> Unit Size Dimension:</strong>
                       <span>{product.size}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                   <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>Minimum Quantity Required(MQR):</strong>
@@ -917,13 +917,13 @@ export default function CartProductCard(props) {
                       </span>
                     </span>
                   </Typography>
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>Total Stock Quantity:</strong>
                       <span>{product.remainingTotalUnits} unit(s)</span>
                     </span>
-                  </Typography>
-                  <Typography>
+                  </Typography> */}
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>
                         {" "}
@@ -939,8 +939,8 @@ export default function CartProductCard(props) {
                             .replace(/\d(?=(\d{3})+\.)/g, "$&,")
                         : ""}
                     </span>
-                  </Typography>
-                  <Typography>
+                  </Typography> */}
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>
                         Additional Delivery Cost per Unit within&nbsp;{" "}
@@ -955,8 +955,8 @@ export default function CartProductCard(props) {
                             .replace(/\d(?=(\d{3})+\.)/g, "$&,")
                         : ""}
                     </span>
-                  </Typography>
-                  <Typography>
+                  </Typography> */}
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong>
                         Estimated Delivery Period within&nbsp; {stateName}/
@@ -978,14 +978,14 @@ export default function CartProductCard(props) {
                         minutes{" "}
                       </span>
                     </span>
-                  </Typography>
+                  </Typography> */}
 
-                  <Typography>
+                  {/* <Typography>
                     <span style={{ fontSize: 12, marginLeft: 10 }}>
                       <strong> Product Vendor:</strong>
                       <span>{vendorName}</span>
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </Grid>
 

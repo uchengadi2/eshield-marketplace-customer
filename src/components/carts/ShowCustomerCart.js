@@ -213,6 +213,19 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.common.green,
     },
   },
+  submitButtonMobile: {
+    borderRadius: 10,
+    height: 40,
+    //width: 200,
+    //marginLeft: 1100,
+    marginLeft: 180,
+    marginTop: 30,
+    color: "white",
+    backgroundColor: theme.palette.common.green,
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+    },
+  },
 }));
 
 function ShowCustomerCart(props) {
@@ -480,17 +493,33 @@ function ShowCustomerCart(props) {
         <Grid item>{cartList}</Grid>
         {/*....INFORMATION BLOCK....*/}
       </Grid>
-      <Button
-        variant="contained"
-        className={classes.submitButton}
-        onClick={onSubmit}
-      >
-        {loading ? (
-          <CircularProgress size={30} color="inherit" />
-        ) : (
-          buttonContent()
-        )}
-      </Button>
+
+      {matchesMD ? (
+        <Button
+          variant="contained"
+          className={classes.submitButton}
+          onClick={onSubmit}
+        >
+          {loading ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            buttonContent()
+          )}
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          className={classes.submitButtonMobile}
+          onClick={onSubmit}
+        >
+          {loading ? (
+            <CircularProgress size={30} color="inherit" />
+          ) : (
+            buttonContent()
+          )}
+        </Button>
+      )}
+
       <Grid item className={classes.footer}>
         <UpperFooter />
       </Grid>

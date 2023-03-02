@@ -49,10 +49,10 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
   rootMobile: {
-    maxWidth: 600,
+    maxWidth: 400,
     //height: 440,
     //height: 800,
-    width: 400,
+    width: 350,
 
     marginLeft: "10px",
     //borderRadius: 30,
@@ -907,7 +907,7 @@ export default function ProductDetailCard(props) {
                     {props.product.refNumber}
                   </Typography>
                 )}
-                {props.product.weightPerUnit !== "undefined" && (
+                {/* {props.product.weightPerUnit !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -923,8 +923,8 @@ export default function ProductDetailCard(props) {
                       : 0}
                     <span style={{ fontSize: 12, marginLeft: 0 }}>kg</span>
                   </Typography>
-                )}
-                {props.product.remainingTotalUnits !== "undefined" && (
+                )} */}
+                {/* {props.product.remainingTotalUnits !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -935,9 +935,9 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.remainingTotalUnits}
                   </Typography>
-                )}
+                )} */}
 
-                {props.product.make !== "undefined" && (
+                {/* {props.product.make !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -949,9 +949,9 @@ export default function ProductDetailCard(props) {
 
                     {props.product.make}
                   </Typography>
-                )}
+                )} */}
 
-                {props.product.model !== "undefined" && (
+                {/* {props.product.model !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -962,8 +962,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.model}
                   </Typography>
-                )}
-                {props.product.color !== "undefined" && (
+                )} */}
+                {/* {props.product.color !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -974,8 +974,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.color}
                   </Typography>
-                )}
-                {props.product.size !== "undefined" && (
+                )} */}
+                {/* {props.product.size !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -986,8 +986,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.size}
                   </Typography>
-                )}
-                {props.product.design !== "undefined" && (
+                )} */}
+                {/* {props.product.design !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -998,9 +998,9 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.design}
                   </Typography>
-                )}
+                )} */}
 
-                {props.product.content !== "undefined" && (
+                {/* {props.product.content !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1011,8 +1011,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.content}
                   </Typography>
-                )}
-                {props.product.smell !== "undefined" && (
+                )} */}
+                {/* {props.product.smell !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1023,8 +1023,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.smell}
                   </Typography>
-                )}
-                {props.product.taste !== "undefined" && (
+                )} */}
+                {/* {props.product.taste !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1035,8 +1035,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.taste}
                   </Typography>
-                )}
-                {props.product.feel !== "undefined" && (
+                )} */}
+                {/* {props.product.feel !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1047,8 +1047,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.feel}
                   </Typography>
-                )}
-                {props.product.ingredients !== "undefined" && (
+                )} */}
+                {/* {props.product.ingredients !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1059,8 +1059,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.ingredients}
                   </Typography>
-                )}
-                {props.product.reliability !== "undefined" && (
+                )} */}
+                {/* {props.product.reliability !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1071,8 +1071,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.reliability}
                   </Typography>
-                )}
-                {props.product.safety !== "undefined" && (
+                )} */}
+                {/* {props.product.safety !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1083,8 +1083,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.safety}
                   </Typography>
-                )}
-                {props.product.packaging !== "undefined" && (
+                )} */}
+                {/* {props.product.packaging !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1095,8 +1095,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.packaging}
                   </Typography>
-                )}
-                {props.product.durability !== "undefined" && (
+                )} */}
+                {/* {props.product.durability !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1107,8 +1107,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.durability}
                   </Typography>
-                )}
-                {props.product.marketingClaims !== "undefined" && (
+                )} */}
+                {/* {props.product.marketingClaims !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1119,8 +1119,8 @@ export default function ProductDetailCard(props) {
                     </span>
                     {props.product.marketingClaims}
                   </Typography>
-                )}
-                {stateName !== "undefined" && (
+                )} */}
+                {/* {stateName !== "undefined" && (
                   <Typography
                     variant="h5"
                     style={{ color: "black", fontSize: 15 }}
@@ -1131,7 +1131,7 @@ export default function ProductDetailCard(props) {
                     </span>
                     {stateName}/{countryName}
                   </Typography>
-                )}
+                )} */}
                 {/* <Typography variant="h5" style={{ color: "black", fontSize: 15 }}>
               <span style={{ marginRight: 20 }}>
                 {" "}

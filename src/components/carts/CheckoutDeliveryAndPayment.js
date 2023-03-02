@@ -12,6 +12,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -31,6 +32,24 @@ const useStyles = makeStyles((theme) => ({
     //width: 600,
     marginLeft: 15,
   },
+  rootMobile: {
+    maxWidth: 370,
+    //height: 440,
+    height: 950,
+    width: 370,
+
+    marginLeft: "-10px",
+    //borderRadius: 30,
+    marginTop: "2em",
+    marginBottom: "3em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+
+    "&:hover": {
+      //border: "solid",
+      //borderColor: theme.palette.common.grey,
+    },
+  },
   formStyles: {
     width: 600,
   },
@@ -40,6 +59,18 @@ const useStyles = makeStyles((theme) => ({
     height: 40,
     width: 180,
     marginLeft: 200,
+    marginTop: 10,
+    color: "white",
+    backgroundColor: theme.palette.common.green,
+    "&:hover": {
+      backgroundColor: theme.palette.common.green,
+    },
+  },
+  submitButtonMobile: {
+    borderRadius: 10,
+    height: 40,
+    width: 180,
+    marginLeft: 150,
     marginTop: 10,
     color: "white",
     backgroundColor: theme.palette.common.green,
@@ -179,6 +210,7 @@ const renderRecipientPhoneNumberField = ({
 };
 
 function CheckoutDeliveryAndPayment(props) {
+  const theme = useTheme();
   const { totalCost, currency, token, userId } = props;
   const [quantity, setQuantity] = useState(+props.quantity);
   const [productQuantityInCart, setProductQuantityInCart] = useState();
@@ -191,7 +223,9 @@ function CheckoutDeliveryAndPayment(props) {
   const [recipientName, setRecipientName] = useState();
   const [recipientPhoneNumber, setRecipientPhoneNumber] = useState();
   const [recipientAddress, setRecipientAddress] = useState();
-
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const [isVisible, setIsVisible] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState();
   const [isCheckoutVisible, setIsCheckoutVisible] = useState(false);
@@ -393,7 +427,11 @@ function CheckoutDeliveryAndPayment(props) {
             value={country}
             onChange={handleCountryChange}
             label="Country"
-            style={{ width: 365, marginTop: 0, height: 38 }}
+            style={
+              matchesMD
+                ? { width: 350, marginLeft: 0, height: 38 }
+                : { width: 350, height: 38, marginTop: 10 }
+            }
             //{...input}
           >
             {renderCountryList()}
@@ -422,12 +460,16 @@ function CheckoutDeliveryAndPayment(props) {
             value={location}
             onChange={handleLocationChange}
             label="Location"
-            style={{ width: 410, marginTop: 0, marginLeft: 30, height: 38 }}
+            style={
+              matchesMD
+                ? { width: 415, marginLeft: 20, height: 38 }
+                : { width: 350, height: 38, marginTop: 10 }
+            }
             //{...input}
           >
             {renderLocationList()}
           </Select>
-          <FormHelperText style={{ marginLeft: 40 }}>
+          <FormHelperText style={{ marginLeft: 0 }}>
             State/Region
           </FormHelperText>
         </FormControl>
@@ -647,167 +689,350 @@ function CheckoutDeliveryAndPayment(props) {
   };
 
   return (
-    <Grid container direction="row" className={classes.root}>
-      <Grid
-        item
-        container
-        style={{
-          width: "60%",
-          marginLeft: 15,
-          border: "1px dashed grey",
-          padding: 15,
-        }}
-      >
-        <Grid
-          item
-          container
-          direction="column"
-          style={{ marginTop: 10, marginBottom: 10 }}
-          justifyContent="center"
-        >
-          <Grid item container style={{ marginTop: 20, width: 600 }}>
-            <FormLabel
-              style={{
-                color: "blue",
-                marginBottom: 30,
-                marginLeft: 300,
-                fontSize: 20,
-              }}
-              component="legend"
+    <>
+      {matchesMD ? (
+        <Grid container direction="row" className={classes.root}>
+          <Grid
+            item
+            container
+            style={{
+              width: "60%",
+              marginLeft: 15,
+              border: "1px dashed grey",
+              padding: 15,
+            }}
+          >
+            <Grid
+              item
+              container
+              direction="column"
+              style={{ marginTop: 10, marginBottom: 10 }}
+              justifyContent="center"
             >
-              Delivery Details
-            </FormLabel>
-          </Grid>
-          <Box
-            sx={
-              {
-                //width: 1310,
-                //height: 450,
-              }
-            }
-            noValidate
-            autoComplete="off"
-          >
-            <form id="cartUpdateAndDeliveryForm">
-              <Field
-                label=""
-                id="recipient"
-                name="recipient"
-                onChange={onRecipientNameChange}
-                type="text"
-                component={renderRecipientNameField}
-                //style={{ width: 200, marginTop: 30 }}
-              />
-              <Field
-                label=""
-                id="recipientPhoneNumber"
-                name="recipientPhoneNumber"
-                onChange={onRecipientPhoneNumberChange}
-                type="text"
-                component={renderRecipientPhoneNumberField}
-                // style={{ width: 400 }}
-              />
-
-              <Grid
-                container
-                direction="row"
-                style={{ marginTop: 10, width: 600 }}
-              >
-                <Grid item style={{ width: "55%" }}>
-                  <Field
-                    label=""
-                    id="locationCountry"
-                    name="locationCountry"
-                    type="text"
-                    component={renderProductCountryField}
-                  />
-                </Grid>
-                <Grid item style={{ width: "40%", marginLeft: 10 }}>
-                  <Field
-                    label=""
-                    id="location"
-                    name="location"
-                    type="text"
-                    component={renderProductLocationField}
-                  />
-                </Grid>
+              <Grid item container style={{ marginTop: 20, width: 600 }}>
+                <FormLabel
+                  style={{
+                    color: "blue",
+                    marginBottom: 30,
+                    marginLeft: 300,
+                    fontSize: 20,
+                  }}
+                  component="legend"
+                >
+                  Delivery Details
+                </FormLabel>
               </Grid>
-              <Field
-                label=""
-                id="recipientAddress"
-                name="recipientAddress"
-                onChange={onRecipientAddressChange}
-                type="text"
-                component={renderRecipientAddressField}
-                style={{ width: 400 }}
-              />
-            </form>
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid
-        item
-        container
-        style={{
-          width: "34%",
-          marginLeft: 15,
-          border: "1px dashed grey",
-          padding: 15,
-        }}
-      >
-        <Typography
-          style={{
-            width: 300,
-            fontSize: 20,
-            marginTop: 15,
-            marginLeft: 10,
-          }}
-        >
-          Total Cost:{getCurrencyCode()}
-          {totalProductCostForDisplay}
-        </Typography>
+              <Box
+                sx={
+                  {
+                    //width: 1310,
+                    //height: 450,
+                  }
+                }
+                noValidate
+                autoComplete="off"
+              >
+                <form id="cartUpdateAndDeliveryForm">
+                  <Field
+                    label=""
+                    id="recipient"
+                    name="recipient"
+                    onChange={onRecipientNameChange}
+                    type="text"
+                    component={renderRecipientNameField}
+                    //style={{ width: 200, marginTop: 30 }}
+                  />
+                  <Field
+                    label=""
+                    id="recipientPhoneNumber"
+                    name="recipientPhoneNumber"
+                    onChange={onRecipientPhoneNumberChange}
+                    type="text"
+                    component={renderRecipientPhoneNumberField}
+                    // style={{ width: 400 }}
+                  />
 
-        {renderPaymentMethodField()}
-        {!isOnlinePayment && paymentMethod && (
-          <Typography className={classes.bankDetails}>
-            Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
-            5140090808
-          </Typography>
-        )}
-        {!isOnlinePayment && (
-          <Button
-            variant="contained"
-            className={classes.submitButton}
-            onClick={onSubmit}
+                  <Grid
+                    container
+                    direction="row"
+                    style={{ marginTop: 10, width: 600 }}
+                  >
+                    <Grid item style={{ width: "55%" }}>
+                      <Field
+                        label=""
+                        id="locationCountry"
+                        name="locationCountry"
+                        type="text"
+                        component={renderProductCountryField}
+                      />
+                    </Grid>
+                    <Grid item style={{ width: "40%", marginLeft: 10 }}>
+                      <Field
+                        label=""
+                        id="location"
+                        name="location"
+                        type="text"
+                        component={renderProductLocationField}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Field
+                    label=""
+                    id="recipientAddress"
+                    name="recipientAddress"
+                    onChange={onRecipientAddressChange}
+                    type="text"
+                    component={renderRecipientAddressField}
+                    style={{ width: 400 }}
+                  />
+                </form>
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            style={{
+              width: "34%",
+              marginLeft: 15,
+              border: "1px dashed grey",
+              padding: 15,
+            }}
           >
-            {loading ? (
-              <CircularProgress size={30} color="inherit" />
-            ) : (
-              buttonContent()
-            )}
-          </Button>
-        )}
-        {isOnlinePayment &&
-          paymentMethod == "card" &&
-          !recipientName &&
-          !recipientPhoneNumber &&
-          !recipientAddress &&
-          !country &&
-          !location && (
-            <Typography className={classes.info}>
-              Please complete the recipient delivery detail form before making
-              payment
+            <Typography
+              style={{
+                width: 300,
+                fontSize: 20,
+                marginTop: 15,
+                marginLeft: 10,
+              }}
+            >
+              Total Cost:{getCurrencyCode()}
+              {totalProductCostForDisplay}
             </Typography>
-          )}
-        {isOnlinePayment &&
-          recipientName &&
-          recipientPhoneNumber &&
-          recipientAddress &&
-          country &&
-          location &&
-          renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
-      </Grid>
-    </Grid>
+
+            {renderPaymentMethodField()}
+            {!isOnlinePayment && paymentMethod && (
+              <Typography className={classes.bankDetails}>
+                Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
+                5140090808
+              </Typography>
+            )}
+            {!isOnlinePayment && (
+              <Button
+                variant="contained"
+                className={classes.submitButton}
+                onClick={onSubmit}
+              >
+                {loading ? (
+                  <CircularProgress size={30} color="inherit" />
+                ) : (
+                  buttonContent()
+                )}
+              </Button>
+            )}
+            {isOnlinePayment &&
+              paymentMethod == "card" &&
+              !recipientName &&
+              !recipientPhoneNumber &&
+              !recipientAddress &&
+              !country &&
+              !location && (
+                <Typography className={classes.info}>
+                  Please complete the recipient delivery detail form before
+                  making payment
+                </Typography>
+              )}
+            {isOnlinePayment &&
+              recipientName &&
+              recipientPhoneNumber &&
+              recipientAddress &&
+              country &&
+              location &&
+              renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid container direction="column" className={classes.rootMobile}>
+          <Grid
+            item
+            container
+            style={{
+              //width: "60%",
+              marginLeft: 15,
+              border: "1px dashed grey",
+              padding: 15,
+            }}
+          >
+            <Grid
+              item
+              container
+              direction="column"
+              style={{ marginTop: 10, marginBottom: 10 }}
+              justifyContent="center"
+            >
+              <Grid item container style={{ marginTop: 20, width: 300 }}>
+                <FormLabel
+                  style={{
+                    color: "blue",
+                    marginBottom: 30,
+                    marginLeft: 100,
+                    fontSize: 20,
+                  }}
+                  component="legend"
+                >
+                  Delivery Details
+                </FormLabel>
+              </Grid>
+              <Box
+                sx={{
+                  width: 350,
+                  //height: 450,
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <form id="cartUpdateAndDeliveryForm">
+                  <Field
+                    label=""
+                    id="recipient"
+                    name="recipient"
+                    onChange={onRecipientNameChange}
+                    type="text"
+                    component={renderRecipientNameField}
+                    style={{ width: 250 }}
+                  />
+                  <Field
+                    label=""
+                    id="recipientPhoneNumber"
+                    name="recipientPhoneNumber"
+                    onChange={onRecipientPhoneNumberChange}
+                    type="text"
+                    component={renderRecipientPhoneNumberField}
+                    style={{ width: 250 }}
+                  />
+                  <Field
+                    label=""
+                    id="recipientAddress"
+                    name="recipientAddress"
+                    onChange={onRecipientAddressChange}
+                    type="text"
+                    component={renderRecipientAddressField}
+                    style={{ width: 300, marginTop: 10 }}
+                  />
+
+                  <Grid
+                    container
+                    direction="column"
+                    style={{ marginTop: 5, width: 400 }}
+                  >
+                    <Grid
+                      item
+                      style={
+                        matchesMD
+                          ? { width: 365, marginTop: 0, height: 38 }
+                          : {
+                              width: 350,
+                              height: 38,
+                              marginTop: 2,
+                              marginBottom: 20,
+                            }
+                      }
+                    >
+                      <Field
+                        label=""
+                        id="locationCountry"
+                        name="locationCountry"
+                        type="text"
+                        component={renderProductCountryField}
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      style={
+                        matchesMD
+                          ? { width: 365, marginTop: 0, height: 38 }
+                          : { width: 350, height: 38, marghinTop: 5 }
+                      }
+                    >
+                      <Field
+                        label=""
+                        id="location"
+                        name="location"
+                        type="text"
+                        component={renderProductLocationField}
+                      />
+                    </Grid>
+                  </Grid>
+                </form>
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            style={{
+              // width: "34%",
+              marginLeft: 15,
+              border: "1px dashed grey",
+              padding: 15,
+            }}
+          >
+            <Typography
+              style={{
+                width: 300,
+                fontSize: 20,
+                marginTop: 15,
+                marginLeft: 10,
+              }}
+            >
+              Total Cost:{getCurrencyCode()}
+              {totalProductCostForDisplay}
+            </Typography>
+
+            {renderPaymentMethodField()}
+            {!isOnlinePayment && paymentMethod && (
+              <Typography className={classes.bankDetails}>
+                Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
+                5140090808
+              </Typography>
+            )}
+            {!isOnlinePayment && (
+              <Button
+                variant="contained"
+                className={classes.submitButtonMobile}
+                onClick={onSubmit}
+              >
+                {loading ? (
+                  <CircularProgress size={30} color="inherit" />
+                ) : (
+                  buttonContent()
+                )}
+              </Button>
+            )}
+            {isOnlinePayment &&
+              paymentMethod == "card" &&
+              !recipientName &&
+              !recipientPhoneNumber &&
+              !recipientAddress &&
+              !country &&
+              !location && (
+                <Typography className={classes.info}>
+                  Please complete the recipient delivery detail form before
+                  making payment
+                </Typography>
+              )}
+            {isOnlinePayment &&
+              recipientName &&
+              recipientPhoneNumber &&
+              recipientAddress &&
+              country &&
+              location &&
+              renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }
 

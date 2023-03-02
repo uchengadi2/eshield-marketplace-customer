@@ -24,6 +24,7 @@ import ProductCard from "./../ProductCard";
 import background from "./../../logistic_assets/cover_image_1.png";
 import { Category } from "@material-ui/icons";
 import history from "../../history";
+import UpperFooter from "../ui/UpperFooter";
 
 import FeatureProductsCard from "./FeatureProductsCard";
 import AppPagination from "../pagination/AppPagination";
@@ -41,14 +42,32 @@ const useStyles = makeStyles((theme) => ({
       objectFit: "cover",
     },
   },
+  // rootMobile: {
+  //   width: "100%",
+  //   height: "80vh",
+  //   marginTop: "8em",
+  //   // height: "100%",
+  //   position: "relative",
+  //   "& video": {
+  //     objectFit: "cover",
+  //   },
+  // },
   rootMobile: {
-    width: "100%",
-    height: "80vh",
-    marginTop: "8em",
-    // height: "100%",
-    position: "relative",
-    "& video": {
-      objectFit: "cover",
+    maxWidth: 600,
+    //height: 440,
+    height: 900,
+    width: 400,
+
+    marginLeft: "-10px",
+    //borderRadius: 30,
+    marginTop: "2em",
+    marginBottom: "3em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+
+    "&:hover": {
+      //border: "solid",
+      //borderColor: theme.palette.common.grey,
     },
   },
   overlay: {
@@ -83,6 +102,10 @@ const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     marginTop: "2.9em",
     marginLeft: "5.5em",
+  },
+  footer: {
+    width: "100%",
+    marginTop: "10rem",
   },
   learnButtonHero: {
     ...theme.typography.learnButton,
@@ -439,14 +462,29 @@ function FeatureProductsPage(props) {
               />
             </Grid>
           )}
+          <Grid item className={classes.footer}>
+            <UpperFooter />
+          </Grid>
         </Grid>
       ) : (
         <Grid container direction="row" className={classes.rootMobile}>
-          <Typography variant="h4" style={{ marginLeft: 130, marginTop: 0 }}>
+          {/* <Typography variant="h4" style={{ marginLeft: 130, marginTop: 0 }}>
             Hot Sales
-          </Typography>
+          </Typography> */}
           <Grid item style={{ width: "100%", marginTop: "20px" }}>
             <Grid item>{cartList}</Grid>
+          </Grid>
+          {isPaginationVisible && (
+            <Grid item style={{ marginTop: 80 }}>
+              <AppPagination
+                setPage={setPage}
+                page={page}
+                pageNumber={totalData}
+              />
+            </Grid>
+          )}
+          <Grid item className={classes.footer}>
+            <UpperFooter />
           </Grid>
         </Grid>
       )}

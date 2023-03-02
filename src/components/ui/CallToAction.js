@@ -109,8 +109,8 @@ export default function CallToAction(props) {
               </Typography>
             ) : (
               <Typography variant="h2" style={{ fontSize: "1.5rem" }}>
-                Simple Business-to-Business Marketplace Marketplace <br />{" "}
-                Revolutionary Results
+                Simple Business-to-Business Marketplace <br /> Revolutionary
+                Results
               </Typography>
             )}
             {matchesMD ? (
