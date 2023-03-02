@@ -32,14 +32,11 @@ import theme from "./../ui/Theme";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // maxWidth: 325,
-    // //height: 440,
+    maxWidth: 325,
+    height: 435,
     // height: 500,
-    maxWidth: 320,
-    height: 400,
-    //height: 370,
-    // width: 325,
-    //width: 500,
+    // maxWidth: 320,
+    // height: 400,
 
     marginLeft: "10px",
     borderRadius: 30,
@@ -48,10 +45,13 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   media: {
-    height: 100,
-    width: 100,
+    //height: 100,
+    //width: 100,
+    height: 120,
+    width: 200,
     padding: 10,
-    marginLeft: "100px",
+    marginLeft: "80px",
+    marginTop: "10px",
   },
 
   learnButton: {
