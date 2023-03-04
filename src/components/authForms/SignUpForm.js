@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     maxWidth: 600,
-    marginTop: 50,
+    marginTop: 20,
   },
   rootMobile: {
     maxWidth: 300,
@@ -276,6 +276,17 @@ const SignUpForm = (props) => {
       );
   };
 
+  function telephoneCheck(phoneNumber) {
+    var found = phoneNumber.search(
+      /^(\+{1}\d{2,3}\s?[(]{1}\d{1,3}[)]{1}\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}$/
+    );
+    if (found > -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const onSubmit = (formValues) => {
     setLoading(false);
 
@@ -310,9 +321,17 @@ const SignUpForm = (props) => {
       return;
     }
 
-    if ((formValues["phoneNumber"].match(/\d/g).length === 11) === false) {
+    if (
+      // formValues["phoneNumber"].match(/\d/g)
+      // formValues["phoneNumber"].match(
+      //   /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+      // ).length <=
+      //   14 ===
+      // false
+      !telephoneCheck(formValues["phoneNumber"])
+    ) {
       props.handleFailedSignUpDialogOpenStatusWithSnackbar(
-        "Your Phone number must be 11 numbers. Please correct this and try again"
+        "Your entered an invalid phone number. Please correct this and try again"
       );
       setLoading(false);
 
@@ -362,7 +381,7 @@ const SignUpForm = (props) => {
             // onSubmit={onSubmit}
             sx={{
               width: 350,
-              height: 480,
+              //height: 480,
             }}
             noValidate
             autoComplete="off"
@@ -388,7 +407,7 @@ const SignUpForm = (props) => {
               style={{ marginTop: 10 }}
             />
             <Field
-              label="Phone Number"
+              label="Phone Number (country code when used should have a space between it and other numbers)"
               id="phoneNumber"
               name="phoneNumber"
               type="text"
@@ -508,7 +527,7 @@ const SignUpForm = (props) => {
               style={{ marginTop: 10 }}
             />
             <Field
-              label="Phone Number"
+              label="Phone Number (country code when used should have a space between it and other numbers)"
               id="phoneNumber"
               name="phoneNumber"
               type="text"
