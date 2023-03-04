@@ -241,6 +241,9 @@ function SearchPage(props) {
   const category = params.categoryId;
   const searchString = params.searchText;
 
+  console.log("the category is:", category);
+  console.log("the searchstring is :", searchString);
+
   const handleBecomeAPartnerOpenDialogBox = () => {
     setBecomePartnerOpen(false);
   };
@@ -286,23 +289,42 @@ function SearchPage(props) {
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       let response;
       if (searchCategory && searchStringText) {
-        response = await api.get(
-          `/products?page=${page}&limit=${limit}&keyword1=` +
-            searchStringText.toLowerCase(),
-          {
-            params: { category: searchCategory },
-          }
-        );
+        if (searchCategory !== "all") {
+          response = await api.get(
+            `/products?page=${page}&limit=${limit}&keyword1=` +
+              searchStringText.toLowerCase(),
+            {
+              params: { category: searchCategory },
+            }
+          );
+        } else {
+          response = await api.get(
+            `/products?page=${page}&limit=${limit}&keyword1=` +
+              searchStringText.toLowerCase(),
+            {
+              // params: { category: searchCategory },
+            }
+          );
+        }
       }
 
       if (
         searchCategory &&
         (!searchStringText || searchStringText === "undefined")
-      ) {
-        response = await api.get(`/products?page=${page}&limit=${limit}`, {
-          params: { category: searchCategory },
-        });
-      }
+      )
+        if (searchCategory !== "all") {
+          {
+            response = await api.get(`/products?page=${page}&limit=${limit}`, {
+              params: { category: searchCategory },
+            });
+          }
+        } else {
+          {
+            response = await api.get(`/products?page=${page}&limit=${limit}`, {
+              // params: { category: searchCategory },
+            });
+          }
+        }
 
       if (searchCategory === "undefined" && !searchStringText === "undefined") {
         response = await api.get(`/products?page=${page}&limit=${limit}`);
@@ -335,13 +357,23 @@ function SearchPage(props) {
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       let response;
       if (searchCategory && searchStringText) {
-        response = await api.get(
-          `/products?page=${page}&limit=${limit}&keyword2=` +
-            searchStringText.toLowerCase(),
-          {
-            params: { category: searchCategory },
-          }
-        );
+        if (searchCategory !== "all") {
+          response = await api.get(
+            `/products?page=${page}&limit=${limit}&keyword2=` +
+              searchStringText.toLowerCase(),
+            {
+              params: { category: searchCategory },
+            }
+          );
+        } else {
+          response = await api.get(
+            `/products?page=${page}&limit=${limit}&keyword2=` +
+              searchStringText.toLowerCase(),
+            {
+              // params: { category: searchCategory },
+            }
+          );
+        }
       }
 
       const items = response.data.data.data;
@@ -365,7 +397,7 @@ function SearchPage(props) {
     fetchData().catch(console.error);
   }, [searchStringText, searchCategory, page]);
 
-  console.log("productList length:", productList.length);
+  // console.log("productList length:", productList.length);
 
   useEffect(() => {
     let preference = 1;
@@ -398,13 +430,23 @@ function SearchPage(props) {
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       let response;
       if (searchCategory && searchStringText) {
-        response = await api.get(
-          `/products?page=${page}&limit=${limit}&keyword3=` +
-            searchStringText.toLowerCase(),
-          {
-            params: { category: searchCategory },
-          }
-        );
+        if (searchCategory !== "all") {
+          response = await api.get(
+            `/products?page=${page}&limit=${limit}&keyword3=` +
+              searchStringText.toLowerCase(),
+            {
+              params: { category: searchCategory },
+            }
+          );
+        } else {
+          response = await api.get(
+            `/products?page=${page}&limit=${limit}&keyword3=` +
+              searchStringText.toLowerCase(),
+            {
+              // params: { category: searchCategory },
+            }
+          );
+        }
       }
       const items = response.data.data.data;
 

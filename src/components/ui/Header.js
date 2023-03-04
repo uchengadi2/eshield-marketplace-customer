@@ -287,7 +287,7 @@ const Header = (props) => {
   const [openSignUpForm, setOpenSignUpForm] = useState(false);
   const [openForgotPasswordForm, setOpenForgotPasswordForm] = useState(false);
   const [openLogOut, setOpenLogOut] = useState(false);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("all");
   const [categoryList, setCategoryList] = useState([]);
   const [itemType, setItemType] = useState("");
   const [searchText, setSearchText] = useState();
@@ -711,7 +711,7 @@ const Header = (props) => {
             id="item_type_label"
             style={{ fontSize: 11, marginTop: -8 }}
           >
-            {matchesMDUp ? "Select Category" : "Category"}
+            {/* {matchesMDUp ? "Select Category" : "Category"} */}
           </InputLabel>
         ) : null}
 
@@ -727,6 +727,9 @@ const Header = (props) => {
             marginLeft: 0,
           }}
         >
+          <MenuItem key={"all"} value={"all"}>
+            {"All"}
+          </MenuItem>
           {renderCategoryList()}
         </Select>
         {/* <FormHelperText>Category</FormHelperText> */}
