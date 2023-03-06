@@ -183,6 +183,8 @@ const LoginForm = (props) => {
     return <React.Fragment>Login</React.Fragment>;
   };
 
+  console.log("the token is:", props.token);
+
   const onSubmit = (formValues) => {
     setLoading(false);
     // console.log("the url params at login:", params);
@@ -203,6 +205,9 @@ const LoginForm = (props) => {
 
       return;
     }
+
+    console.log("user email is:", formValues["email"]);
+    console.log("the password is:", formValues["password"]);
 
     props.onSubmit(formValues);
     setLoading(true);

@@ -50,7 +50,12 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case SIGN_OUT:
-      return { ...state, isSignedIn: false, userId: null };
+      return {
+        ...state,
+        isSignedIn: false,
+        userId: null,
+        token: null,
+      };
 
     default:
       return state;

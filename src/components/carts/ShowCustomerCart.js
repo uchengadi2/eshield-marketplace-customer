@@ -411,6 +411,8 @@ function ShowCustomerCart(props) {
     return <React.Fragment>Proceed to Checkout</React.Fragment>;
   };
 
+  console.log("the userid is:", props.userId);
+
   const onSubmit = () => {
     setLoading(true);
 
@@ -466,14 +468,14 @@ function ShowCustomerCart(props) {
     }
 
     if (+count > 0) {
-      props.handleSuccessfulCreateSnackbar(
-        `Please proceed to checkout page to effect payment!`
-      );
+      // props.handleSuccessfulCreateSnackbar(
+      //   `Please proceed to checkout page to effect payment!`
+      // );
     } else {
-      props.handleFailedSnackbar("Something went wrong, please try again!!!");
+      //props.handleFailedSnackbar("Something went wrong, please try again!!!");
     }
 
-    history.push("/");
+    history.push(`/checkouts/` + cartHolder);
   };
 
   return (

@@ -33,6 +33,7 @@ function App() {
   const { userId, setUserId } = useUserId();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [value, setValue] = useState(0);
+  const [resetCookie, setResetCookie] = useState(false);
   const [cartItemForCheckout, setCartItemForCheckout] = useState(false);
   const [cartIsUpdatedAfterRemoval, setCartIsUpdatedAfterRemoval] =
     useState(false);
@@ -67,8 +68,20 @@ function App() {
 
   const renderCartUpdateAfterRemoval = () => {
     setCartIsUpdatedAfterRemoval(true);
-    console.log("this was run");
+    //console.log("this was run");
   };
+
+  const resetUserCookie = () => {
+    setResetCookie(true);
+    //console.log("this is performed");
+  };
+
+  // useEffect(() => {
+  //   setResetCookie(false);
+  //   setToken("");
+  //   setUserId("");
+  //   //console.log("this is performed again");
+  // }, [resetCookie]);
 
   return (
     <div className="wrapper">
@@ -81,8 +94,10 @@ function App() {
             setSelectedIndex={setSelectedIndex}
             token={token}
             userId={userId}
-            setToken={setToken ? setToken : {}}
-            setUserId={setUserId ? setUserId : {}}
+            // setToken={setToken ? setToken : {}}
+            // setUserId={setUserId ? setUserId : {}}
+            setToken={setToken ? setToken : null}
+            setUserId={setUserId ? setUserId : null}
           />
 
           <Switch>

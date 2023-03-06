@@ -337,6 +337,7 @@ const SignUpForm = (props) => {
 
       return;
     }
+    console.log("");
 
     if (formValues) {
       const createForm = async () => {
@@ -350,6 +351,7 @@ const SignUpForm = (props) => {
           props.handleFailedSignUpDialogOpenStatusWithSnackbar(
             "This email is already registered on this platform. Please try logging in instead"
           );
+          setLoading(true);
         }
       };
       createForm().catch((err) => {

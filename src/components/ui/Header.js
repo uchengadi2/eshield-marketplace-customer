@@ -664,6 +664,7 @@ const Header = (props) => {
             initiateIsSignedOut={props.initiateIsSignedOut}
             handleLogOutDialogOpenStatus={handleLogOutDialogOpenStatus}
             token={props.token}
+            resetUserCookie={props.resetUserCookie}
           />
         </DialogContent>
       </Dialog>

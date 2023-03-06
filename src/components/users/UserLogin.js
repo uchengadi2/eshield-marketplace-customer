@@ -17,6 +17,7 @@ class UserLogin extends React.Component {
   }
   componentDidUpdate() {
     if (this.state.counter < 0 && this.props.token !== undefined) {
+      console.log("status is:", this.props.token.status);
       if (this.props.token.status === "success") {
         this.props.setToken(this.props.token);
         this.props.setUserId(this.props.token);

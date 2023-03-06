@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
@@ -7,10 +8,12 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import history from "../../history";
+import { SIGN_OUT } from "./../../actions/types";
 
 const useStyles = makeStyles((theme) => ({}));
 
 function UserLogOut(props) {
+  const dispatch = useDispatch();
   //delete the token
   const handleTheTokenItem = () => {
     localStorage.removeItem("token");
@@ -18,6 +21,11 @@ function UserLogOut(props) {
 
     props.setToken({});
     props.setUserId({});
+
+    dispatch({
+      type: SIGN_OUT,
+      //payload: response.data.data.data,
+    });
   };
 
   const renderLogoutAlert = () => {
