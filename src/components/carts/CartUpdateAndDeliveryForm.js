@@ -167,6 +167,46 @@ const renderRecipientPhoneNumberField = ({
   );
 };
 
+const renderRequestedQuantityField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      //error={touched && invalid}
+      helperText="Quantity Requested"
+      variant="outlined"
+      label={label}
+      id={input.name}
+      //value={input.value}
+      fullWidth
+      //required
+      type={type}
+      {...custom}
+      //defaultValue={quantity}
+      onChange={input.onChange}
+      //   inputProps={{
+      //     style: {
+      //       height: 1,
+      //     },
+
+      //   }}
+      InputProps={{
+        inputProps: {
+          min: 1,
+          style: {
+            height: 1,
+          },
+        },
+      }}
+    />
+  );
+};
+
 function CartUpdateAndDeliveryForm(props) {
   const { price, productId, token, userId } = props;
   const [quantity, setQuantity] = useState(+props.quantity);
@@ -435,46 +475,6 @@ function CartUpdateAndDeliveryForm(props) {
     );
   };
 
-  const renderRequestedQuantityField = ({
-    input,
-    label,
-    meta: { touched, error, invalid },
-    type,
-    id,
-    ...custom
-  }) => {
-    return (
-      <TextField
-        //error={touched && invalid}
-        helperText="Quantity Requested"
-        variant="outlined"
-        label={label}
-        id={input.name}
-        //value={input.value}
-        fullWidth
-        //required
-        type={type}
-        {...custom}
-        defaultValue={quantity}
-        onChange={input.onChange}
-        //   inputProps={{
-        //     style: {
-        //       height: 1,
-        //     },
-
-        //   }}
-        InputProps={{
-          inputProps: {
-            min: 1,
-            style: {
-              height: 1,
-            },
-          },
-        }}
-      />
-    );
-  };
-
   const renderProductCountryField = ({
     input,
     label,
@@ -532,21 +532,6 @@ function CartUpdateAndDeliveryForm(props) {
           </FormHelperText>
         </FormControl>
       </Box>
-    );
-  };
-
-  const renderCheckbox = ({ input, label }) => {
-    return (
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="SomeName"
-            value="SomeValue"
-            onChange={input.onChange}
-          />
-        }
-        label={label}
-      />
     );
   };
 
@@ -657,6 +642,36 @@ function CartUpdateAndDeliveryForm(props) {
       setLoading(false);
       return;
     }
+
+    if (!quantity) {
+      props.handleFailedSnackbar("The order quantity cannot be empty");
+      setLoading(false);
+      return;
+    }
+
+    if (quantity <= 0) {
+      props.handleFailedSnackbar(
+        "The order quantity cannot be lower than the Minimum Quantity Required(MQR)"
+      );
+      setLoading(false);
+      return;
+    }
+
+    // if (+formValues["quantity"] < +props.minimumQuantity) {
+    //   props.handleFailedSnackbar(
+    //     "The order quantity cannot be lower than the Minimum Quantity Required(MQR)"
+    //   );
+    //   setLoading(false);
+    //   return;
+    // }
+
+    // if (+quantity < +props.minimumQuantity) {
+    //   props.handleFailedSnackbar(
+    //     "The order quantity cannot be lower than the Minimum Quantity Required(MQR)"
+    //   );
+    //   setLoading(false);
+    //   return;
+    // }
 
     if (+quantity < +props.minimumQuantity) {
       props.handleFailedSnackbar(
