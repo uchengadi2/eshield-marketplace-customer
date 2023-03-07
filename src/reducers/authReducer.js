@@ -54,7 +54,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         isSignedIn: false,
         userId: null,
-        token: null,
+        token: { status: null, token: null },
       };
 
     default:

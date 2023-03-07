@@ -183,8 +183,6 @@ const LoginForm = (props) => {
     return <React.Fragment>Login</React.Fragment>;
   };
 
-  console.log("the token is:", props.token);
-
   const onSubmit = (formValues) => {
     setLoading(false);
     // console.log("the url params at login:", params);
@@ -206,10 +204,51 @@ const LoginForm = (props) => {
       return;
     }
 
-    console.log("user email is:", formValues["email"]);
-    console.log("the password is:", formValues["password"]);
+    if (formValues) {
+      const createForm = async () => {
+        // api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.post(`/users/login`, formValues);
 
-    props.onSubmit(formValues);
+        if (response.status === 200) {
+          const token = {
+            status: "success",
+            token: response.data.token,
+            userId: response.data.data.user.id,
+          };
+
+          props.setToken(token);
+          props.setUserId(token);
+          dispatch({
+            type: SIGN_IN,
+            payload: response.data,
+          });
+
+          props.handleSuccessfulLoginDialogOpenStatusWithSnackbar(
+            `You have successfully logged in`
+          );
+          //props.onSubmit(response.data.token);
+
+          setLoading(false);
+        } else {
+          props.handleFailedLoginDialogOpenStatusWithSnackbar(
+            "Incorrect Login Credentials. Check your email and password and try again 1111"
+          );
+          setLoading(false);
+
+          return;
+        }
+      };
+      createForm().catch((err) => {
+        console.log("err:", err.message);
+        props.handleFailedLoginDialogOpenStatusWithSnackbar(
+          "Incorrect Login Credentials. Check your email and password and try again"
+        );
+        setLoading(false);
+
+        return;
+      });
+    }
+
     setLoading(true);
   };
 

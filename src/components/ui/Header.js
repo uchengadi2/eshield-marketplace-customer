@@ -31,7 +31,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import InputLabel from "@material-ui/core/InputLabel";
 
 import logo from "./../../assets/logo/eshield.png";
-import { RouterRounded } from "@material-ui/icons";
+import { RouterRounded, Search } from "@material-ui/icons";
 import Select from "@material-ui/core/Select";
 import history from "../../history";
 import UserLogin from "./../users/UserLogin";
@@ -264,6 +264,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#125C13",
   },
   socialPos: {
+    marginLeft: "15em",
+  },
+  socialPosUnlogged: {
     marginLeft: "45em",
   },
 }));
@@ -290,6 +293,8 @@ const Header = (props) => {
   const [category, setCategory] = useState("all");
   const [categoryList, setCategoryList] = useState([]);
   const [itemType, setItemType] = useState("");
+  const [userName, setUserName] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
   const [searchText, setSearchText] = useState();
   const [alert, setAlert] = useState({
     open: false,
@@ -314,10 +319,44 @@ const Header = (props) => {
     fetchData().catch(console.error);
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+      const response = await api.get(`/users/${props.userId}`);
+      const workingData = response.data.data.data;
+      // workingData.map((user) => {
+      //   allData.push({ id: user._id, name: user.name });
+      // });
+      const name = workingData.name;
+      const email = workingData.email;
+
+      setUserName(name);
+      setUserEmail(email);
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, [props]);
+
   const handleChange = (e, newValue) => {
     props.setValue(newValue);
     setOpenMenu(true);
   };
+
+  function keyPress(e) {
+    if (e.key === "Enter") {
+      // Do code here
+      //e.preventDefault();
+      return (
+        <SearchPage
+          component={Link}
+          to={`/${category}/products/${searchText}`}
+        />
+      );
+    }
+  }
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -591,8 +630,30 @@ const Header = (props) => {
         //onClose={() => [setOpenLoginForm(false), history.push("/")]}
         onClose={() => [setOpenLoginForm(false)]}
       >
-        <DialogContent>
+        {/* <DialogContent>
           <UserLogin
+            handleLoginDialogOpenStatus={handleLoginDialogOpenStatus}
+            handleMakeOpenSignUpDialogStatus={handleMakeOpenSignUpDialogStatus}
+            handleMakeCloseSignUpDialogStatus={
+              handleMakeCloseSignUpDialogStatus
+            }
+            handleLoginDialogCloseStatus={handleLoginDialogCloseStatus}
+            handleMakeOpenForgotPasswordFormDialogStatus={
+              handleMakeOpenForgotPasswordFormDialogStatus
+            }
+            handleSuccessfulLoginDialogOpenStatusWithSnackbar={
+              handleSuccessfulLoginDialogOpenStatusWithSnackbar
+            }
+            handleFailedLoginDialogOpenStatusWithSnackbar={
+              handleFailedLoginDialogOpenStatusWithSnackbar
+            }
+            setToken={props.setToken}
+            setUserId={props.setUserId}
+          />
+        </DialogContent> */}
+
+        <DialogContent>
+          <LoginForm
             handleLoginDialogOpenStatus={handleLoginDialogOpenStatus}
             handleMakeOpenSignUpDialogStatus={handleMakeOpenSignUpDialogStatus}
             handleMakeCloseSignUpDialogStatus={
@@ -948,6 +1009,14 @@ const Header = (props) => {
                   <span>Tel: 0803 937 3978; 0802 469 7155</span>
                 </Typography>
               </Grid>
+              {props.token && (
+                <Grid item style={{ width: 250, marginLeft: 100 }}>
+                  <Typography>
+                    {" "}
+                    <span>{userName}</span>
+                  </Typography>
+                </Grid>
+              )}
 
               <Grid
                 item
@@ -955,7 +1024,9 @@ const Header = (props) => {
                 href="https://www.facebook.com/eshieldafricab2b/"
                 rel="noopener noreferrer"
                 target="_blank"
-                className={classes.socialPos}
+                className={
+                  props.token ? classes.socialPos : classes.socialPosUnlogged
+                }
               >
                 <img
                   alt="facebok logo"
@@ -1166,6 +1237,8 @@ const Header = (props) => {
                   style={{ width: 220, marginLeft: 8 }}
                   onChange={onChangeSearchText}
                   defaultValue={searchText}
+                  component={Link}
+                  onKeyDown={(e) => (e.key === 13 ? <SearchPage /> : null)}
                   InputProps={{
                     style: {
                       height: 38,
@@ -1178,6 +1251,7 @@ const Header = (props) => {
                   component={Link}
                   to={`/${category}/products/${searchText}`}
                   className={classes.search}
+                  type="submit"
                 >
                   Search
                 </Button>
@@ -1209,6 +1283,7 @@ const Header = (props) => {
                   className={classes.root}
                   style={{ width: 150, marginLeft: 8 }}
                   onChange={onChangeSearchText}
+                  onKeyDown={(e) => (e.key === 13 ? <SearchPage /> : null)}
                   defaultValue={searchText}
                   InputProps={{
                     style: {

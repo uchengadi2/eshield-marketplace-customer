@@ -15,28 +15,33 @@ class UserLogin extends React.Component {
       counter: 0,
     };
   }
+  // componentDidUpdate() {
+  //   if (this.state.counter < 0 && this.props.token !== undefined) {
+  //     console.log("status is:", this.props.token.status);
+  //     if (this.props.token.status === "success") {
+  //       this.props.handleSuccessfulLoginDialogOpenStatusWithSnackbar(
+  //         "You have successfully logged in"
+  //       );
+  //       this.setState({ counter: 5 });
+  //     } else if (this.props.token.status !== undefined) {
+  //       this.props.handleFailedLoginDialogOpenStatusWithSnackbar(
+  //         "Incorrect Login Credentials. Check your email and password and try again"
+  //       );
+  //       this.setState({ counter: 6 });
+  //     }
+  //   }
+  // }
+
   componentDidUpdate() {
-    if (this.state.counter < 0 && this.props.token !== undefined) {
-      console.log("status is:", this.props.token.status);
-      if (this.props.token.status === "success") {
-        this.props.setToken(this.props.token);
-        this.props.setUserId(this.props.token);
-        this.props.handleSuccessfulLoginDialogOpenStatusWithSnackbar(
-          "You have successfully logged in"
-        );
-        this.setState({ counter: 5 });
-      } else if (this.props.token.status !== undefined) {
-        this.props.handleFailedLoginDialogOpenStatusWithSnackbar(
-          "Incorrect Login Credentials. Check your email and password and try again"
-        );
-        this.setState({ counter: 6 });
-      }
-    }
+    this.props.handleSuccessfulLoginDialogOpenStatusWithSnackbar(
+      "You have successfully logged in"
+    );
   }
 
-  onSubmit = (formValues) => {
-    this.props.signIn(formValues);
-    this.setState({ counter: -1 });
+  onSubmit = (value) => {
+    //this.props.signIn(formValues);
+    this.props.setToken(value);
+    this.props.setUserId(value);
   };
 
   handleLoginDialogOpenStatus = () => {

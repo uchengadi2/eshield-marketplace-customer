@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({}));
 
 function UserLogOut(props) {
   const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setUser(props.token);
+  }, [props.token]);
+
   //delete the token
   const handleTheTokenItem = () => {
     localStorage.removeItem("token");

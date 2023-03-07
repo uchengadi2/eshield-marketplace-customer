@@ -10,6 +10,7 @@ import Preferences from "./Preferences/Preferences";
 import useToken from "../custom-hooks/useToken";
 import useUserId from "../custom-hooks/useUserId";
 import UserLogin from "./users/UserLogin";
+import LoginForm from "./authForms/LoginForm";
 import Header from "./ui/Header";
 import IndexDashboard from "./IndexDashboard";
 import Marketplace from "./../components/Marketplace";
