@@ -76,6 +76,11 @@ import {
   FETCH_LOGISTICSPARTNER,
   EDIT_LOGISTICSPARTNER,
   DELETE_LOGISTICSPARTNER,
+  CREATE_TRANSACTION,
+  FETCH_TRANSACTIONS,
+  FETCH_TRANSACTION,
+  DELETE_TRANSACTION,
+  EDIT_TRANSACTION,
 } from "./types";
 
 //authentication and authorization  operations
@@ -817,5 +822,49 @@ export const deleteLogisticsPartner = (id, token) => {
   return async (dispatch) => {
     await data.delete(`/logisticspartners/${id}`);
     dispatch({ type: DELETE_LOGISTICSPARTNER, payload: id });
+  };
+};
+
+///////////////////////////////////////////////////////////////////////
+
+//transaction resource crud operation
+export const createTransaction = (formValues, token) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return async (dispatch) => {
+    const response = await data.post("/transactions", formValues);
+
+    dispatch({ type: CREATE_TRANSACTION, payload: response.data });
+  };
+};
+
+export const fetchTransactions = (tokens, status, userId) => {
+  data.defaults.headers.common["Authorization"] = `Bearer ${tokens}`;
+  return async (dispatch) => {
+    const response = await data.get("/transactions", {
+      params: { status: status, orderedBy: userId },
+    });
+
+    dispatch({ type: FETCH_TRANSACTIONS, payload: response.data.data.data });
+  };
+};
+
+export const fetchTransaction = (id) => {
+  return async (dispatch) => {
+    const response = await data.get(`/transactions/${id}`);
+    dispatch({ type: FETCH_TRANSACTION, payload: response.data });
+  };
+};
+
+export const editTransaction = (id, formValues) => {
+  return async (dispatch) => {
+    const response = await data.patch(`/transactions/${id}`, formValues);
+    dispatch({ type: EDIT_TRANSACTION, payload: response.data });
+  };
+};
+
+export const deleteTransaction = (id) => {
+  return async (dispatch) => {
+    await data.delete(`/transactions/${id}`);
+    dispatch({ type: DELETE_TRANSACTION, payload: id });
   };
 };

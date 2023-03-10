@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { AppBar, IconButton, TextField, Typography } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
@@ -272,6 +272,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props) => {
+  const ref = useRef(null);
   const params = useParams();
   const classes = useStyles();
   const theme = useTheme();
@@ -424,6 +425,10 @@ const Header = (props) => {
       backgroundColor: "#FF3232",
     });
     setOpenSignUpForm(true);
+  };
+
+  const handleCurrentClick = () => {
+    ref.current.focus();
   };
 
   const handleMakeOpenLoginFormDialogStatus = () => {
@@ -1238,7 +1243,9 @@ const Header = (props) => {
                   onChange={onChangeSearchText}
                   defaultValue={searchText}
                   component={Link}
-                  onKeyDown={(e) => (e.key === 13 ? <SearchPage /> : null)}
+                  ref={ref}
+                  // onKeyDown={(e) => (e.key === 13 ? <SearchPage /> : null)}
+                  onKeyDown={(e) => (e.key === 13 ? handleCurrentClick : null)}
                   InputProps={{
                     style: {
                       height: 38,
@@ -1246,12 +1253,12 @@ const Header = (props) => {
                   }}
                 />
                 <Button
-                  onClick={() => <SearchPage />}
+                  onClick={() => [<SearchPage />, handleCurrentClick]}
                   disableRipple
                   component={Link}
                   to={`/${category}/products/${searchText}`}
                   className={classes.search}
-                  type="submit"
+                  onKeyDown={(e) => (e.key === 13 ? <SearchPage /> : null)}
                 >
                   Search
                 </Button>

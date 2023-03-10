@@ -79,7 +79,7 @@ function SendProductToCartForm(props) {
     location,
     locationCountry,
   } = props;
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(+minimumQuantity);
   const [price, setPrice] = useState();
   const [productQuantityInCart, setProductQuantityInCart] = useState();
   const [productLocation, setProductLocation] = useState();
@@ -95,7 +95,7 @@ function SendProductToCartForm(props) {
   useEffect(() => {
     setQuantity(props.minimumQuantity);
     setPrice(props.price);
-  }, [props]);
+  }, [props, props.minimumQuantity]);
 
   useEffect(() => {
     if (!quantity) {
@@ -169,7 +169,7 @@ function SendProductToCartForm(props) {
 
   const onChange = (e) => {
     const quantity = parseFloat(e.target.value);
-    setQuantity(quantity);
+    //setQuantity(quantity);
     const newTotal = quantity * parseFloat(price);
     setTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
   };
@@ -380,6 +380,9 @@ function SendProductToCartForm(props) {
       }
     } //end of the no cartholder
   };
+
+  console.log("the quantity isssss:", quantity);
+  console.log("the minimum quantity:", props.minimumQuantity);
 
   return (
     <form id="sendProductToCartForm">

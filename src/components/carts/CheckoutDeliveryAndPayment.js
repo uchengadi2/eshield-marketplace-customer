@@ -22,7 +22,12 @@ import Box from "@material-ui/core/Box";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
-import { CREATE_ORDER, DELETE_CART } from "../../actions/types";
+import {
+  CREATE_ORDER,
+  DELETE_CART,
+  CREATE_TRANSACTION,
+  FETCH_TRANSACTION,
+} from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
 import Paystack from "../../Paystack";
 import history from "../../history";
@@ -239,6 +244,7 @@ function CheckoutDeliveryAndPayment(props) {
   const [customerName, setCustomerName] = useState();
   const [currencyName, setCurrencyName] = useState();
   const [total, setTotal] = useState();
+
   const [orderNumber, setOrderNumber] = useState(
     "OR-" + Math.floor(Math.random() * 10000000000000) + "-" + "ES"
   );
@@ -571,59 +577,104 @@ function CheckoutDeliveryAndPayment(props) {
       return;
     }
 
-    props.productList.map((cart, index) => {
-      const data = {
-        orderNumber: orderNumber,
-        product: cart.product,
-        orderedPrice: cart.price,
-        recipientName: recipientName,
-        recipientPhoneNumber: recipientPhoneNumber,
-        recipientAddress: recipientAddress,
-        recipientCountry: country,
-        recipientState: location,
-        productLocation: cart.location,
-        locationCountry: cart.locationCountry,
-        totalDeliveryCost: totalDeliveryCost.toFixed(2),
-        //totalProductCost: totalProductCost.toFixed(2),
-        productVendor: cart.productVendor,
-        cartId: cart.id,
-        quantityAdddedToCart: cart.quantity,
-        orderedQuantity: cart.quantity,
-        dateAddedToCart: cart.dateAddedToCart,
-        productCurrency: cart.currency,
-        paymentMethod: paymentMethod,
-        paymentStatus: "to-be-confirmed",
-        orderedBy: cart.cartHolder,
+    const transData = {
+      orderNumber: orderNumber,
+      recipientName: recipientName,
+      recipientPhoneNumber: recipientPhoneNumber,
+      recipientAddress: recipientAddress,
+      recipientCountry: country,
+      recipientState: location,
+      totalDeliveryCost: totalDeliveryCost ? totalDeliveryCost.toFixed(2) : 0,
+      totalProductCost: totalProductCost ? totalProductCost.toFixed(2) : 0,
+      paymentMethod: paymentMethod,
+      paymentStatus: "to-be-confirmed",
+      orderedBy: props.userId,
+      productCurrency: currency,
+    };
+
+    //write to the transaction table first
+    if (transData) {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.post(`/transactions`, transData);
+
+        const transId = response.data.data.data.id;
+
+        if (response.data.status === "success") {
+          dispatch({
+            type: CREATE_TRANSACTION,
+            payload: response.data.data.data,
+          });
+
+          setLoading(false);
+
+          props.productList.map((cart, index) => {
+            const data = {
+              orderNumber: orderNumber,
+              transactionId: transId,
+              product: cart.product,
+              orderedPrice: cart.price,
+              recipientName: recipientName,
+              recipientPhoneNumber: recipientPhoneNumber,
+              recipientAddress: recipientAddress,
+              recipientCountry: country,
+              recipientState: location,
+              productLocation: cart.location,
+              locationCountry: cart.locationCountry,
+              totalDeliveryCost: totalDeliveryCost
+                ? totalDeliveryCost.toFixed(2)
+                : 0,
+              //totalProductCost: totalProductCost.toFixed(2),
+              productVendor: cart.productVendor,
+              cartId: cart.id,
+              quantityAdddedToCart: cart.quantity,
+              orderedQuantity: cart.quantity,
+              dateAddedToCart: cart.dateAddedToCart,
+              productCurrency: cart.currency,
+              paymentMethod: paymentMethod,
+              paymentStatus: "to-be-confirmed",
+              orderedBy: cart.cartHolder,
+            };
+
+            if (data) {
+              const createForm = async () => {
+                api.defaults.headers.common[
+                  "Authorization"
+                ] = `Bearer ${props.token}`;
+                const response2 = await api.post(`/orders`, data);
+
+                if (response2.data.status === "success") {
+                  dispatch({
+                    type: CREATE_ORDER,
+                    payload: response2.data.data.data,
+                  });
+
+                  setLoading(false);
+                } else {
+                  props.handleFailedSnackbar(
+                    "Something went wrong, please try again!!!"
+                  );
+                }
+              };
+              createForm().catch((err) => {
+                //props.handleFailedSnackbar();
+                console.log("err:", err.message);
+              });
+            } else {
+              //props.handleFailedSnackbar("Something went wrong, please try again!!!");
+            }
+          });
+        } else {
+          // props.handleFailedSnackbar(
+          //   "Something went wrong, please try again!!!"
+          // );
+        }
       };
-
-      if (data) {
-        const createForm = async () => {
-          api.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${props.token}`;
-          const response = await api.post(`/orders`, data);
-
-          if (response.data.status === "success") {
-            dispatch({
-              type: CREATE_ORDER,
-              payload: response.data.data.data,
-            });
-
-            setLoading(false);
-          } else {
-            props.handleFailedSnackbar(
-              "Something went wrong, please try again!!!"
-            );
-          }
-        };
-        createForm().catch((err) => {
-          //props.handleFailedSnackbar();
-          console.log("err:", err.message);
-        });
-      } else {
-        //props.handleFailedSnackbar("Something went wrong, please try again!!!");
-      }
-    });
+      createForm().catch((err) => {
+        //props.handleFailedSnackbar();
+        console.log("err:", err.message);
+      });
+    }
 
     const cartData = {
       status: "checkedout",
@@ -668,7 +719,7 @@ function CheckoutDeliveryAndPayment(props) {
       //   quantityAdddedToCart: props.quantity,
       //   orderedQuantity: quantity,
       //   dateAddedToCart: props.dateAddedToCart,
-      //   productCurrency: props.currency,
+      productCurrency: currency,
       paymentMethod: paymentMethod,
       paymentStatus: "paid",
       orderedBy: props.userId,
