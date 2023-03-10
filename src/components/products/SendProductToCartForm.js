@@ -79,7 +79,8 @@ function SendProductToCartForm(props) {
     location,
     locationCountry,
   } = props;
-  const [quantity, setQuantity] = useState(+minimumQuantity);
+  const [quantity, setQuantity] = useState();
+  const [newQuantity, setNewQuantity] = useState();
   const [price, setPrice] = useState();
   const [productQuantityInCart, setProductQuantityInCart] = useState();
   const [productLocation, setProductLocation] = useState();
@@ -93,9 +94,9 @@ function SendProductToCartForm(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setQuantity(props.minimumQuantity);
+    setQuantity(newQuantity);
     setPrice(props.price);
-  }, [props, props.minimumQuantity]);
+  }, [props, newQuantity]);
 
   useEffect(() => {
     if (!quantity) {
@@ -167,11 +168,12 @@ function SendProductToCartForm(props) {
     fetchData().catch(console.error);
   }, []);
 
-  const onChange = (e) => {
-    const quantity = parseFloat(e.target.value);
-    //setQuantity(quantity);
-    const newTotal = quantity * parseFloat(price);
+  const onQuantityChange = (e) => {
+    const newQuantity = parseFloat(e.target.value);
+
+    const newTotal = newQuantity * parseFloat(price);
     setTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
+    setNewQuantity(newQuantity);
   };
 
   const renderTotalField = ({
@@ -381,9 +383,6 @@ function SendProductToCartForm(props) {
     } //end of the no cartholder
   };
 
-  console.log("the quantity isssss:", quantity);
-  console.log("the minimum quantity:", props.minimumQuantity);
-
   return (
     <form id="sendProductToCartForm">
       <Box
@@ -414,7 +413,7 @@ function SendProductToCartForm(props) {
           name="quantity"
           type="number"
           defaultValue={quantity}
-          onChange={onChange}
+          onChange={onQuantityChange}
           component={renderRequestedQuantityField}
           style={{ width: 300, marginTop: 10 }}
         />

@@ -1159,7 +1159,7 @@ export default function ProductDetailCard(props) {
                   price={price}
                   currency={props.product.currency}
                   minimumQuantity={minQuantity}
-                  quantity={minQuantity}
+                  //quantity={minQuantity}
                   productId={props.product.id}
                   token={props.token}
                   userId={props.userId}
