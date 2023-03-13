@@ -112,7 +112,7 @@ function Paystack(props) {
       totalDeliveryCost: props.data.totalDeliveryCost,
       totalProductCost: props.data.totalProductCost,
       paymentMethod: props.data.paymentMethod,
-      paymentStatus: "paid",
+      paymentStatus: "to-be-confirmed",
       orderedBy: props.data.orderedBy,
       productCurrency: props.data.productCurrency,
     };
@@ -152,7 +152,7 @@ function Paystack(props) {
               dateAddedToCart: cart.dateAddedToCart,
               productCurrency: cart.currency,
               paymentMethod: props.data.paymentMethod,
-              paymentStatus: "paid",
+              paymentStatus: "to-be-confirmed",
               orderedBy: cart.cartHolder,
             };
             if (data) {

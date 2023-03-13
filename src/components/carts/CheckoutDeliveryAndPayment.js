@@ -721,7 +721,7 @@ function CheckoutDeliveryAndPayment(props) {
       //   dateAddedToCart: props.dateAddedToCart,
       productCurrency: currency,
       paymentMethod: paymentMethod,
-      paymentStatus: "paid",
+      paymentStatus: "to-be-confirmed",
       orderedBy: props.userId,
     };
     return (
