@@ -15,6 +15,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import CallToAction from "../ui/CallToAction";
 import UpperFooter from "../ui/UpperFooter";
@@ -208,6 +209,7 @@ function SearchPage(props) {
   const [aboutUsOpen, setAboutUsOpen] = useState(false);
   const [contactUsOpen, setContactUsOpen] = useState(false);
   const [becomePartnerOpen, setBecomePartnerOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState();
 
   const [keyword1ProductList, setKeyword1ProductList] = useState();
   const [keyword2ProductList, setKeyword2ProductList] = useState();
@@ -285,6 +287,7 @@ function SearchPage(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       let response;
@@ -353,6 +356,7 @@ function SearchPage(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       let response;
@@ -426,6 +430,7 @@ function SearchPage(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       let response;
@@ -462,6 +467,7 @@ function SearchPage(props) {
 
       setKeyword3ProductList(allData);
       setKeyword3NumberOfPages(response.data?.total);
+      setIsLoading(false);
     };
 
     //call the function
@@ -585,7 +591,14 @@ function SearchPage(props) {
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
-        <Grid item>{customerOrderList}</Grid>
+        {isLoading && (
+          <CircularProgress
+            size={80}
+            color="inherit"
+            style={{ marginTop: 150, marginLeft: 650 }}
+          />
+        )}
+        {!isLoading && <Grid item>{customerOrderList}</Grid>}
         {/*....INFORMATION BLOCK....*/}
       </Grid>
       {isPaginationVisible && (
