@@ -16,6 +16,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
 import UpperFooter from "../ui/UpperFooter";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import CallToAction from "./../ui/CallToAction";
 
@@ -219,6 +220,7 @@ function OrderPage(props) {
   const [limit, setLimit] = useState(10);
   const [totalData, setTotalData] = useState();
   const [isPaginationVisible, setIsPaginationVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -265,6 +267,7 @@ function OrderPage(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/orders?page=${page}&limit=${limit}`, {
@@ -301,6 +304,7 @@ function OrderPage(props) {
 
       setOrderList(allData);
       setNumberOfPages(response.data?.total);
+      setIsLoading(false);
     };
 
     //call the function
@@ -414,7 +418,14 @@ function OrderPage(props) {
   return (
     <Grid container direction="row" className={classes.root}>
       <Grid item style={{ width: "100%", marginTop: "20px" }}>
-        <Grid item>{customerOrderList}</Grid>
+        {isLoading && (
+          <CircularProgress
+            size={80}
+            color="inherit"
+            style={{ marginTop: 200, marginLeft: 650 }}
+          />
+        )}
+        {!isLoading && <Grid item>{customerOrderList}</Grid>}
         {/*....INFORMATION BLOCK....*/}
       </Grid>
       {isPaginationVisible && (

@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ButtonArrow from "./../ui/ButtonArrow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
 import CardContent from "@material-ui/core/CardContent";
@@ -17,6 +16,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import CallToAction from "./../ui/CallToAction";
 
@@ -243,6 +243,7 @@ function ShowCustomerCart(props) {
   const [updateCart, setUpdateCart] = useState();
   const [count, setCount] = useState(0);
   const [isProcessed, setIsProcessed] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -290,6 +291,7 @@ function ShowCustomerCart(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/carts`, {
@@ -322,6 +324,7 @@ function ShowCustomerCart(props) {
         return;
       }
       setCartProductList(allData);
+      setIsLoading(false);
     };
 
     //call the function
@@ -411,8 +414,6 @@ function ShowCustomerCart(props) {
     return <React.Fragment>Proceed to Checkout</React.Fragment>;
   };
 
-  console.log("the userid is:", props.userId);
-
   const onSubmit = () => {
     setLoading(true);
 
@@ -492,35 +493,44 @@ function ShowCustomerCart(props) {
             buttonContent()
           )}
         </Button> */}
-        <Grid item>{cartList}</Grid>
+        {isLoading && (
+          <CircularProgress
+            size={80}
+            color="inherit"
+            style={{ marginTop: 200, marginLeft: 650 }}
+          />
+        )}
+        {!isLoading && <Grid item>{cartList}</Grid>}
         {/*....INFORMATION BLOCK....*/}
       </Grid>
 
-      {matchesMD ? (
-        <Button
-          variant="contained"
-          className={classes.submitButton}
-          onClick={onSubmit}
-        >
-          {loading ? (
-            <CircularProgress size={30} color="inherit" />
-          ) : (
-            buttonContent()
+      {matchesMD
+        ? !isLoading && (
+            <Button
+              variant="contained"
+              className={classes.submitButton}
+              onClick={onSubmit}
+            >
+              {loading ? (
+                <CircularProgress size={30} color="inherit" />
+              ) : (
+                buttonContent()
+              )}
+            </Button>
+          )
+        : !isLoading && (
+            <Button
+              variant="contained"
+              className={classes.submitButtonMobile}
+              onClick={onSubmit}
+            >
+              {loading ? (
+                <CircularProgress size={30} color="inherit" />
+              ) : (
+                buttonContent()
+              )}
+            </Button>
           )}
-        </Button>
-      ) : (
-        <Button
-          variant="contained"
-          className={classes.submitButtonMobile}
-          onClick={onSubmit}
-        >
-          {loading ? (
-            <CircularProgress size={30} color="inherit" />
-          ) : (
-            buttonContent()
-          )}
-        </Button>
-      )}
 
       <Grid item className={classes.footer}>
         <UpperFooter />

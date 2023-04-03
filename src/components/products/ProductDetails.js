@@ -15,6 +15,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import CallToAction from "./../ui/CallToAction";
 
@@ -213,12 +214,8 @@ function ProductDetails(props) {
   const [isOnPromo, setIsOnPromo] = useState(false);
   const [promoPrice, setPromoPrice] = useState();
   const [promoMinQuantity, setPromoMinQuantity] = useState();
+  const [isLoading, setIsLoading] = useState(null);
 
-  const [alert, setAlert] = useState({
-    open: false,
-    message: "",
-    backgroundColor: "",
-  });
   const defaultOptions = {
     loop: true,
     autoplay: false,
@@ -235,27 +232,11 @@ function ProductDetails(props) {
     setBecomePartnerOpen(false);
   };
 
-  const handleSuccessfulBecomeAPartnerOpenDialogBoxWithSnackbar = () => {
-    setBecomePartnerOpen(false);
-    setAlert({
-      open: true,
-      message: "Application successfully submitted",
-      backgroundColor: "#4BB543",
-    });
-  };
-
-  const handleFailedBecomeAPartnerOpenDialogBoxWithSnackbar = () => {
-    setAlert({
-      open: true,
-      message: "Something went wrong somewhere",
-      backgroundColor: "#FF3232",
-    });
-    setBecomePartnerOpen(true);
-  };
-
   //confirm if product is on promp
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/productsonsale`, {
@@ -279,6 +260,7 @@ function ProductDetails(props) {
       setPromoPrice(allData[0].price);
       setIsOnPromo(true);
       setPromoMinQuantity(allData[0].minQuantity);
+      //setIsLoading(false);
     };
 
     //call the function
@@ -288,6 +270,8 @@ function ProductDetails(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/products/${productId}`);
@@ -391,6 +375,7 @@ function ProductDetails(props) {
         estimatedDeliveryPeriodInMinutes:
           allData[0].estimatedDeliveryPeriodInMinutes,
       });
+      setIsLoading(false);
     };
 
     //call the function
@@ -452,16 +437,25 @@ function ProductDetails(props) {
   );
 
   return (
-    <Grid container direction="row" className={classes.root}>
-      <Grid item style={{ width: "100%", marginTop: "10px" }}>
-        <Grid item>{productData}</Grid>
+    <>
+      <Grid container direction="row" className={classes.root}>
+        <Grid item style={{ width: "100%", marginTop: "10px" }}>
+          {isLoading && (
+            <CircularProgress
+              size={80}
+              color="inherit"
+              style={{ marginTop: 300, marginLeft: 650 }}
+            />
+          )}
+          {!isLoading && <Grid item>{productData}</Grid>}
 
-        {/*....INFORMATION BLOCK....*/}
+          {/*....INFORMATION BLOCK....*/}
+        </Grid>
+        <Grid item className={classes.footer}>
+          <UpperFooter />
+        </Grid>
       </Grid>
-      <Grid item className={classes.footer}>
-        <UpperFooter />
-      </Grid>
-    </Grid>
+    </>
   );
 }
 

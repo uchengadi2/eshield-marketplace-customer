@@ -15,6 +15,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import CallToAction from "./../ui/CallToAction";
 
@@ -241,6 +242,7 @@ function FeatureProductsPage(props) {
   const [limit, setLimit] = useState(32);
   const [totalData, setTotalData] = useState();
   const [isPaginationVisible, setIsPaginationVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -279,9 +281,12 @@ function FeatureProductsPage(props) {
     });
     setBecomePartnerOpen(true);
   };
+  console.log(isLoading);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+      console.log(isLoading);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/products?page=${page}&limit=${limit}`, {
@@ -321,6 +326,8 @@ function FeatureProductsPage(props) {
 
       setProductList(allData);
       setNumberOfPages(response.data?.total);
+      setIsLoading(false);
+      console.log(isLoading);
     };
 
     //call the function
@@ -337,6 +344,8 @@ function FeatureProductsPage(props) {
     const totalPages = numberOfPages / limit;
 
     let newTotalPages;
+
+    console.log("loading:", isLoading);
 
     if (parseInt(numberOfPages) <= parseInt(limit)) {
       newTotalPages = 1;
@@ -451,7 +460,14 @@ function FeatureProductsPage(props) {
             Hot Sales
           </Typography> */}
           <Grid item style={{ width: "100%", marginTop: "20px" }}>
-            <Grid item>{cartList}</Grid>
+            {isLoading && (
+              <CircularProgress
+                size={80}
+                color="inherit"
+                style={{ marginTop: 200, marginLeft: 650 }}
+              />
+            )}
+            {!isLoading && <Grid item>{cartList}</Grid>}
           </Grid>
           {isPaginationVisible && (
             <Grid item style={{ marginTop: 80 }}>
@@ -472,7 +488,14 @@ function FeatureProductsPage(props) {
             Hot Sales
           </Typography> */}
           <Grid item style={{ width: "100%", marginTop: "20px" }}>
-            <Grid item>{cartList}</Grid>
+            {isLoading && (
+              <CircularProgress
+                size={80}
+                color="inherit"
+                style={{ marginTop: 300, marginLeft: 650 }}
+              />
+            )}
+            {!isLoading && <Grid item>{cartList}</Grid>}
           </Grid>
           {isPaginationVisible && (
             <Grid item style={{ marginTop: 80 }}>

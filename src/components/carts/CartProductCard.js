@@ -14,6 +14,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import ButtonArrow from "./../ui/ButtonArrow";
 import UserLogin from "./../users/UserLogin";
@@ -129,6 +130,7 @@ export default function CartProductCard(props) {
   const [promoMinQuantity, setPromoMinQuantity] = useState();
   const [price, setPrice] = useState();
   const [minQuantity, setMinQuantity] = useState();
+  const [isLoading, setIsLoading] = useState(null);
 
   // const { token, setToken } = useToken();
   // const { userId, setUserId } = useUserId();
@@ -147,6 +149,7 @@ export default function CartProductCard(props) {
   //confirm if product is on promp
   useEffect(() => {
     const fetchData = async () => {
+      //setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/productsonsale`, {
@@ -195,6 +198,7 @@ export default function CartProductCard(props) {
   //get the product details
   useEffect(() => {
     const fetchData = async () => {
+      //setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await api.get(`/products/${props.product}`);
@@ -297,6 +301,7 @@ export default function CartProductCard(props) {
         estimatedDeliveryPeriodInMinutes:
           allData[0].estimatedDeliveryPeriodInMinutes,
       });
+      //setIsLoading(false);
     };
 
     //call the function
