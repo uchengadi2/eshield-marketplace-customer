@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import CallToAction from "./ui/CallToAction";
 import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import revolutionBackground from "./../assets/repeatingBackground.svg";
 import infoBackground from "./../assets/infoBackground.svg";
@@ -244,6 +245,7 @@ const ProfileLayout = (props) => {
   const [user, setUser] = useState({});
   const [passwordFormOpen, setPasswordFormOpen] = useState(false);
   const [nameFormOpen, setNameFormOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
 
   const getUserIdFromLocatStorage = () => {
     const tokenString = localStorage.getItem("token");
@@ -269,6 +271,7 @@ const ProfileLayout = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       let allData = [{}];
       data.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
       const response = await data.get(`/users/${userId}`);
@@ -276,6 +279,7 @@ const ProfileLayout = (props) => {
       const workingData = response.data.data.data;
 
       setUser(workingData);
+      setIsLoading(false);
     };
 
     //call the function
@@ -338,81 +342,95 @@ const ProfileLayout = (props) => {
   };
 
   return (
-    <Grid container direction="row" className={classes.root}>
-      <Grid item>
-        <Box className={classes.root}>
-          <Box
-            component="div"
-            id="profileLayout"
-            // onSubmit={onSubmit}
-            sx={{
-              width: 1400,
-              height: 480,
-            }}
-            noValidate
-            autoComplete="off"
-            // style={{ marginTop: 20 }}
-          >
-            <Grid container direction="row" className={classes.background}>
+    <>
+      {isLoading && (
+        <CircularProgress
+          size={80}
+          color="inherit"
+          style={{ marginTop: 300, marginLeft: 650 }}
+        />
+      )}
+      {!isLoading && (
+        <Grid container direction="row" className={classes.root}>
+          <Grid item>
+            <Box className={classes.root}>
               <Box
+                component="div"
+                id="profileLayout"
+                // onSubmit={onSubmit}
                 sx={{
-                  width: 350,
-                  height: 180,
+                  width: 1400,
+                  height: 480,
                 }}
                 noValidate
                 autoComplete="off"
-              ></Box>
-            </Grid>
-
-            <Grid
-              container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              style={{ marginTop: 15 }}
-            >
-              <Grid item>
-                <Typography variant="subtitle1">{user.name}</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle1">{user.email}</Typography>
-              </Grid>
-
-              <Grid item>
-                <Button
-                  variant="contained"
-                  className={classes.sendButton}
-                  // onClick={() => setPasswordFormOpen(true)}
-                  onClick={() => [setPasswordFormOpen(true)]}
-                >
-                  Change Password
-                </Button>
-              </Grid>
-              <Grid
-                item
-                container
-                alignItems="center"
-                justifyContent="center"
-                style={{ marginTop: 20 }}
+                // style={{ marginTop: 20 }}
               >
-                <Button variant="text" onClick={() => [setNameFormOpen(true)]}>
-                  Change Name
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Grid>
-      <Grid item style={{ width: "100%", marginTop: "20px" }}>
-        {" "}
-        {/*....INFORMATION BLOCK....*/}
-      </Grid>
-      <Grid item className={classes.footer}>
-        <UpperFooter />
-      </Grid>
-      {renderChangePasswordForm()}
-      {renderChangeNameForm()}
-    </Grid>
+                <Grid container direction="row" className={classes.background}>
+                  <Box
+                    sx={{
+                      width: 350,
+                      height: 180,
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  ></Box>
+                </Grid>
+
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ marginTop: 15 }}
+                >
+                  <Grid item>
+                    <Typography variant="subtitle1">{user.name}</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle1">{user.email}</Typography>
+                  </Grid>
+
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      className={classes.sendButton}
+                      // onClick={() => setPasswordFormOpen(true)}
+                      onClick={() => [setPasswordFormOpen(true)]}
+                    >
+                      Change Password
+                    </Button>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{ marginTop: 20 }}
+                  >
+                    <Button
+                      variant="text"
+                      onClick={() => [setNameFormOpen(true)]}
+                    >
+                      Change Name
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item style={{ width: "100%", marginTop: "20px" }}>
+            {" "}
+            {/*....INFORMATION BLOCK....*/}
+          </Grid>
+          <Grid item className={classes.footer}>
+            <UpperFooter />
+          </Grid>
+          {renderChangePasswordForm()}
+          {renderChangeNameForm()}
+        </Grid>
+      )}
+    </>
   );
 };
 

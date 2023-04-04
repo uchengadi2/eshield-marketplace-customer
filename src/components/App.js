@@ -179,7 +179,7 @@ function App() {
                 handleFailedSnackbar={handleFailedSnackbar}
               />
             </Route>
-            <Route path="/carts/:userId">
+            <Route path="/carts">
               <ShowCustomerCart
                 token={token}
                 userId={userId}
@@ -193,7 +193,7 @@ function App() {
               />
             </Route>
 
-            <Route path="/checkouts/:userId">
+            <Route path="/checkouts">
               <CheckoutPage
                 token={token}
                 userId={userId}
@@ -204,7 +204,7 @@ function App() {
                 handleFailedSnackbar={handleFailedSnackbar}
               />
             </Route>
-            <Route path="/orders/:userId">
+            <Route path="/orders">
               <OrderPage
                 token={token}
                 userId={userId}

@@ -523,7 +523,8 @@ const Header = (props) => {
             onClick={() => <ShowCustomerCart />}
             disableRipple
             component={Link}
-            to={`/carts/${props.userId}`}
+            // to={`/carts/${props.userId}`}
+            to={`/carts`}
             className={classes.cart}
           >
             {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
@@ -534,7 +535,8 @@ const Header = (props) => {
             onClick={() => <CheckoutPage />}
             disableRipple
             component={Link}
-            to={`/checkouts/${props.userId}`}
+            // to={`/checkouts/${props.userId}`}
+            to={`/checkouts`}
             className={classes.checkout}
           >
             {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
@@ -544,7 +546,8 @@ const Header = (props) => {
             onClick={() => <ProfileLayout />}
             disableRipple
             component={Link}
-            to={`/profile/${props.userId}`}
+            // to={`/profile/${props.userId}`}
+            to={`/profile`}
             className={classes.checkout}
           >
             {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
@@ -572,7 +575,8 @@ const Header = (props) => {
     : [
         { name: "Home", link: "/", activeIndex: 0 },
 
-        { name: "Orders", link: `/orders/${props.userId}`, activeIndex: 1 },
+        // { name: "Orders", link: `/orders/${props.userId}`, activeIndex: 1 },
+        { name: "Orders", link: `/orders`, activeIndex: 1 },
         // { name: "Profile", link: "/profile", activeIndex: 2 },
       ];
 
@@ -881,7 +885,8 @@ const Header = (props) => {
                 divider
                 button
                 component={Link}
-                to={`/orders/${props.userId}`}
+                // to={`/orders/${props.userId}`}
+                to={`/orders`}
                 classes={{
                   root: classes.drawerItem,
                   selected: classes.drawerItemSelected,
@@ -908,7 +913,8 @@ const Header = (props) => {
                 divider
                 button
                 component={Link}
-                to={`/carts/${props.userId}`}
+                // to={`/carts/${props.userId}`}
+                to={`/carts`}
                 classes={{
                   root: classes.drawerItem,
                   selected: classes.drawerItemSelected,
@@ -931,7 +937,8 @@ const Header = (props) => {
                 divider
                 button
                 component={Link}
-                to={`/checkouts/${props.userId}`}
+                // to={`/checkouts/${props.userId}`}
+                to={`/checkouts`}
                 classes={{
                   root: classes.drawerItem,
                   selected: classes.drawerItemSelected,
@@ -952,7 +959,8 @@ const Header = (props) => {
                 divider
                 button
                 component={Link}
-                to={`/profile/${props.userId}`}
+                // to={`/profile/${props.userId}`}
+                to={`/profile`}
                 classes={{
                   root: classes.drawerItem,
                   selected: classes.drawerItemSelected,

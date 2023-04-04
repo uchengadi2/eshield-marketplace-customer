@@ -236,7 +236,8 @@ function OrderPage(props) {
     },
   };
 
-  const user = params.userId;
+  // const user = params.userId;
+  const user = props.userId;
 
   const handleBecomeAPartnerOpenDialogBox = () => {
     setBecomePartnerOpen(false);

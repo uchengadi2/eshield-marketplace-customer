@@ -261,7 +261,8 @@ function ShowCustomerCart(props) {
     },
   };
 
-  const cartHolder = params.userId;
+  // const cartHolder = params.userId;
+  const cartHolder = props.userId;
 
   const renderCartUpdate = (value) => {
     setUpdateCart(value);
