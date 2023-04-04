@@ -803,6 +803,7 @@ export default function ProductDetailCard(props) {
                   currency={props.product.currency}
                   minimumQuantity={minQuantity}
                   productId={props.product.id}
+                  cartCounterHandler={props.cartCounterHandler}
                   token={props.token}
                   userId={props.userId}
                   location={props.product.location}
@@ -1161,6 +1162,7 @@ export default function ProductDetailCard(props) {
                   minimumQuantity={minQuantity}
                   //quantity={minQuantity}
                   productId={props.product.id}
+                  cartCounterHandler={props.cartCounterHandler}
                   token={props.token}
                   userId={props.userId}
                   location={props.product.location}

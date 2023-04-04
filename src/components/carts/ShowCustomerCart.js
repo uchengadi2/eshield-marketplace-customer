@@ -339,7 +339,7 @@ function ShowCustomerCart(props) {
 
   const Str = require("@supercharge/strings");
 
-  console.log("list is:", cartProductList);
+  console.log("list is length:", cartProductList.length);
 
   const cartList = matchesMD ? (
     <React.Fragment>
@@ -358,6 +358,7 @@ function ShowCustomerCart(props) {
               quantity={cart.quantity}
               token={props.token}
               userId={props.userId}
+              cartCounterHandler={props.cartCounterHandler}
               setToken={props.setToken}
               setUserId={props.setUserId}
               handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}
@@ -394,6 +395,7 @@ function ShowCustomerCart(props) {
               quantity={cart.quantity}
               token={props.token}
               userId={props.userId}
+              cartCounterHandler={props.cartCounterHandler}
               setToken={props.setToken}
               setUserId={props.setUserId}
               handleCartItemForCheckoutBox={props.handleCartItemForCheckoutBox}

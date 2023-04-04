@@ -317,6 +317,7 @@ function SendProductToCartForm(props) {
             );
             history.push("/");
             setLoading(false);
+            props.cartCounterHandler(1);
           } else {
             props.handleFailedSnackbar(
               "Something went wrong, please try again!!!"

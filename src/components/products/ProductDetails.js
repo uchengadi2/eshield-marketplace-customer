@@ -393,6 +393,7 @@ function ProductDetails(props) {
             product={product}
             isOnPromo={isOnPromo}
             promoPrice={promoPrice}
+            cartCounterHandler={props.cartCounterHandler}
             promoMinQuantity={promoMinQuantity}
             key={product.id}
             token={props.token}
@@ -420,6 +421,7 @@ function ProductDetails(props) {
             product={product}
             isOnPromo={isOnPromo}
             promoPrice={promoPrice}
+            cartCounterHandler={props.cartCounterHandler}
             promoMinQuantity={promoMinQuantity}
             key={product.id}
             token={props.token}

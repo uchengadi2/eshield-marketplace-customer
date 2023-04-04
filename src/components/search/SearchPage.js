@@ -243,9 +243,6 @@ function SearchPage(props) {
   const category = params.categoryId;
   const searchString = params.searchText;
 
-  console.log("the category is:", category);
-  console.log("the searchstring is :", searchString);
-
   const handleBecomeAPartnerOpenDialogBox = () => {
     setBecomePartnerOpen(false);
   };

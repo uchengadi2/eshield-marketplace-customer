@@ -28,6 +28,7 @@ import Footer from "./ui/Footer";
 
 import OrderPage from "./orders/OrderPage";
 import SearchPage from "./search/SearchPage";
+import api from "./../apis/local";
 
 function App() {
   const { token, setToken } = useToken();
@@ -35,6 +36,7 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [value, setValue] = useState(0);
   const [resetCookie, setResetCookie] = useState(false);
+  const [cartCounter, setCartCounter] = useState(0);
   const [cartItemForCheckout, setCartItemForCheckout] = useState(false);
   const [cartIsUpdatedAfterRemoval, setCartIsUpdatedAfterRemoval] =
     useState(false);
@@ -43,6 +45,47 @@ function App() {
     message: "",
     backgroundColor: "",
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      //setIsLoading(true);
+      let allData = [];
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await api.get(`/carts`, {
+        params: {
+          cartHolder: userId,
+          status: "unmarked-for-checkout",
+          //isDeleted: false,
+        },
+      });
+
+      const items = response.data.data.data;
+
+      if (!items) {
+        return;
+      }
+
+      items.map((cart) => {
+        allData.push({
+          id: cart._id,
+        });
+      });
+
+      if (!allData) {
+        return;
+      }
+
+      setCartCounter(allData.length);
+    };
+
+    //call the function
+
+    fetchData().catch(console.error);
+  }, [userId, token]);
+
+  const cartCounterHandler = (value) => {
+    setCartCounter((prevState) => prevState + value);
+  };
 
   const handleSuccessfulCreateSnackbar = (message) => {
     //setBecomePartnerOpen(false);
@@ -77,13 +120,6 @@ function App() {
     //console.log("this is performed");
   };
 
-  // useEffect(() => {
-  //   setResetCookie(false);
-  //   setToken("");
-  //   setUserId("");
-  //   //console.log("this is performed again");
-  // }, [resetCookie]);
-
   return (
     <div className="wrapper">
       <ThemeProvider theme={theme}>
@@ -93,6 +129,8 @@ function App() {
             setValue={setValue}
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
+            cartCounter={cartCounter}
+            // cartCounterHandler={cartCounterHandler}
             token={token}
             userId={userId}
             // setToken={setToken ? setToken : {}}
@@ -136,6 +174,7 @@ function App() {
                 userId={userId}
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
+                cartCounterHandler={cartCounterHandler}
                 handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
                 handleFailedSnackbar={handleFailedSnackbar}
               />
@@ -146,6 +185,7 @@ function App() {
                 userId={userId}
                 setToken={setToken ? setToken : {}}
                 setUserId={setUserId ? setUserId : {}}
+                cartCounterHandler={cartCounterHandler}
                 handleCartItemForCheckoutBox={handleCartItemForCheckoutBox}
                 handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
                 handleFailedSnackbar={handleFailedSnackbar}

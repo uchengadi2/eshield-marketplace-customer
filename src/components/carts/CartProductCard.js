@@ -778,6 +778,7 @@ export default function CartProductCard(props) {
                     currency={product.currency}
                     token={props.token}
                     userId={props.userId}
+                    cartCounterHandler={props.cartCounterHandler}
                     location={product.location}
                     locationCountry={product.locationCountry}
                     baselineDeliveryCostWithinProductLocation={
@@ -1005,6 +1006,7 @@ export default function CartProductCard(props) {
                     currency={product.currency}
                     token={props.token}
                     userId={props.userId}
+                    cartCounterHandler={props.cartCounterHandler}
                     location={product.location}
                     locationCountry={product.locationCountry}
                     baselineDeliveryCostWithinProductLocation={

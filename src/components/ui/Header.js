@@ -297,6 +297,7 @@ const Header = (props) => {
   const [userName, setUserName] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [searchText, setSearchText] = useState();
+
   const [alert, setAlert] = useState({
     open: false,
     message: "",
@@ -526,7 +527,8 @@ const Header = (props) => {
             className={classes.cart}
           >
             {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
-            Cart
+            {/* {`Cart` + `(${props.cartCounterHandler(20)})`} */}
+            {`Cart` + `(${props.cartCounter})`}
           </Button>
           <Button
             onClick={() => <CheckoutPage />}
