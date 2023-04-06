@@ -19,42 +19,52 @@ class UserOwnPasswordChange extends React.Component {
   }
 
   componentDidUpdate() {
-    this.props.setToken(this.props.token);
+    //this.props.setToken(this.props.token);
+    //this.props.setUserId(null);
+    //history.push("/");
   }
 
   componentWillUnmount() {
     this.setState({ open: true });
+    //this.props.setToken(this.props.token);
+    this.props.handleMakeChangePasswordDialogForm();
   }
-
-  onSubmit = (formValues, existingToken) => {
-    this.props.changeOwnPassword(formValues, existingToken);
-    this.setState({ open: true });
-  };
 
   handleMakeChangePasswordDialogForm = () => {
     this.props.handleMakeChangePasswordDialogForm();
   };
 
-  render() {
-    console.log(
-      "this is the token at userOwnPasswordChange component:",
-      this.props.token
+  onSubmit = (formValues, existingToken) => {
+    this.props.changeOwnPassword(formValues, existingToken);
+    this.setState({ open: true });
+    this.props.setToken(null);
+    this.props.setUserId(null);
+
+    this.props.handleSuccessfulCreateSnackbar(
+      "Your password is changed successfully"
     );
-    if (this.props.token["status"] === "success") {
-      return (
-        <Box>
-          <UserChangePasswordForm
-            onSubmit={this.onSubmit}
-            existingToken={this.props.existingToken}
-            //   handlePasswordAlertDialog={this.handlePasswordAlertDialog}
-          />
-          {/* {this.renderPasswordAlert()} */}
-        </Box>
-      );
-    } else {
-      this.handleMakeChangePasswordDialogForm();
-      return null;
-    }
+
+    history.push("/");
+  };
+
+  render() {
+    return (
+      <Box>
+        <UserChangePasswordForm
+          onSubmit={this.onSubmit}
+          existingToken={this.props.existingToken}
+          handleSuccessfulCreateSnackbar={
+            this.props.handleSuccessfulCreateSnackbar
+          }
+          handleFailedSnackbar={this.props.handleFailedSnackbar}
+          updateUserInfoHandler={this.props.updateUserInfoHandler}
+          handleMakeChangePasswordDialogForm={
+            this.handleMakeChangePasswordDialogForm
+          }
+        />
+        {/* {this.renderPasswordAlert()} */}
+      </Box>
+    );
   }
 }
 

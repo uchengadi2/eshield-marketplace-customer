@@ -7,6 +7,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import FormLabel from "@material-ui/core/FormLabel";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -77,14 +78,76 @@ const renderTextField = ({
   );
 };
 
+const renderPhoneNumberField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      error={touched && invalid}
+      helperText={label}
+      variant="outlined"
+      id={input.name}
+      fullWidth
+      type={type}
+      defaultValue={input.value}
+      {...custom}
+      onChange={input.onChange}
+    />
+  );
+};
+
+const buttonContent = () => {
+  return <React.Fragment>Submit</React.Fragment>;
+};
+
 const UserChangeNameForm = (props) => {
   const classes = useStyles();
 
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const [loading, setLoading] = useState(null);
+
+  function telephoneCheck(phoneNumber) {
+    var found = phoneNumber.search(
+      /^(\+{1}\d{2,3}\s?[(]{1}\d{1,3}[)]{1}\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}$/
+    );
+    if (found > -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const onSubmit = (formValues) => {
-    props.onSubmit(props.userId, formValues, props.existingToken);
+    setLoading(true);
+
+    const newPhoneNumber = formValues.phoneNumber
+      ? formValues.phoneNumber
+      : props.user.phoneNumber;
+
+    if (!telephoneCheck(newPhoneNumber)) {
+      props.handleFailedSnackbar(
+        "Your entered an invalid phone number. Please correct this and try again"
+      );
+      setLoading(false);
+
+      return;
+    }
+
+    const data = {
+      name: formValues.name ? formValues.name : props.user.name,
+      phoneNumber: formValues.phoneNumber
+        ? formValues.phoneNumber
+        : props.user.phoneNumber,
+    };
+
+    props.onSubmit(props.userId, data, props.existingToken);
+    setLoading(false);
   };
 
   return (
@@ -94,7 +157,7 @@ const UserChangeNameForm = (props) => {
           style={{ color: "blue", fontSize: "1.5em" }}
           component="legend"
         >
-          <Typography variant="h5">Change Name</Typography>
+          <Typography variant="h5">Update User Details</Typography>
         </FormLabel>
       </Grid>
       <Box
@@ -103,7 +166,7 @@ const UserChangeNameForm = (props) => {
         // onSubmit={onSubmit}
         sx={{
           width: 300,
-          height: 200,
+          //height: 200,
         }}
         noValidate
         autoComplete="off"
@@ -122,20 +185,21 @@ const UserChangeNameForm = (props) => {
               id="name"
               name="name"
               type="text"
+              defaultValue={props.user.name}
               component={renderTextField}
               style={{ marginTop: 10, width: 280 }}
             />
           </Grid>
           <Grid item>
-            {/* <Field
-              label="Email"
-              id="email"
-              name="email"
-              //value={user.email || ""}
+            <Field
+              label="Phone Number (country code when used should have a space between it and other numbers)"
+              id="phoneNumber"
+              name="phoneNumber"
+              defaultValue={props.user.phoneNumber}
               type="text"
-              component={renderTextField}
-              style={{ marginTop: 10, width: 350 }}
-            /> */}
+              component={renderPhoneNumberField}
+              style={{ marginTop: 10, width: 280 }}
+            />
           </Grid>
           <Button
             variant="contained"
@@ -148,7 +212,11 @@ const UserChangeNameForm = (props) => {
             //   history.push("/profile"),
             // ]}
           >
-            Submit
+            {loading ? (
+              <CircularProgress size={30} color="inherit" />
+            ) : (
+              buttonContent()
+            )}
           </Button>
         </Grid>
       </Box>

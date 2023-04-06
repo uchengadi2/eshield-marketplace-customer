@@ -26,6 +26,7 @@ import background from "./../assets/images/footage/footage_image.png";
 import history from "./../history";
 import data from "./../apis/local";
 import UserOwnPasswordChange from "./users/UserOwnPasswordChange";
+import UserChangePasswordForm from "./users/UserChangePasswordForm";
 import UserOwnNameChangeContainer from "./users/UserOwnNameChangeContainer";
 import UpperFooter from "./ui/UpperFooter";
 
@@ -246,6 +247,7 @@ const ProfileLayout = (props) => {
   const [passwordFormOpen, setPasswordFormOpen] = useState(false);
   const [nameFormOpen, setNameFormOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(null);
+  const [updateUser, setUpdateUser] = useState(false);
 
   const getUserIdFromLocatStorage = () => {
     const tokenString = localStorage.getItem("token");
@@ -260,6 +262,7 @@ const ProfileLayout = (props) => {
     message: "",
     backgroundColor: "",
   });
+
   const defaultOptions = {
     loop: true,
     autoplay: false,
@@ -267,6 +270,29 @@ const ProfileLayout = (props) => {
     rendererSettings: {
       preserveAspectRatio: "xMidyMid slice",
     },
+  };
+
+  const updateUserInfoHandler = () => {
+    setUpdateUser((prevState) => !prevState);
+  };
+
+  const handleSuccessfulCreateSnackbar = (message) => {
+    //setBecomePartnerOpen(false);
+    setAlert({
+      open: true,
+      message: message,
+      //backgroundColor: "#4BB543",
+      backgroundColor: "#FF731D",
+    });
+  };
+
+  const handleFailedSnackbar = (message) => {
+    setAlert({
+      open: true,
+      message: message,
+      backgroundColor: "#FF3232",
+    });
+    //setBecomePartnerOpen(true);
   };
 
   useEffect(() => {
@@ -285,7 +311,7 @@ const ProfileLayout = (props) => {
     //call the function
 
     fetchData().catch(console.error);
-  }, []);
+  }, [updateUser]);
 
   useEffect(() => {
     // 👇️ scroll to top on page load
@@ -309,13 +335,17 @@ const ProfileLayout = (props) => {
         onClose={() => [setPasswordFormOpen(false), history.push("/profile")]}
       >
         <DialogContent>
-          <UserOwnPasswordChange
+          <UserChangePasswordForm
             setToken={props.setToken}
-            existingToken={props.token}
-            userId={userId}
+            setUserId={props.setUserId}
+            token={props.token}
+            userId={props.userId}
+            updateUserInfoHandler={updateUserInfoHandler}
             handleMakeChangePasswordDialogForm={
               handleMakeChangePasswordDialogForm
             }
+            handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+            handleFailedSnackbar={handleFailedSnackbar}
           />
         </DialogContent>
       </Dialog>
@@ -334,7 +364,11 @@ const ProfileLayout = (props) => {
           <UserOwnNameChangeContainer
             existingToken={props.token}
             userId={userId}
+            updateUserInfoHandler={updateUserInfoHandler}
             handleMakeChangeNameDialogForm={handleMakeChangeNameDialogForm}
+            handleSuccessfulCreateSnackbar={handleSuccessfulCreateSnackbar}
+            handleFailedSnackbar={handleFailedSnackbar}
+            user={user}
           />
         </DialogContent>
       </Dialog>
@@ -390,6 +424,11 @@ const ProfileLayout = (props) => {
                   <Grid item>
                     <Typography variant="subtitle1">{user.email}</Typography>
                   </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle1">
+                      {user.phoneNumber}
+                    </Typography>
+                  </Grid>
 
                   <Grid item>
                     <Button
@@ -412,7 +451,7 @@ const ProfileLayout = (props) => {
                       variant="text"
                       onClick={() => [setNameFormOpen(true)]}
                     >
-                      Change Name
+                      Update User Details
                     </Button>
                   </Grid>
                 </Grid>
@@ -430,6 +469,16 @@ const ProfileLayout = (props) => {
           {renderChangeNameForm()}
         </Grid>
       )}
+      <Snackbar
+        open={alert.open}
+        message={alert.message}
+        ContentProps={{
+          style: { backgroundColor: alert.backgroundColor },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => setAlert({ ...alert, open: false })}
+        autoHideDuration={4000}
+      />
     </>
   );
 };

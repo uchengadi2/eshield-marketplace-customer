@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import { useDispatch } from "react-redux";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -13,7 +15,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { TextField, Typography } from "@material-ui/core";
 import background from "./../../logistic_assets/cover_image_1.png";
 import history from "./../../history";
-import data from "./../../apis/local";
+import api from "./../../apis/local";
+import { CHANGE_OWN_PASSWORD } from "../../actions/types";
 
 const useStyles = makeStyles((theme) => ({
   sendButton: {
@@ -62,7 +65,6 @@ const renderTextField = ({
   id,
   ...custom
 }) => {
-  console.log("this is the input details:", input);
   return (
     <TextField
       error={touched && invalid}
@@ -87,12 +89,93 @@ const UserChangePasswordForm = (props) => {
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(null);
+
+  const dispatch = useDispatch();
+  console.log("tokens:", props.token);
+
+  const buttonContent = () => {
+    return <React.Fragment>Submit</React.Fragment>;
+  };
 
   const onSubmit = (formValues) => {
-    if (formValues["password"] === formValues["passwordConfirm"]) {
-      props.onSubmit(formValues, props.existingToken);
-    } else {
+    setLoading(true);
+    if (!formValues.passwordCurrent) {
+      props.handleFailedSnackbar(
+        "Please enter your current password and try again"
+      );
+      setLoading(false);
+      return;
     }
+    if (!formValues.password) {
+      props.handleFailedSnackbar(
+        "Please enter your new password and try again"
+      );
+      setLoading(false);
+      return;
+    }
+    if (!formValues.passwordConfirm) {
+      props.handleFailedSnackbar(
+        "Please the confirmed password field cannot be empty"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (formValues.password !== formValues.passwordConfirm) {
+      props.handleFailedSnackbar(
+        "Your new Password and the Confirmed Password must be the same"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (formValues) {
+      const createForm = async () => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.patch(`/users/updateMyPassword`, formValues);
+
+        if (response.status === 200) {
+          const token = {
+            status: "success",
+            token: response.data.token,
+            userId: response.data.data.user.id,
+          };
+
+          props.setToken(token);
+          props.setUserId(token);
+          dispatch({
+            type: CHANGE_OWN_PASSWORD,
+            payload: response.data,
+          });
+
+          props.handleSuccessfulCreateSnackbar(
+            `You have successfully changed your password`
+          );
+
+          props.updateUserInfoHandler();
+          setLoading(false);
+        } else {
+          props.handleFailedSnackbar("Something went wrong hereeeeeeeee");
+
+          //props.updateUserInfoHandler();
+          setLoading(false);
+          //props.handleMakeChangePasswordDialogForm();
+
+          return;
+        }
+      };
+      createForm().catch((err) => {
+        console.log("err:", err.message);
+        props.handleFailedSnackbar("Something went wrong here");
+        setLoading(false);
+
+        return;
+      });
+    }
+    props.handleMakeChangePasswordDialogForm();
+
+    //setLoading(false);
   };
 
   return (
@@ -163,7 +246,11 @@ const UserChangePasswordForm = (props) => {
                 className={classes.sendButton}
                 onClick={props.handleSubmit(onSubmit)}
               >
-                Submit
+                {loading ? (
+                  <CircularProgress size={30} color="inherit" />
+                ) : (
+                  buttonContent()
+                )}
               </Button>
             </Grid>
           </Box>

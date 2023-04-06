@@ -28,13 +28,15 @@ class UserOwnNameChangeContainer extends React.Component {
   onSubmit = (userId, formValues, existingToken) => {
     this.props.changeOwnName(userId, formValues, existingToken);
     this.setState({ open: true });
+    this.props.updateUserInfoHandler();
+    this.props.handleSuccessfulCreateSnackbar(
+      "You have successfully updated your details"
+    );
   };
 
   renderFormStatusChange = () => {};
 
   render() {
-    console.log("this is state in props:", this.props.status);
-    console.log("ths is the current open status:", this.state.open);
     if (this.state.open === false) {
       return (
         <Box>
@@ -42,9 +44,14 @@ class UserOwnNameChangeContainer extends React.Component {
             onSubmit={this.onSubmit}
             existingToken={this.props.existingToken}
             userId={this.props.userId}
+            user={this.props.user}
             handleMakeChangeNameDialogForm={
               this.props.handleMakeChangeNameDialogForm
             }
+            handleSuccessfulCreateSnackbar={
+              this.props.handleSuccessfulCreateSnackbar
+            }
+            handleFailedSnackbar={this.props.handleFailedSnackbar}
           />
         </Box>
       );
@@ -57,7 +64,6 @@ class UserOwnNameChangeContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("this is name change status state:", state.user.status);
   return { status: state.user.status };
 };
 

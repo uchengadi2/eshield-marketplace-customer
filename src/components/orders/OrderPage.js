@@ -221,6 +221,7 @@ function OrderPage(props) {
   const [totalData, setTotalData] = useState();
   const [isPaginationVisible, setIsPaginationVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(null);
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -306,6 +307,11 @@ function OrderPage(props) {
       setOrderList(allData);
       setNumberOfPages(response.data?.total);
       setIsLoading(false);
+      if (allData.length === 0) {
+        setIsCartEmpty(true);
+      } else {
+        setIsCartEmpty(false);
+      }
     };
 
     //call the function
@@ -426,7 +432,12 @@ function OrderPage(props) {
             style={{ marginTop: 200, marginLeft: 650 }}
           />
         )}
-        {!isLoading && <Grid item>{customerOrderList}</Grid>}
+        {!isLoading && isCartEmpty && (
+          <p style={{ marginTop: 10, marginLeft: 10 }}>
+            You have not ordered any product yet
+          </p>
+        )}
+        {!isLoading && !isCartEmpty && <Grid item>{customerOrderList}</Grid>}
         {/*....INFORMATION BLOCK....*/}
       </Grid>
       {isPaginationVisible && (

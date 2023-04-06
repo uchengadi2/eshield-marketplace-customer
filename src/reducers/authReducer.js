@@ -45,7 +45,7 @@ export default (state = INITIAL_STATE, action) => {
         token: {
           status: action.payload.status,
           token: action.payload.token,
-          // userId: action.payload.data.user.id,
+          userId: action.payload.data.user.id,
         },
       };
 

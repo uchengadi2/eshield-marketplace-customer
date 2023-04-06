@@ -225,6 +225,7 @@ function SearchPage(props) {
   const [keyword1NumberOfPages, setKeyword1NumberOfPages] = useState();
   const [keyword2NumberOfPages, setKeyword2NumberOfPages] = useState();
   const [keyword3NumberOfPages, setKeyword3NumberOfPages] = useState();
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -511,6 +512,11 @@ function SearchPage(props) {
             self.findIndex((v) => v.productId === item.productId) === pos
         )
       );
+      if (allData.length === 0) {
+        setIsCartEmpty(true);
+      } else {
+        setIsCartEmpty(false);
+      }
     };
 
     //call the function
@@ -595,7 +601,12 @@ function SearchPage(props) {
             style={{ marginTop: 150, marginLeft: 650 }}
           />
         )}
-        {!isLoading && <Grid item>{customerOrderList}</Grid>}
+        {!isLoading && isCartEmpty && (
+          <p style={{ marginTop: 10, marginLeft: 10 }}>
+            No content is available for this search string
+          </p>
+        )}
+        {!isLoading && !isCartEmpty && <Grid item>{customerOrderList}</Grid>}
         {/*....INFORMATION BLOCK....*/}
       </Grid>
       {isPaginationVisible && (

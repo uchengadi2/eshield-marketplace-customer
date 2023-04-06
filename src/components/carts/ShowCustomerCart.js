@@ -244,6 +244,8 @@ function ShowCustomerCart(props) {
   const [count, setCount] = useState(0);
   const [isProcessed, setIsProcessed] = useState(false);
   const [isLoading, setIsLoading] = useState(null);
+  const [error, setError] = useState(false);
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -326,6 +328,11 @@ function ShowCustomerCart(props) {
       }
       setCartProductList(allData);
       setIsLoading(false);
+      if (allData.length === 0) {
+        setIsCartEmpty(true);
+      } else {
+        setIsCartEmpty(false);
+      }
     };
 
     //call the function
@@ -339,8 +346,6 @@ function ShowCustomerCart(props) {
   }, []);
 
   const Str = require("@supercharge/strings");
-
-  console.log("list is length:", cartProductList.length);
 
   const cartList = matchesMD ? (
     <React.Fragment>
@@ -455,7 +460,7 @@ function ShowCustomerCart(props) {
             });
 
             setLoading(false);
-            // setIsCheckoutVisible(true);
+            props.cartCounterHandler(-1);
           } else {
             // props.handleFailedSnackbar(
             //   "Something went wrong, please try again!!!"
@@ -503,12 +508,18 @@ function ShowCustomerCart(props) {
             style={{ marginTop: 200, marginLeft: 650 }}
           />
         )}
-        {!isLoading && <Grid item>{cartList}</Grid>}
+        {!isLoading && isCartEmpty && (
+          <p style={{ marginTop: 10, marginLeft: 10 }}>
+            Your cart is currently empty
+          </p>
+        )}
+        {!isLoading && !isCartEmpty && <Grid item>{cartList}</Grid>}
         {/*....INFORMATION BLOCK....*/}
       </Grid>
 
       {matchesMD
-        ? !isLoading && (
+        ? !isLoading &&
+          !isCartEmpty && (
             <Button
               variant="contained"
               className={classes.submitButton}
@@ -521,7 +532,8 @@ function ShowCustomerCart(props) {
               )}
             </Button>
           )
-        : !isLoading && (
+        : !isLoading &&
+          !isCartEmpty && (
             <Button
               variant="contained"
               className={classes.submitButtonMobile}

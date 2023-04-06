@@ -244,7 +244,12 @@ function App() {
               />
             </Route>
             <Route path="/profile">
-              <ProfileLayout token={token} setToken={setToken} />
+              <ProfileLayout
+                token={token}
+                setToken={setToken ? setToken : {}}
+                userId={userId}
+                setUserId={setUserId ? setUserId : {}}
+              />
             </Route>
             {/* <Route path="/dashboard">
               <Dashboard />

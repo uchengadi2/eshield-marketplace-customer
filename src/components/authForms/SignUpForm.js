@@ -337,7 +337,6 @@ const SignUpForm = (props) => {
 
       return;
     }
-    console.log("");
 
     if (formValues) {
       const createForm = async () => {

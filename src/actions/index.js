@@ -219,6 +219,7 @@ export const changeOwnPassword = (formValues, token) => {
   return async (dispatch) => {
     const response = await data.patch(`/users/updateMyPassword/`, formValues);
     dispatch({ type: CHANGE_OWN_PASSWORD, payload: response.data });
+    console.log("the responseeee is:", response);
     // history.push("/profile");
   };
 };

@@ -218,6 +218,7 @@ function CheckoutPage(props) {
   const [totalCost, setTotalCost] = useState();
   const [currency, setCurrency] = useState();
   const [isLoading, setIsLoading] = useState(null);
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
 
   const [alert, setAlert] = useState({
     open: false,
@@ -309,6 +310,11 @@ function CheckoutPage(props) {
 
       setCartProductList(allData);
       setIsLoading(false);
+      if (allData.length === 0) {
+        setIsCartEmpty(true);
+      } else {
+        setIsCartEmpty(false);
+      }
     };
 
     //call the function
@@ -420,10 +426,15 @@ function CheckoutPage(props) {
             style={{ marginTop: 200, marginLeft: 650 }}
           />
         )}
-        {!isLoading && <Grid item>{cartList}</Grid>}
+        {!isLoading && isCartEmpty && (
+          <p style={{ marginTop: 10, marginLeft: 10 }}>
+            There is currently nothing to checkout
+          </p>
+        )}
+        {!isLoading && !isCartEmpty && <Grid item>{cartList}</Grid>}
         {/*....INFORMATION BLOCK....*/}
       </Grid>
-      {!isLoading && (
+      {!isLoading && !isCartEmpty && (
         <Grid>
           <CheckoutDeliveryAndPayment
             productList={cartProductList}
